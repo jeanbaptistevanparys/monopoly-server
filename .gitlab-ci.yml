@@ -1,0 +1,56 @@
+image: monitor:5000/gradle733:2
+
+stages:
+  - buildenqa
+  - deploy
+
+
+build-jar:
+  stage: buildenqa
+  only:
+    - main
+  except:
+    changes:
+      - documents/**/*
+  script:
+    - gradle --version
+    - curl -s -S https://repo.maven.apache.org/maven2/io/vertx/vertx-web-openapi/4.0.0/vertx-web-openapi-4.0.0.pom > /dev/null # hack to fix SSL issuestouch
+    - gradle shadowJar
+  artifacts:
+    paths:
+      - build/libs/
+
+sonarqube:
+  stage: buildenqa
+  except:
+    changes:
+      - documents/**/*
+  script:
+    - cp gitlab-ci-test-config.json src/main/resources/conf/config.json
+    - curl -s -S https://repo.maven.apache.org/maven2/io/vertx/vertx-web-openapi/4.0.0/vertx-web-openapi-4.0.0.pom > /dev/null # hack to fix SSL issues
+    - gradle test
+    - gradle sonarqube -Dsonar.host.url=http://172.18.18.129
+
+
+deploy:
+  image: monitor:5000/deployproject:2
+  before_script:
+    - echo "we don't need gradle or maven anymore, time to deploy"
+  stage: deploy
+  only:
+    - main
+  except:
+    changes:
+      - documents/**/*
+  script:
+    - cd build/libs/
+    - rename 's/.*\.jar$/monopoly.jar/' *.jar
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -H 172.18.18.201 >> ~/.ssh/known_hosts
+    - scp -q monopoly.jar gitlab-runner@172.18.18.201:"/opt/group-${CI_PROJECT_NAMESPACE:(-2)}/monopoly.jar"
+    - ssh gitlab-runner@172.18.18.201 sudo systemctl restart group-${CI_PROJECT_NAMESPACE:(-2)}
+    - systemctl -H gitlab-runner@172.18.18.201 status group-${CI_PROJECT_NAMESPACE:(-2)}
+  environment: production

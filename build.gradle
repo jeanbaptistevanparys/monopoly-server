@@ -1,0 +1,76 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'jacoco'
+    id "org.sonarqube" version '3.3'
+}
+
+group 'be.howest.ti'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+def junitVersion = '5.8.2'
+def vertxVersion = '4.2.4'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
+    implementation "io.vertx:vertx-core:$vertxVersion"
+    implementation "io.vertx:vertx-web:$vertxVersion"
+    implementation "io.vertx:vertx-web-api-contract:$vertxVersion"
+    implementation "io.vertx:vertx-config:$vertxVersion"
+    implementation "io.vertx:vertx-web-client:$vertxVersion"
+    implementation "io.vertx:vertx-web-openapi:$vertxVersion"
+    implementation "io.vertx:vertx-codegen:$vertxVersion"
+
+    implementation 'org.slf4j:slf4j-simple:1.7.33'
+
+    testImplementation "io.vertx:vertx-junit5:$vertxVersion"
+    testImplementation "io.vertx:vertx-web-client:$vertxVersion"
+
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+    dependsOn test // tests are required to run before generating the report
+}
+
+mainClassName = 'io.vertx.core.Launcher'
+
+run {
+    systemProperty(
+            "vertx.logger-delegate-factory-class-name",
+            "io.vertx.core.logging.JULLogDelegateFactory"
+    )
+    args = ['run', 'be.howest.ti.monopoly.web.WebServer', "--launcher-class=$mainClassName",
+            "-Dvertx.logger-delegate-factory-class-name=io.vertx.core.logging.JULLogDelegateFactory"]
+}
+
+
+shadowJar {
+    archiveClassifier.set('fat')
+    manifest {
+        attributes 'Main-Verticle': "$mainVerticleName"
+    }
+    mergeServiceFiles {
+        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+    }
+}
+

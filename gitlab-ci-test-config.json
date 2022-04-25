@@ -1,0 +1,4 @@
+{
+  "port": 8000,
+  "openApi3Spec": "http://172.18.18.201/monopoly-api-spec/monopoly-spec.yaml"
+}
