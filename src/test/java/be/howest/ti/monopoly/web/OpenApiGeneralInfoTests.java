@@ -1,8 +1,13 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Tile;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,11 +38,17 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
 
     @Test
     void getTiles(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Tile> getTiles() {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/tiles",
                 null,
-                response -> assertNotYetImplemented(response, "getTiles")
+                response -> assertOkResponse(response)
         );
     }
 
