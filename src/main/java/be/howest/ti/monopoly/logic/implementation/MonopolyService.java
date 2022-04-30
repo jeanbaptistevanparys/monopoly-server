@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 
+import javax.validation.metadata.ReturnValueDescriptor;
 import java.util.List;
 
 
@@ -42,5 +43,16 @@ public class MonopolyService extends ServiceAdapter {
             }
         }
         throw new MonopolyResourceNotFoundException("No such tile");
+    }
+
+    @Override
+    public Object getChance() {
+        return List.of(
+            new Chance("Advance to Boardwalk"),
+            new Chance("Advance to Go (Collect $200)"),
+            new Chance("Advance to Illinois Avenue. If you pass Go, collect $200"),
+            new Chance("Advance to St. Charles Place. If you pass Go, collect $200"),
+            new Chance("Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled")
+        );
     }
 }
