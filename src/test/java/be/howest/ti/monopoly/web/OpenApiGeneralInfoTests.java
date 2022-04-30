@@ -5,7 +5,6 @@ import be.howest.ti.monopoly.logic.implementation.Tile;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,7 +47,7 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
                 testContext,
                 "/tiles",
                 null,
-                response -> assertOkResponse(response)
+                this::assertOkResponse
         );
     }
 
@@ -65,7 +64,7 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
                 testContext,
                 "/tiles/something",
                 null,
-                response -> assertOkResponse(response)
+                this::assertOkResponse
         );
     }
 
@@ -81,7 +80,7 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
                 testContext,
                 "/tiles/100",
                 null,
-                response -> assertOkResponse(response)
+                this::assertOkResponse
         );
     }
 
@@ -98,18 +97,24 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
                 testContext,
                 "/chance",
                 null,
-                response -> assertOkResponse(response)
+                this::assertOkResponse
         );
     }
 
 
     @Test
     void getCommunityChest(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Tile> getCommunityChest() {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/community-chest",
                 null,
-                response -> assertNotYetImplemented(response, "getCommunityChest")
+                this::assertOkResponse
         );
     }
 

@@ -10,4 +10,5 @@ public interface IService {
     Tile getTile(int position);
     Tile getTile(String name);
     Object getChance();
+    Object getCommunityChest();
 }
