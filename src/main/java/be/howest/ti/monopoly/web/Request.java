@@ -67,4 +67,28 @@ public class Request {
     public String getTileName() {
         return params.pathParameter("tileId").getString();
     }
+
+    public boolean isStarted() {
+        return params.pathParameter("started").getBoolean();
+    }
+
+    public int getNumberOfPlayers() {
+        return params.pathParameter("numberOfPlayers").getInteger();
+    }
+
+    public String getPrefix() {
+        return params.pathParameter("prefix").getString();
+    }
+
+    public boolean hasStarted() {
+        return params.pathParameter("started").isBoolean();
+    }
+
+    public boolean hasNumberOfPlayers() {
+        return params.pathParameter("numberOfPlayers").isNumber();
+    }
+
+    public boolean hasPrefix() {
+        return params.pathParameter("prefix").isString();
+    }
 }
