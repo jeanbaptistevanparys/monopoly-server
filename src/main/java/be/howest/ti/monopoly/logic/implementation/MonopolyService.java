@@ -4,6 +4,8 @@ import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -43,6 +45,11 @@ public class MonopolyService extends ServiceAdapter {
             }
         }
         throw new MonopolyResourceNotFoundException("No such tile");
+    }
+
+    @Override
+    public List<Game> getGames() {
+        return Collections.emptyList();
     }
 
     @Override

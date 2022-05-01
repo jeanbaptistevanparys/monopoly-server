@@ -160,7 +160,9 @@ public class MonopolyApiBridge {
     private void getGames(RoutingContext ctx) {
         Request request = Request.from(ctx);
         List<Game> games;
-        if (request.hasStarted() && request.hasNumberOfPlayers() && request.hasPrefix()) {
+        if (!request.hasStarted()) throw new InvalidRequestException("Invalid started type");
+        else if (!request.hasNumberOfPlayers()) throw new InvalidRequestException("Invalid number of players type");
+        else if (request.hasPrefix()) {
             boolean started = request.isStarted();
             int numberOfPlayers = request.getNumberOfPlayers();
             String prefix = request.getPrefix();
