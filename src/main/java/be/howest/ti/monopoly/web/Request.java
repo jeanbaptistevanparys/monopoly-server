@@ -69,26 +69,26 @@ public class Request {
     }
 
     public boolean isStarted() {
-        return params.pathParameter("started").getBoolean();
+        return params.queryParameter("started").getBoolean();
     }
 
     public int getNumberOfPlayers() {
-        return params.pathParameter("numberOfPlayers").getInteger();
+        return params.queryParameter("numberOfPlayers").getInteger();
     }
 
     public String getPrefix() {
-        return params.pathParameter("prefix").getString();
+        return params.queryParameter("prefix").getString();
     }
 
     public boolean hasStarted() {
-        return params.pathParameter("started").isBoolean();
+        return params.queryParameter("started").isBoolean();
     }
 
     public boolean hasNumberOfPlayers() {
-        return params.pathParameter("numberOfPlayers").isNumber();
+        return params.queryParameter("numberOfPlayers").isNumber();
     }
 
     public boolean hasPrefix() {
-        return params.pathParameter("prefix").isString();
+        return params.queryParameter("prefix").isString();
     }
 }
