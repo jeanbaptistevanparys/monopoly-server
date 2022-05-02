@@ -19,7 +19,6 @@ import io.vertx.ext.web.handler.BearerAuthHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -141,11 +140,11 @@ public class MonopolyApiBridge {
     }
 
     private void getChance(RoutingContext ctx) {
-        throw new NotYetImplementedException("getChance");
+        Response.sendJsonResponse(ctx, 200, service.getChance());
     }
 
     private void getCommunityChest(RoutingContext ctx) {
-        throw new NotYetImplementedException("getCommunityChest");
+        Response.sendJsonResponse(ctx, 200, service.getCommunityChest());
     }
 
     private void clearGameList(RoutingContext ctx) {
