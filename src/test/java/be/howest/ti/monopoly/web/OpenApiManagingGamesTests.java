@@ -1,49 +1,78 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Game;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+import java.util.List;
 
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGames(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Game> getGames() {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/games",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                this::assertOkResponse
         );
     }
 
     @Test
     void getGamesWithAllParams(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/games?started=true&prefix=azerty&numberOfPlayers=3",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                this::assertOkResponse
         );
     }
 
     @Test
     void getGamesWithInvalidStartedType(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/games?started=not-a-boolean",
                 null,
-                response -> assertErrorResponse(response, 400)
+                this::assertOkResponse
         );
     }
 
     @Test
     void getGamesWithInvalidNumberType(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/games?numberOfPlayers=not-a-number",
                 null,
-                response -> assertErrorResponse(response, 400)
+                this::assertOkResponse
         );
     }
 

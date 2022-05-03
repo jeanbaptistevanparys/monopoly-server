@@ -4,6 +4,9 @@ import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 
 import javax.validation.metadata.ReturnValueDescriptor;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -59,11 +62,33 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<CommunityChest> getCommunityChest() {
         return List.of(
-            new CommunityChest("Advance to Go (Collect $200)"),
-            new CommunityChest("Bank error in your favor. Collect $200"),
-            new CommunityChest("Doctor's fee. Pay $50"),
-            new CommunityChest("From sale of stock you get $50"),
-            new CommunityChest("Get Out of Jail Free")
+                new CommunityChest("Advance to Go (Collect $200)"),
+                new CommunityChest("Bank error in your favor. Collect $200"),
+                new CommunityChest("Doctor's fee. Pay $50"),
+                new CommunityChest("From sale of stock you get $50"),
+                new CommunityChest("Get Out of Jail Free")
         );
     }
+
+    @Override
+    public Game getGame(String gameId) {
+        return null;
+    }
+
+    @Override
+    public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
+        List<Game> games = List.of(
+            new Game(2, "group12"),
+            new Game(3, "group12"),
+            new Game(4, "group12")
+        );
+        List<Game> res = new ArrayList<>();
+        for (Game game : games) {
+            if (game.isStarted() == started && game.getNumberOfPlayers() == numberOfPlayers && game.getPrefix() == prefix) {
+                res.add(game);
+            }
+        }
+        return res;
+    }
+
 }

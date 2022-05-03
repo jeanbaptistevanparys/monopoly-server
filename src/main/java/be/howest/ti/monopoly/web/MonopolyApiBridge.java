@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.Tile;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
@@ -19,6 +20,7 @@ import io.vertx.ext.web.handler.BearerAuthHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -156,7 +158,19 @@ public class MonopolyApiBridge {
     }
 
     private void getGames(RoutingContext ctx) {
-        throw new NotYetImplementedException("getGames");
+        Request request = Request.from(ctx);
+        List<Game> games;
+        if (!request.hasStarted()) throw new InvalidRequestException("Invalid started type");
+        else if (!request.hasNumberOfPlayers()) throw new InvalidRequestException("Invalid number of players type");
+        else if (request.hasPrefix()) {
+            boolean started = request.isStarted();
+            int numberOfPlayers = request.getNumberOfPlayers();
+            String prefix = request.getPrefix();
+            games = service.getGames(started, numberOfPlayers, prefix);
+        } else {
+            games = service.getGames();
+        }
+        Response.sendJsonResponse(ctx, 200, games);
     }
 
     private void joinGame(RoutingContext ctx) {
@@ -164,7 +178,8 @@ public class MonopolyApiBridge {
     }
 
     private void getGame(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx,200, service.getGame());
+        Request request = Request.from(ctx);
+        Response.sendJsonResponse(ctx,200, service.getGame(request.getGameId()));
     }
 
     private void getDummyGame(RoutingContext ctx) {
