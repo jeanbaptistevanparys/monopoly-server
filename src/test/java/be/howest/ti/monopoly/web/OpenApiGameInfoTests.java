@@ -36,11 +36,16 @@ class OpenApiGameInfoTests extends OpenApiTestsBase {
 
     @Test
     void getDummyGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game getDummyGame() {
+                return null;
+            }});
         get(
                 testContext,
                 "/games/dummy",
                 null,
-                response -> assertNotYetImplemented(response, "getDummyGame")
+                this::assertOkResponse
         );
     }
 }

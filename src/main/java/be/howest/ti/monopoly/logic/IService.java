@@ -15,4 +15,5 @@ public interface IService {
     Game getGame(String gameId);
     List<Game> getGames();
     List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
+    Game getDummyGame();
 }

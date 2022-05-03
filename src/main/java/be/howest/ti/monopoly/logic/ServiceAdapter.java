@@ -50,4 +50,9 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Game getDummyGame() {
+        throw new UnsupportedOperationException();
+    }
+
 }

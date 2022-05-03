@@ -183,7 +183,7 @@ public class MonopolyApiBridge {
     }
 
     private void getDummyGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("getDummyGame");
+        Response.sendJsonResponse(ctx,200, service.getDummyGame());
     }
 
     private void useEstimateTax(RoutingContext ctx) {
