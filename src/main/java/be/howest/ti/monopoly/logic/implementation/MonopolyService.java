@@ -67,4 +67,9 @@ public class MonopolyService extends ServiceAdapter {
         }
         return res;
     }
+
+    @Override
+    public Game createGames(String prefix, int numberOfPlayers) {
+        return new Game(3, prefix);
+    }
 }

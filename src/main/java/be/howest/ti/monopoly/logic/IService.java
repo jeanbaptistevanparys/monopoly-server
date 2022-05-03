@@ -12,4 +12,5 @@ public interface IService {
     Tile getTile(String name);
     List<Game> getGames();
     List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
+    Game createGames(String prefix, int numberOfPlayers);
 }

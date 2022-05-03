@@ -46,33 +46,21 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGamesWithInvalidStartedType(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
-            @Override
-            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
-                return Collections.emptyList();
-            }
-        });
         get(
                 testContext,
                 "/games?started=not-a-boolean",
                 null,
-                this::assertOkResponse
+                response -> assertErrorResponse(response, 400)
         );
     }
 
     @Test
     void getGamesWithInvalidNumberType(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
-            @Override
-            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
-                return Collections.emptyList();
-            }
-        });
         get(
                 testContext,
                 "/games?numberOfPlayers=not-a-number",
                 null,
-                this::assertOkResponse
+                response -> assertErrorResponse(response, 400)
         );
     }
 
@@ -89,6 +77,12 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGames(String prefix, int numberOfPlayers) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games",
@@ -96,7 +90,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
                 new JsonObject()
                         .put("prefix", "Prefix123")
                         .put("numberOfPlayers", 10),
-                response -> assertNotYetImplemented(response, "createGame")
+                this::assertOkResponse
         );
     }
 

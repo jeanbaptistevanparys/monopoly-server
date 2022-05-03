@@ -45,4 +45,9 @@ public class TestService implements IService {
     public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
         return delegate.getGames(started, numberOfPlayers, prefix);
     }
+
+    @Override
+    public Game createGames(String prefix, int numberOfPlayers) {
+        return delegate.createGames(prefix, numberOfPlayers);
+    }
 }

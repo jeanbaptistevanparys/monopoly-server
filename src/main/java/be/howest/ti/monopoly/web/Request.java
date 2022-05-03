@@ -91,4 +91,12 @@ public class Request {
     public boolean hasPrefix() {
         return params.queryParameter("prefix").isString();
     }
+
+    public int getBodyNumberOfPlayers() {
+        return params.body().getInteger();
+    }
+
+    public String getBodyPrefix() {
+        return params.body().getString();
+    }
 }

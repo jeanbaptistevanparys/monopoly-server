@@ -5,7 +5,8 @@ import java.util.List;
 
 public class Game {
 
-    private static int games;
+    private static int games = 0;
+
     private final int numberOfPlayers;
     private final String prefix;
     private boolean started;
