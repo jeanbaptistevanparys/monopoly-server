@@ -66,4 +66,14 @@ public class MonopolyService extends ServiceAdapter {
             new CommunityChest("Get Out of Jail Free")
         );
     }
+
+    @Override
+    public Object getOutOfJailFine() {
+        return null;
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
+        return null;
+    }
 }
