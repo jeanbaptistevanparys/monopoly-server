@@ -33,12 +33,22 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object getChance() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Game createGames(String prefix, int numberOfPlayers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object getCommunityChest() {
         throw new UnsupportedOperationException();
     }
 

@@ -6,6 +6,7 @@ import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import javax.validation.metadata.ReturnValueDescriptor;
 import java.util.List;
 
 
@@ -73,5 +74,27 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Game createGames(String prefix, int numberOfPlayers) {
         return new Game(3, prefix);
+    }
+
+    @Override
+    public List<Chance> getChance() {
+        return List.of(
+            new Chance("Advance to Boardwalk"),
+            new Chance("Advance to Go (Collect $200)"),
+            new Chance("Advance to Illinois Avenue. If you pass Go, collect $200"),
+            new Chance("Advance to St. Charles Place. If you pass Go, collect $200"),
+            new Chance("Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled")
+        );
+    }
+
+    @Override
+    public List<CommunityChest> getCommunityChest() {
+        return List.of(
+            new CommunityChest("Advance to Go (Collect $200)"),
+            new CommunityChest("Bank error in your favor. Collect $200"),
+            new CommunityChest("Doctor's fee. Pay $50"),
+            new CommunityChest("From sale of stock you get $50"),
+            new CommunityChest("Get Out of Jail Free")
+        );
     }
 }

@@ -142,11 +142,11 @@ public class MonopolyApiBridge {
     }
 
     private void getChance(RoutingContext ctx) {
-        throw new NotYetImplementedException("getChance");
+        Response.sendJsonResponse(ctx, 200, service.getChance());
     }
 
     private void getCommunityChest(RoutingContext ctx) {
-        throw new NotYetImplementedException("getCommunityChest");
+        Response.sendJsonResponse(ctx, 200, service.getCommunityChest());
     }
 
     private void clearGameList(RoutingContext ctx) {

@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 public class Tile {
+
     private final int position;
     private final String name;
 

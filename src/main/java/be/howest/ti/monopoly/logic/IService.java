@@ -13,4 +13,6 @@ public interface IService {
     List<Game> getGames();
     List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
     Game createGames(String prefix, int numberOfPlayers);
+    Object getChance();
+    Object getCommunityChest();
 }
