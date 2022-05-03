@@ -11,6 +11,8 @@ import java.util.List;
 
 public class MonopolyService extends ServiceAdapter {
 
+    private List<Game> games = new ArrayList<>();
+
     @Override
     public String getVersion() {
         return "0.0.1";

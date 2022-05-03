@@ -154,10 +154,10 @@ public class MonopolyApiBridge {
     }
 
     private void createGame(RoutingContext ctx) {
-//        Request request = Request.from(ctx);
-//        int numberOfPlayers = request.getBodyNumberOfPlayers();
-//        String prefix = request.getBodyPrefix();
-        Response.sendJsonResponse(ctx, 200, service.createGames("group00", 3));
+        Request request = Request.from(ctx);
+        int numberOfPlayers = request.getBodyNumberOfPlayers();
+        String prefix = request.getBodyPrefix();
+        Response.sendJsonResponse(ctx, 200, service.createGames(prefix, numberOfPlayers));
     }
 
     private void getGames(RoutingContext ctx) {

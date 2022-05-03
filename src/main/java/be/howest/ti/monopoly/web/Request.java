@@ -93,10 +93,10 @@ public class Request {
     }
 
     public int getBodyNumberOfPlayers() {
-        return params.body().getInteger();
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
     }
 
     public String getBodyPrefix() {
-        return params.body().getString();
+        return params.body().getJsonObject().getString("prefix");
     }
 }
