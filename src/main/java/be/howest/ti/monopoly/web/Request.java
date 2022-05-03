@@ -88,8 +88,12 @@ public class Request {
         return params.queryParameter("numberOfPlayers").isNumber();
     }
 
-    public boolean hasPrefix() {
-        return params.queryParameter("prefix").isString();
+    public boolean hasParameters() {
+        try {
+            return params.queryParameter("prefix").isString();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public int getBodyNumberOfPlayers() {

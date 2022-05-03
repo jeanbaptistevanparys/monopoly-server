@@ -28,11 +28,6 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public List<Game> getGames() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public Object getChance() {
         throw new UnsupportedOperationException();
     }

@@ -18,7 +18,7 @@ public class Game {
         this.prefix = prefix;
         this.started = false;
         this.players = new ArrayList<>();
-        this.id = "group12-" + games;
+        this.id = prefix + "-" + games;
         games += 1;
     }
 

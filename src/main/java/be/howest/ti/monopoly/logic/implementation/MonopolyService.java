@@ -51,11 +51,6 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<Game> getGames() {
-        return Collections.emptyList();
-    }
-
-    @Override
     public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
         List<Game> games = List.of(
             new Game(2, "group12"),

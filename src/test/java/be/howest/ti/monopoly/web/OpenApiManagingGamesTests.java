@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
@@ -16,7 +18,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void getGames(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public List<Game> getGames() {
+            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
                 return Collections.emptyList();
             }
         });
@@ -66,12 +68,18 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGameWithEmptyBody(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGames(String prefix, int numberOfPlayers) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games",
                 null,
                 new JsonObject(),
-                response -> assertNotYetImplemented(response, "createGame")
+                this::assertOkResponse
         );
     }
 
@@ -96,6 +104,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGamePrefixTooLong(final VertxTestContext testContext) {
+
         post(
                 testContext,
                 "/games",
