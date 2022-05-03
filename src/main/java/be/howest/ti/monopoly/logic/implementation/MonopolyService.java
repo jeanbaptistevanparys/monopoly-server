@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 
 import javax.validation.metadata.ReturnValueDescriptor;
 import java.util.List;
@@ -65,5 +66,10 @@ public class MonopolyService extends ServiceAdapter {
             new CommunityChest("From sale of stock you get $50"),
             new CommunityChest("Get Out of Jail Free")
         );
+    }
+
+    @Override
+    public Object rollDice() {
+        return null;
     }
 }

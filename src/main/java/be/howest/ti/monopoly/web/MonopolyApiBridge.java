@@ -180,11 +180,11 @@ public class MonopolyApiBridge {
     }
 
     private void rollDice(RoutingContext ctx) {
-        throw new NotYetImplementedException("rollDice");
+        Response.sendJsonResponse(ctx, 200, service.rollDice());
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
-        throw new NotYetImplementedException("declareBankruptcy");
+        Response.sendJsonResponse(ctx, 200, service.declareBankruptcy());
     }
 
     private void buyProperty(RoutingContext ctx) {

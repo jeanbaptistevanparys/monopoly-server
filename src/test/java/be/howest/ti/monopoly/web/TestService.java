@@ -44,4 +44,14 @@ public class TestService implements IService {
     public Object getCommunityChest() {
         return delegate.getCommunityChest();
     }
+
+    @Override
+    public Object rollDice() {
+        return delegate.rollDice();
+    }
+
+    @Override
+    public Object declareBankruptcy() {
+        return delegate.declareBankruptcy();
+    }
 }

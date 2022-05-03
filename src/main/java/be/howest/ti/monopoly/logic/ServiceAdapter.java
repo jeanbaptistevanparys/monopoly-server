@@ -36,4 +36,14 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Object rollDice() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object declareBankruptcy() {
+        throw new UnsupportedOperationException();
+    }
+
 }
