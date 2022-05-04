@@ -37,12 +37,12 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object rollDice() {
+    public Object rollDice(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Object declareBankruptcy() {
+    public Object declareBankruptcy(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 

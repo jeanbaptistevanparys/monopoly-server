@@ -67,4 +67,12 @@ public class Request {
     public String getTileName() {
         return params.pathParameter("tileId").getString();
     }
+
+    public String getGameId() {
+        return params.pathParameter("gameId").getString();
+    }
+
+    public String getPlayerName() {
+        return params.pathParameter("playerName").getString();
+    }
 }

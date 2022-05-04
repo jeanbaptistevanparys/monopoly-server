@@ -11,6 +11,6 @@ public interface IService {
     Tile getTile(String name);
     Object getChance();
     Object getCommunityChest();
-    Object rollDice();
-    Object declareBankruptcy();
+    Object rollDice(String gameId, String playerName);
+    Object declareBankruptcy(String gameId, String playerName);
 }

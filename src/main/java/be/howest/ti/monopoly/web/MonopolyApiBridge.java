@@ -180,11 +180,17 @@ public class MonopolyApiBridge {
     }
 
     private void rollDice(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.rollDice());
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.rollDice(gameId, playerName));
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.declareBankruptcy());
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.declareBankruptcy(gameId, playerName));
     }
 
     private void buyProperty(RoutingContext ctx) {

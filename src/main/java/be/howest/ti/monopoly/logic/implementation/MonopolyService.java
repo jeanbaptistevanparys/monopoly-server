@@ -69,7 +69,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object rollDice() {
+    public Object rollDice(String gameId, String playerName) {
         return null;
     }
 }

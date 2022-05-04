@@ -46,12 +46,12 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object rollDice() {
-        return delegate.rollDice();
+    public Object rollDice(String gameId, String playerName) {
+        return delegate.rollDice(gameId, playerName);
     }
 
     @Override
-    public Object declareBankruptcy() {
-        return delegate.declareBankruptcy();
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return delegate.declareBankruptcy(gameId, playerName);
     }
 }
