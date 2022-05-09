@@ -49,9 +49,15 @@ public class ServiceAdapter implements IService {
     public List<Game> getGames( boolean started, int numberOfPlayers, String prefix){
         throw new UnsupportedOperationException();
     }
+    public Object getOutOfJailFine() {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public Game getDummyGame() {
+        throw new UnsupportedOperationException();
+    }
+    public Object getOutOfJailFree() {
         throw new UnsupportedOperationException();
     }
 

@@ -64,4 +64,12 @@ public class TestService implements IService {
     public Game getDummyGame() {
         return delegate.getDummyGame();
     }
+    public Object getOutOfJailFine() {
+        return delegate.getOutOfJailFine();
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
+        return delegate.getOutOfJailFree();
+    }
 }

@@ -74,6 +74,9 @@ public class MonopolyService extends ServiceAdapter {
     public Game getGame(String gameId) {
         return null;
     }
+    public Object getOutOfJailFine() {
+        return null;
+    }
 
     @Override
     public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
@@ -100,4 +103,7 @@ public class MonopolyService extends ServiceAdapter {
         return dummy;
     }
 
+    public Object getOutOfJailFree() {
+        return null;
+    }
 }

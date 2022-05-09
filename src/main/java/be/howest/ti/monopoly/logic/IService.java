@@ -16,4 +16,6 @@ public interface IService {
     List<Game> getGames();
     List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
     Game getDummyGame();
+    Object getOutOfJailFine();
+    Object getOutOfJailFree();
 }

@@ -68,6 +68,7 @@ public class Request {
         return params.pathParameter("tileId").getString();
     }
 
+<<<<<<< HEAD
     public boolean isStarted() {
         return params.queryParameter("started").getBoolean();
     }
@@ -93,4 +94,9 @@ public class Request {
     }
 
     public String getGameId() { return params.pathParameter("gameId").getString(); }
+=======
+    public int getNumber() {
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    }
+>>>>>>> d46c9efb03e19955ed30b9aa1525dd2f7fe84f29
 }
