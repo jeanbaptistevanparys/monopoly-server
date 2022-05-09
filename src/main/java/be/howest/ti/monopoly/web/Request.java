@@ -103,4 +103,12 @@ public class Request {
     public String getBodyPrefix() {
         return params.body().getJsonObject().getString("prefix");
     }
+
+    public String getPlayerName() {
+        return params.body().getJsonObject().getString("playerName");
+    }
+
+    public String getGameId() {
+        return params.pathParameter("gameId").getString();
+    }
 }

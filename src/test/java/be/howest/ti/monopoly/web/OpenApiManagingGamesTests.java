@@ -175,13 +175,19 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void joinGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object joinGame(String playerName, String gameId) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players",
                 null,
                 new JsonObject()
                         .put("playerName", "Alice"),
-                response -> assertNotYetImplemented(response, "joinGame")
+                this::assertOkResponse
         );
     }
 

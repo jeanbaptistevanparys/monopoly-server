@@ -68,7 +68,9 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Game createGames(String prefix, int numberOfPlayers) {
-        return new Game(3, prefix);
+        Game game = new Game(3, prefix);
+        games.add(game);
+        return game;
     }
 
     @Override
@@ -91,5 +93,10 @@ public class MonopolyService extends ServiceAdapter {
             new CommunityChest("From sale of stock you get $50"),
             new CommunityChest("Get Out of Jail Free")
         );
+    }
+
+    @Override
+    public Object joinGame(String playerName, String gameId) {
+        return null;
     }
 }
