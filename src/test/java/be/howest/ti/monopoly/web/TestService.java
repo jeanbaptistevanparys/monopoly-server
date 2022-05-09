@@ -44,4 +44,14 @@ public class TestService implements IService {
     public Object getCommunityChest() {
         return delegate.getCommunityChest();
     }
+
+    @Override
+    public Object getOutOfJailFine() {
+        return delegate.getOutOfJailFine();
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
+        return delegate.getOutOfJailFree();
+    }
 }

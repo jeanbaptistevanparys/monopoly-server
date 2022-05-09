@@ -11,4 +11,6 @@ public interface IService {
     Tile getTile(String name);
     Object getChance();
     Object getCommunityChest();
+    Object getOutOfJailFine();
+    Object getOutOfJailFree();
 }

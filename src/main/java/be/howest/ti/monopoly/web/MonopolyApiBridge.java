@@ -224,11 +224,11 @@ public class MonopolyApiBridge {
     }
 
     private void getOutOfJailFine(RoutingContext ctx) {
-        throw new NotYetImplementedException("getOutOfJailFine");
+        Response.sendJsonResponse(ctx, 200, service.getOutOfJailFine());
     }
 
     private void getOutOfJailFree(RoutingContext ctx) {
-        throw new NotYetImplementedException("getOutOfJailFree");
+        Response.sendJsonResponse(ctx, 200, service.getOutOfJailFree());
     }
 
     private void getBankAuctions(RoutingContext ctx) {
