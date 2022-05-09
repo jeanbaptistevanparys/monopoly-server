@@ -37,7 +37,7 @@ class OpenApiPrisonTests extends OpenApiTestsBase {
     void getOutOfJailFree(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Object getOutOfJailFine() {
+            public Object getOutOfJailFree() {
                 return null;
             }
         });

@@ -67,4 +67,8 @@ public class Request {
     public String getTileName() {
         return params.pathParameter("tileId").getString();
     }
+
+    public int getNumber() {
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    }
 }
