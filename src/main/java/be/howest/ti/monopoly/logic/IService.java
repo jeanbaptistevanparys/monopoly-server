@@ -16,4 +16,6 @@ public interface IService {
     Object getCommunityChest();
 
     Object joinGame(String playerName, String gameId);
+
+    Object clearGameList();
 }

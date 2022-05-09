@@ -99,4 +99,10 @@ public class MonopolyService extends ServiceAdapter {
     public Object joinGame(String playerName, String gameId) {
         return null;
     }
+
+    @Override
+    public Object clearGameList() {
+        games.clear();
+        return null;
+    }
 }

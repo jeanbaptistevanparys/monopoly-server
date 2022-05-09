@@ -52,4 +52,9 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Object clearGameList() {
+        throw new UnsupportedOperationException();
+    }
+
 }

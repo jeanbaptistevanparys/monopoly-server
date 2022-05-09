@@ -60,4 +60,9 @@ public class TestService implements IService {
     public Object joinGame(String playerName, String gameId) {
         return delegate.joinGame(playerName, gameId);
     }
+
+    @Override
+    public Object clearGameList() {
+        return delegate.clearGameList();
+    }
 }
