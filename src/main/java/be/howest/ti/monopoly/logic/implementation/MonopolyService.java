@@ -66,4 +66,39 @@ public class MonopolyService extends ServiceAdapter {
             new CommunityChest("Get Out of Jail Free")
         );
     }
+
+    @Override
+    public List<Auction> getBankAuctions() {
+        return List.of(
+                new Auction(new Player("Jarne"), 30),
+                new Auction(new Player("Jari"), 40),
+                new Auction(new Player("Guust"), 10),
+                new Auction(new Player("JB"), 500)
+                );
+    }
+
+    @Override
+    public Object placeBidOnBankAuction() {
+        return 0;
+    }
+
+    @Override
+    public List<Auction> getPlayerAuctions() {
+        return List.of(
+                new Auction(new Player("Jarne"), 30),
+                new Auction(new Player("Jarne"), 40),
+                new Auction(new Player("Jarne"), 10),
+                new Auction(new Player("Jarne"), 500)
+        );
+    }
+
+    @Override
+    public Object startPlayerAuction() {
+        return 0;
+    }
+
+    @Override
+    public Object placeBidOnPlayerAuction() {
+        return 0;
+    }
 }
