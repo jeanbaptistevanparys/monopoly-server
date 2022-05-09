@@ -53,7 +53,17 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object getOutOfJailFine() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object clearGameList() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
         throw new UnsupportedOperationException();
     }
 

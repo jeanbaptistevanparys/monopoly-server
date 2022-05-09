@@ -100,9 +100,18 @@ public class MonopolyService extends ServiceAdapter {
         return null;
     }
 
+    public Object getOutOfJailFine() {
+        return null;
+    }
+
     @Override
     public Object clearGameList() {
         games.clear();
+        return null;
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
         return null;
     }
 }

@@ -65,4 +65,14 @@ public class TestService implements IService {
     public Object clearGameList() {
         return delegate.clearGameList();
     }
+
+    @Override
+    public Object getOutOfJailFine() {
+        return delegate.getOutOfJailFine();
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
+        return delegate.getOutOfJailFree();
+    }
 }

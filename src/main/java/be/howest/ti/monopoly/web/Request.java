@@ -111,4 +111,8 @@ public class Request {
     public String getGameId() {
         return params.pathParameter("gameId").getString();
     }
+
+    public int getNumber() {
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    }
 }

@@ -18,4 +18,8 @@ public interface IService {
     Object joinGame(String playerName, String gameId);
 
     Object clearGameList();
+
+    Object getOutOfJailFine();
+    Object getOutOfJailFree();
+
 }
