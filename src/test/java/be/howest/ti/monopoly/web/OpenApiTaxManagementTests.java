@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.ServiceAdapter;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
@@ -8,11 +9,17 @@ class OpenApiTaxManagementTests extends OpenApiTestsBase {
 
     @Test
     void useEstimateTax(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Object useEstimateTax(String gameId, String playerName) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/tax/estimate",
                 "some-token",
-                response -> assertNotYetImplemented(response, "useEstimateTax")
+                this::assertOkResponse
         );
     }
 
@@ -28,11 +35,17 @@ class OpenApiTaxManagementTests extends OpenApiTestsBase {
 
     @Test
     void useComputeTax(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Object useComputeTax(String gameId, String playerName) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/tax/compute",
                 "some-token",
-                response -> assertNotYetImplemented(response, "useComputeTax")
+                this::assertOkResponse
         );
     }
 

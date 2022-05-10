@@ -86,7 +86,17 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object takeMortgage() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 

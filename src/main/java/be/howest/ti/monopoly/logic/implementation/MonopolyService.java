@@ -138,7 +138,22 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
     public Object takeMortgage() {
+        return null;
+    }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
         return null;
     }
 

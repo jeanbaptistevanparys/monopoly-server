@@ -22,6 +22,8 @@ public interface IService {
     Object clearGameList();
     Object getOutOfJailFine();
     Object getOutOfJailFree();
+    Object useEstimateTax(String gameId, String playerName);
+    Object useComputeTax(String gameId, String playerName);
     Object takeMortgage();
     Object settleMortgage();
 }
