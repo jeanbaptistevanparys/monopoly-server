@@ -68,6 +68,50 @@ public class Request {
         return params.pathParameter("tileId").getString();
     }
 
+    public boolean isStarted() {
+        return params.queryParameter("started").getBoolean();
+    }
+
+    public int getNumberOfPlayers() {
+        return params.queryParameter("numberOfPlayers").getInteger();
+    }
+
+    public String getPrefix() {
+        return params.queryParameter("prefix").getString();
+    }
+
+    public boolean hasStarted() {
+        return params.queryParameter("started").isBoolean();
+    }
+
+    public boolean hasNumberOfPlayers() {
+        return params.queryParameter("numberOfPlayers").isNumber();
+    }
+
+    public boolean hasParameters() {
+        try {
+            return params.queryParameter("prefix").isString();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public int getBodyNumberOfPlayers() {
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    }
+
+    public String getBodyPrefix() {
+        return params.body().getJsonObject().getString("prefix");
+    }
+
+    public String getPlayerName() {
+        return params.body().getJsonObject().getString("playerName");
+    }
+
+    public String getGameId() {
+        return params.pathParameter("gameId").getString();
+    }
+
     public int getNumber() {
         return params.body().getJsonObject().getInteger("numberOfPlayers");
     }

@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.Tile;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
@@ -19,6 +20,7 @@ import io.vertx.ext.web.handler.BearerAuthHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -148,19 +150,36 @@ public class MonopolyApiBridge {
     }
 
     private void clearGameList(RoutingContext ctx) {
-        throw new NotYetImplementedException("clearGameList");
+        Response.sendJsonResponse(ctx, 200, service.clearGameList());
     }
 
     private void createGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("createGame");
+        Request request = Request.from(ctx);
+        int numberOfPlayers = request.getBodyNumberOfPlayers();
+        String prefix = request.getBodyPrefix();
+        Response.sendJsonResponse(ctx, 200, service.createGames(prefix, numberOfPlayers));
     }
 
     private void getGames(RoutingContext ctx) {
-        throw new NotYetImplementedException("getGames");
+        Request request = Request.from(ctx);
+        List<Game> games;
+        if (!request.hasParameters()) games = service.getGames(false, 4, null);
+        else if (!request.hasStarted()) throw new InvalidRequestException("Invalid started type");
+        else if (!request.hasNumberOfPlayers()) throw new InvalidRequestException("Invalid number of players type");
+        else {
+            boolean started = request.isStarted();
+            int numberOfPlayers = request.getNumberOfPlayers();
+            String prefix = request.getPrefix();
+            games = service.getGames(started, numberOfPlayers, prefix);
+        }
+        Response.sendJsonResponse(ctx, 200, games);
     }
 
     private void joinGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("joinGame");
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerName();
+        String gameId = request.getGameId();
+        Response.sendJsonResponse(ctx, 200, service.joinGame(playerName, gameId));
     }
 
     private void getGame(RoutingContext ctx) {
