@@ -150,6 +150,7 @@ public class TestService implements IService {
         return delegate.sellHotel(gameId, playerName, propertyName);
     }
 
+    @Override
     public Object useEstimateTax(String gameId, String playerName) {
         return delegate.useEstimateTax(gameId, playerName);
     }
