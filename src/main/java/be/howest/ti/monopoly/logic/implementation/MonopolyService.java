@@ -173,7 +173,17 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
     public Object declareBankruptcy(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
         return null;
     }
 

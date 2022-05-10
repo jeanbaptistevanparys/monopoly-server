@@ -220,11 +220,19 @@ public class MonopolyApiBridge {
     }
 
     private void buyProperty(RoutingContext ctx) {
-        throw new NotYetImplementedException("buyProperty");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.buyProperty(gameId, playerName, propertyName));
     }
 
     private void dontBuyProperty(RoutingContext ctx) {
-        throw new NotYetImplementedException("dontBuyProperty");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.dontBuyProperty(gameId, playerName, propertyName));
     }
 
     private void collectDebt(RoutingContext ctx) {

@@ -28,6 +28,8 @@ public interface IService {
     Object clearGameList();
     Object getOutOfJailFine();
     Object getOutOfJailFree();
+    Object buyProperty(String gameId, String playerName, String propertyName);
+    Object dontBuyProperty(String gameId, String playerName, String propertyName);
     Object useEstimateTax(String gameId, String playerName);
     Object useComputeTax(String gameId, String playerName);
     Object takeMortgage();
