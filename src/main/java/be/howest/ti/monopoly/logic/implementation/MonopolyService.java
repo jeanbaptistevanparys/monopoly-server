@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import javax.validation.metadata.ReturnValueDescriptor;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -88,15 +91,54 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<CommunityChest> getCommunityChest() {
         return List.of(
-            new CommunityChest("Advance to Go (Collect $200)"),
-            new CommunityChest("Bank error in your favor. Collect $200"),
-            new CommunityChest("Doctor's fee. Pay $50"),
-            new CommunityChest("From sale of stock you get $50"),
-            new CommunityChest("Get Out of Jail Free")
+                new CommunityChest("Advance to Go (Collect $200)"),
+                new CommunityChest("Bank error in your favor. Collect $200"),
+                new CommunityChest("Doctor's fee. Pay $50"),
+                new CommunityChest("From sale of stock you get $50"),
+                new CommunityChest("Get Out of Jail Free")
         );
     }
 
     @Override
+    public List<Auction> getBankAuctions() {
+        return List.of(
+                new Auction(new Player("Jarne"), 30),
+                new Auction(new Player("Jari"), 40),
+                new Auction(new Player("Guust"), 10),
+                new Auction(new Player("JB"), 500)
+                );
+    }
+
+    @Override
+    public Object placeBidOnBankAuction() {
+        return 0;
+    }
+
+    @Override
+    public List<Auction> getPlayerAuctions() {
+        return List.of(
+                new Auction(new Player("Jarne"), 30),
+                new Auction(new Player("Jarne"), 40),
+                new Auction(new Player("Jarne"), 10),
+                new Auction(new Player("Jarne"), 500)
+        );
+    }
+
+    @Override
+    public Object startPlayerAuction() {
+        return 0;
+    }
+
+    @Override
+    public Object placeBidOnPlayerAuction() {
+        return 0;
+    }
+
+    @Override
+    public Game getGame(String gameId) {
+        return null;
+    }
+
     public Object rollDice(String gameId, String playerName) {
         return null;
     }
@@ -112,6 +154,14 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Game getDummyGame() {
+        Game dummy = new Game(2,"group-12");
+        dummy.addPlayer(new Player("jari meneerke"));
+        dummy.addPlayer(new Player("jean meneerke"));
+        dummy.addPlayer(new Player("jarne meneerke"));
+        return dummy;
+    }
+
     public Object clearGameList() {
         games.clear();
         return null;
@@ -128,7 +178,32 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
     public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
-        return super.dontBuyProperty(gameId, playerName, propertyName);
+        return null;
+    }
+
+    @Override
+    public Object takeMortgage() {
+        return null;
+    }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object settleMortgage() {
+        return null;
     }
 }

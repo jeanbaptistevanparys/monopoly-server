@@ -88,6 +88,12 @@ public class Request {
         return params.queryParameter("numberOfPlayers").isNumber();
     }
 
+    public boolean hasPrefix() {
+        return params.queryParameter("prefix").isString();
+    }
+
+    public String getGameId() { return params.pathParameter("gameId").getString(); }
+
     public boolean hasParameters() {
         try {
             return params.queryParameter("prefix").isString();
@@ -106,10 +112,6 @@ public class Request {
 
     public String getBodyPlayerName() {
         return params.body().getJsonObject().getString("playerName");
-    }
-
-    public String getGameId() {
-        return params.pathParameter("gameId").getString();
     }
 
     public String getPlayerName() {

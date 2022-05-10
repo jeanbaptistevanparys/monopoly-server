@@ -42,7 +42,5 @@ public class Game {
         return players;
     }
 
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
 }
