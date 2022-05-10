@@ -154,7 +154,12 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Game getGame(String gameId) {
-        return null;
+        for (Game game : games) {
+            if (game.getId().equals(gameId)) {
+                return game;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("No such game");
     }
 
     public Object rollDice(String gameId, String playerName) {
