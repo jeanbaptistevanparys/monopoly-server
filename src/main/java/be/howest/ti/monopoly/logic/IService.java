@@ -12,9 +12,11 @@ public interface IService {
     Tile getTile(String name);
     Object getChance();
     Object getCommunityChest();
+
     Game getGame(String gameId);
     List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
     Game getDummyGame();
+
     Object rollDice(String gameId, String playerName);
     Object declareBankruptcy(String gameId, String playerName);
     Game createGames(String prefix, int numberOfPlayers);
@@ -25,4 +27,9 @@ public interface IService {
 
     Object buyProperty(String gameId, String playerName, String propertyName);
     Object dontBuyProperty(String gameId, String playerName, String propertyName);
+
+    Object buyHouse(String gameId, String playerName, String propertyName);
+    Object sellHouse(String gameId, String playerName, String propertyName);
+    Object buyHotel(String gameId, String playerName, String propertyName);
+    Object sellHotel(String gameId, String playerName, String propertyName);
 }

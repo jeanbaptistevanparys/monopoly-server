@@ -242,19 +242,35 @@ public class MonopolyApiBridge {
     }
 
     private void buyHouse(RoutingContext ctx) {
-        throw new NotYetImplementedException("buyHouse");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.buyHouse(gameId, playerName, propertyName));
     }
 
     private void sellHouse(RoutingContext ctx) {
-        throw new NotYetImplementedException("sellHouse");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.sellHouse(gameId, playerName, propertyName));
     }
 
     private void buyHotel(RoutingContext ctx) {
-        throw new NotYetImplementedException("buyHotel");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.buyHotel(gameId, playerName, propertyName));
     }
 
     private void sellHotel(RoutingContext ctx) {
-        throw new NotYetImplementedException("sellHotel");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.sellHotel(gameId, playerName, propertyName));
     }
 
     private void getOutOfJailFine(RoutingContext ctx) {
