@@ -1,5 +1,8 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+import be.howest.ti.monopoly.web.tokens.MonopolyUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +26,10 @@ public class Game {
     }
 
     public void addPlayer(Player player) {
+        if (players.size() == numberOfPlayers) throw new IllegalMonopolyActionException("Game already full");
+        if (started) throw new IllegalMonopolyActionException("Game already started");
         players.add(player);
+        if (players.size() == numberOfPlayers) { started = true; }
     }
 
     public int getNumberOfPlayers() {
