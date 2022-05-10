@@ -288,24 +288,23 @@ public class MonopolyApiBridge {
     }
 
     private void getBankAuctions(RoutingContext ctx) {
-        throw new NotYetImplementedException("getBankAuctions");
+        Response.sendJsonResponse(ctx, 200, service.getBankAuctions());
     }
 
     private void placeBidOnBankAuction(RoutingContext ctx) {
-        throw new NotYetImplementedException("placeBidOnBankAuction");
+        Response.sendJsonResponse(ctx, 200, service.placeBidOnBankAuction());
     }
 
     private void getPlayerAuctions(RoutingContext ctx) {
-        throw new NotYetImplementedException("getPlayerAuctions");
+        Response.sendJsonResponse(ctx, 200, service.getPlayerAuctions());
     }
 
     private void startPlayerAuction(RoutingContext ctx) {
-        throw new NotYetImplementedException("startPlayerAuction");
+        Response.sendJsonResponse(ctx, 200, service.startPlayerAuction());
     }
 
     private void placeBidOnPlayerAuction(RoutingContext ctx) {
-        throw new NotYetImplementedException("placeBidOnPlayerAuction");
-    }
+        Response.sendJsonResponse(ctx, 200, service.placeBidOnPlayerAuction());    }
 
     private void trade(RoutingContext ctx) {
         throw new NotYetImplementedException("trade");
