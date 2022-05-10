@@ -2,10 +2,13 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class MonopolyService extends ServiceAdapter {
@@ -48,6 +51,7 @@ public class MonopolyService extends ServiceAdapter {
             new CommunityChest("You have won second prize in a beauty contest. Collect $10"),
             new CommunityChest("You inherit $100")
     ));
+
     @Override
     public String getVersion() {
         return "0.0.1";
@@ -158,6 +162,8 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     public Object rollDice(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        game.rollDice();
         return null;
     }
 

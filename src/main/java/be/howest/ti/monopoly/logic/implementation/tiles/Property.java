@@ -1,13 +1,15 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
+import be.howest.ti.monopoly.logic.implementation.Colors;
+
 public class Property extends Tile{
     private final int cost;
     private final int mortgage;
     private final int rent;
     private final int groupSize;
-    private final String color;
+    private final Colors color;
 
-    public Property(String name, int position, String type, int groupSize, int cost, int mortgage, int rent, String color) {
+    public Property(String name, int position, String type, int groupSize, int cost, int mortgage, int rent, Colors color) {
         super(name, position, type);
         this.cost = cost;
         this.mortgage = mortgage;
@@ -32,7 +34,7 @@ public class Property extends Tile{
         return groupSize;
     }
 
-    public String getColor() {
+    public Colors getColor() {
         return color;
     }
 }

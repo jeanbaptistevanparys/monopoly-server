@@ -209,6 +209,9 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException("You aren't part of this game");
+        }
         Response.sendJsonResponse(ctx, 200, service.rollDice(gameId, playerName));
     }
 
