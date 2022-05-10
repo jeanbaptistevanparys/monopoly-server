@@ -136,4 +136,14 @@ public class MonopolyService extends ServiceAdapter {
     public Object getOutOfJailFree() {
         return null;
     }
+
+    @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        return super.dontBuyProperty(gameId, playerName, propertyName);
+    }
 }
