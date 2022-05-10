@@ -91,12 +91,27 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+    public Object useEstimateTax(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Object buyHouse(String gameId, String playerName, String propertyName) {
+    public Object dontBuyProperty(String gameId, String playerName, String propertyName){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object takeMortgage() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object buyHouse(String gameId, String playerName, String propertyName){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 
@@ -114,4 +129,10 @@ public class ServiceAdapter implements IService {
     public Object sellHotel(String gameId, String playerName, String propertyName) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public Object settleMortgage() {
+        throw new UnsupportedOperationException();
+    }
+
 }

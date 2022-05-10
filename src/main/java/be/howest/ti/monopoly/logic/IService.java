@@ -32,4 +32,9 @@ public interface IService {
     Object sellHouse(String gameId, String playerName, String propertyName);
     Object buyHotel(String gameId, String playerName, String propertyName);
     Object sellHotel(String gameId, String playerName, String propertyName);
+
+    Object useEstimateTax(String gameId, String playerName);
+    Object useComputeTax(String gameId, String playerName);
+    Object takeMortgage();
+    Object settleMortgage();
 }

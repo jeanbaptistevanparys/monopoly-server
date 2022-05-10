@@ -192,11 +192,17 @@ public class MonopolyApiBridge {
     }
 
     private void useEstimateTax(RoutingContext ctx) {
-        throw new NotYetImplementedException("useEstimateTax");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.useEstimateTax(gameId, playerName));
     }
 
     private void useComputeTax(RoutingContext ctx) {
-        throw new NotYetImplementedException("useComputeTax");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.useComputeTax(gameId, playerName));
     }
 
     private void rollDice(RoutingContext ctx) {
@@ -234,11 +240,11 @@ public class MonopolyApiBridge {
     }
 
     private void takeMortgage(RoutingContext ctx) {
-        throw new NotYetImplementedException("takeMortgage");
+        Response.sendJsonResponse(ctx, 200, service.takeMortgage());
     }
 
     private void settleMortgage(RoutingContext ctx) {
-        throw new NotYetImplementedException("settleMortgage");
+        Response.sendJsonResponse(ctx, 200, service.settleMortgage());
     }
 
     private void buyHouse(RoutingContext ctx) {

@@ -127,6 +127,7 @@ public class MonopolyService extends ServiceAdapter {
         return dummy;
     }
 
+    @Override
     public Object clearGameList() {
         games.clear();
         return null;
@@ -143,7 +144,17 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
     public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object takeMortgage() {
         return null;
     }
 
@@ -153,7 +164,17 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
     public Object sellHouse(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
         return null;
     }
 
@@ -164,6 +185,11 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object sellHotel(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object settleMortgage() {
         return null;
     }
 }
