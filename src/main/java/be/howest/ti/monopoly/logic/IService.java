@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.Auction;
+import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Tile;
 
 import java.util.List;
@@ -17,4 +18,18 @@ public interface IService {
     List<Auction> getPlayerAuctions();
     Object startPlayerAuction();
     Object placeBidOnPlayerAuction();
+    Game getGame(String gameId);
+    List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
+    Game getDummyGame();
+    Object rollDice(String gameId, String playerName);
+    Object declareBankruptcy(String gameId, String playerName);
+    Game createGames(String prefix, int numberOfPlayers);
+    Object joinGame(String playerName, String gameId);
+    Object clearGameList();
+    Object getOutOfJailFine();
+    Object getOutOfJailFree();
+    Object useEstimateTax(String gameId, String playerName);
+    Object useComputeTax(String gameId, String playerName);
+    Object takeMortgage();
+    Object settleMortgage();
 }

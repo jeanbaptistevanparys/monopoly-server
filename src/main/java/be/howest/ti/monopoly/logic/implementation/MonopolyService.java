@@ -2,12 +2,21 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import javax.validation.metadata.ReturnValueDescriptor;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
 public class MonopolyService extends ServiceAdapter {
+
+    private List<Game> games = new ArrayList<>();
 
     @Override
     public String getVersion() {
@@ -46,6 +55,29 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
+        List<Game> games = List.of(
+            new Game(2, "group12"),
+            new Game(3, "group12"),
+            new Game(4, "group12")
+        );
+        List<Game> res = new ArrayList<>();
+        for (Game game : games) {
+            if (game.isStarted() == started && game.getNumberOfPlayers() == numberOfPlayers && game.getPrefix() == prefix) {
+                res.add(game);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public Game createGames(String prefix, int numberOfPlayers) {
+        Game game = new Game(3, prefix);
+        games.add(game);
+        return game;
+    }
+
+    @Override
     public List<Chance> getChance() {
         return List.of(
             new Chance("Advance to Boardwalk"),
@@ -59,11 +91,11 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<CommunityChest> getCommunityChest() {
         return List.of(
-            new CommunityChest("Advance to Go (Collect $200)"),
-            new CommunityChest("Bank error in your favor. Collect $200"),
-            new CommunityChest("Doctor's fee. Pay $50"),
-            new CommunityChest("From sale of stock you get $50"),
-            new CommunityChest("Get Out of Jail Free")
+                new CommunityChest("Advance to Go (Collect $200)"),
+                new CommunityChest("Bank error in your favor. Collect $200"),
+                new CommunityChest("Doctor's fee. Pay $50"),
+                new CommunityChest("From sale of stock you get $50"),
+                new CommunityChest("Get Out of Jail Free")
         );
     }
 
@@ -100,5 +132,68 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Object placeBidOnPlayerAuction() {
         return 0;
+    }
+
+    @Override
+    public Game getGame(String gameId) {
+        return null;
+    }
+
+    public Object rollDice(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object joinGame(String playerName, String gameId) {
+        return null;
+    }
+
+    @Override
+    public Object getOutOfJailFine() {
+        return null;
+    }
+
+    @Override
+    public Game getDummyGame() {
+        Game dummy = new Game(2,"group-12");
+        dummy.addPlayer(new Player("jari meneerke"));
+        dummy.addPlayer(new Player("jean meneerke"));
+        dummy.addPlayer(new Player("jarne meneerke"));
+        return dummy;
+    }
+
+    public Object clearGameList() {
+        games.clear();
+        return null;
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
+        return null;
+    }
+
+    @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object takeMortgage() {
+        return null;
+    }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object settleMortgage() {
+        return null;
     }
 }

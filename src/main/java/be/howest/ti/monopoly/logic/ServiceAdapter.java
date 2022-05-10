@@ -1,6 +1,10 @@
 package be.howest.ti.monopoly.logic;
 
+<<<<<<< HEAD
 import be.howest.ti.monopoly.logic.implementation.Auction;
+=======
+import be.howest.ti.monopoly.logic.implementation.Game;
+>>>>>>> ec7e447bd89950424197a4ae3f89abc591c59e5a
 import be.howest.ti.monopoly.logic.implementation.Tile;
 
 import java.util.List;
@@ -32,6 +36,15 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    public List<Game> getGames() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Game createGames(String prefix, int numberOfPlayers) {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public Object getCommunityChest() {
         throw new UnsupportedOperationException();
@@ -43,7 +56,31 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Game getGame(String gameId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Game> getGames( boolean started, int numberOfPlayers, String prefix){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object rollDice(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object joinGame(String playerName, String gameId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object placeBidOnBankAuction() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Object getOutOfJailFine() {
         throw new UnsupportedOperationException();
     }
 
@@ -53,12 +90,52 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Game getDummyGame() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object clearGameList() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object startPlayerAuction() {
+        throw new UnsupportedOperationException();
+    }
+
+
+    public Object getOutOfJailFree() {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Object placeBidOnPlayerAuction() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object takeMortgage() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object settleMortgage() {
         throw new UnsupportedOperationException();
     }
 
