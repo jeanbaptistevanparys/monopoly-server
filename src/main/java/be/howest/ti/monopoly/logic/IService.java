@@ -13,9 +13,14 @@ public interface IService {
     Object getChance();
     Object getCommunityChest();
     Game getGame(String gameId);
-    List<Game> getGames();
     List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
     Game getDummyGame();
+    Object rollDice(String gameId, String playerName);
+    Object declareBankruptcy(String gameId, String playerName);
+    Game createGames(String prefix, int numberOfPlayers);
+    Object joinGame(String playerName, String gameId);
+    Object clearGameList();
     Object getOutOfJailFine();
     Object getOutOfJailFree();
+
 }

@@ -37,6 +37,11 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Game createGames(String prefix, int numberOfPlayers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object getCommunityChest() {
         throw new UnsupportedOperationException();
     }
@@ -49,6 +54,15 @@ public class ServiceAdapter implements IService {
     public List<Game> getGames( boolean started, int numberOfPlayers, String prefix){
         throw new UnsupportedOperationException();
     }
+    public Object rollDice(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Object joinGame(String playerName, String gameId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object getOutOfJailFine() {
         throw new UnsupportedOperationException();
     }
@@ -57,6 +71,16 @@ public class ServiceAdapter implements IService {
     public Game getDummyGame() {
         throw new UnsupportedOperationException();
     }
+
+    public Object declareBankruptcy(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    public Object clearGameList() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object getOutOfJailFree() {
         throw new UnsupportedOperationException();
     }

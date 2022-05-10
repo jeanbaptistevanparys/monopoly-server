@@ -150,31 +150,36 @@ public class MonopolyApiBridge {
     }
 
     private void clearGameList(RoutingContext ctx) {
-        throw new NotYetImplementedException("clearGameList");
+        Response.sendJsonResponse(ctx, 200, service.clearGameList());
     }
 
     private void createGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("createGame");
+        Request request = Request.from(ctx);
+        int numberOfPlayers = request.getBodyNumberOfPlayers();
+        String prefix = request.getBodyPrefix();
+        Response.sendJsonResponse(ctx, 200, service.createGames(prefix, numberOfPlayers));
     }
 
     private void getGames(RoutingContext ctx) {
         Request request = Request.from(ctx);
         List<Game> games;
-        if (!request.hasStarted()) throw new InvalidRequestException("Invalid started type");
+        if (!request.hasParameters()) games = service.getGames(false, 4, null);
+        else if (!request.hasStarted()) throw new InvalidRequestException("Invalid started type");
         else if (!request.hasNumberOfPlayers()) throw new InvalidRequestException("Invalid number of players type");
-        else if (request.hasPrefix()) {
+        else {
             boolean started = request.isStarted();
             int numberOfPlayers = request.getNumberOfPlayers();
             String prefix = request.getPrefix();
             games = service.getGames(started, numberOfPlayers, prefix);
-        } else {
-            games = service.getGames();
         }
         Response.sendJsonResponse(ctx, 200, games);
     }
 
     private void joinGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("joinGame");
+        Request request = Request.from(ctx);
+        String playerName = request.getBodyPlayerName();
+        String gameId = request.getGameId();
+        Response.sendJsonResponse(ctx, 200, service.joinGame(playerName, gameId));
     }
 
     private void getGame(RoutingContext ctx) {
@@ -195,11 +200,17 @@ public class MonopolyApiBridge {
     }
 
     private void rollDice(RoutingContext ctx) {
-        throw new NotYetImplementedException("rollDice");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.rollDice(gameId, playerName));
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
-        throw new NotYetImplementedException("declareBankruptcy");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.declareBankruptcy(gameId, playerName));
     }
 
     private void buyProperty(RoutingContext ctx) {
