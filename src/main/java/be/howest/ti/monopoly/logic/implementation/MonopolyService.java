@@ -76,4 +76,14 @@ public class MonopolyService extends ServiceAdapter {
     public Object getOutOfJailFree() {
         return null;
     }
+
+    @Override
+    public Object takeMortgage() {
+        return null;
+    }
+
+    @Override
+    public Object settleMortgage() {
+        return null;
+    }
 }

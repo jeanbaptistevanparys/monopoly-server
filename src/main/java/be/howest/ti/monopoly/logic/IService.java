@@ -13,4 +13,6 @@ public interface IService {
     Object getCommunityChest();
     Object getOutOfJailFine();
     Object getOutOfJailFree();
+    Object takeMortgage();
+    Object settleMortgage();
 }
