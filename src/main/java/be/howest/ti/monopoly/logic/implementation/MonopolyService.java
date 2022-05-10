@@ -97,7 +97,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Game createGames(String prefix, int numberOfPlayers) {
-        Game game = new Game(3, prefix);
+        Game game = new Game(numberOfPlayers, prefix);
         games.add(game);
         return game;
     }
