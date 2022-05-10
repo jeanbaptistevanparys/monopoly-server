@@ -1,29 +1,48 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Game;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGames(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/games",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                this::assertOkResponse
         );
     }
 
     @Test
     void getGamesWithAllParams(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/games?started=true&prefix=azerty&numberOfPlayers=3",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                this::assertOkResponse
         );
     }
 
@@ -49,17 +68,29 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGameWithEmptyBody(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGames(String prefix, int numberOfPlayers) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games",
                 null,
                 new JsonObject(),
-                response -> assertNotYetImplemented(response, "createGame")
+                this::assertOkResponse
         );
     }
 
     @Test
     void createGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGames(String prefix, int numberOfPlayers) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games",
@@ -67,12 +98,13 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
                 new JsonObject()
                         .put("prefix", "Prefix123")
                         .put("numberOfPlayers", 10),
-                response -> assertNotYetImplemented(response, "createGame")
+                this::assertOkResponse
         );
     }
 
     @Test
     void createGamePrefixTooLong(final VertxTestContext testContext) {
+
         post(
                 testContext,
                 "/games",
@@ -143,13 +175,19 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void joinGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object joinGame(String playerName, String gameId) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players",
                 null,
                 new JsonObject()
                         .put("playerName", "Alice"),
-                response -> assertNotYetImplemented(response, "joinGame")
+                this::assertOkResponse
         );
     }
 
@@ -212,11 +250,17 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void clearGameList(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object clearGameList() {
+                return null;
+            }
+        });
         delete(
                 testContext,
                 "/games",
                 "some-token",
-                response -> assertNotYetImplemented(response, "clearGameList")
+                this::assertOkResponse
         );
     }
 
