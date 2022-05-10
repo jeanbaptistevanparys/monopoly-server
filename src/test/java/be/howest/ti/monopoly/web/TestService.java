@@ -84,4 +84,14 @@ public class TestService implements IService {
     public Object getOutOfJailFree() {
         return delegate.getOutOfJailFree();
     }
+
+    @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        return delegate.buyProperty(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        return delegate.dontBuyProperty(gameId, playerName, propertyName);
+    }
 }

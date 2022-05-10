@@ -24,4 +24,6 @@ public interface IService {
     Object getOutOfJailFine();
     Object getOutOfJailFree();
 
+    Object buyProperty(String gameId, String playerName, String propertyName);
+    Object dontBuyProperty(String gameId, String playerName, String propertyName);
 }
