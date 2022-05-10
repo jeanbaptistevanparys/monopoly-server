@@ -1,10 +1,7 @@
 package be.howest.ti.monopoly.logic;
 
-<<<<<<< HEAD
 import be.howest.ti.monopoly.logic.implementation.Auction;
-=======
 import be.howest.ti.monopoly.logic.implementation.Game;
->>>>>>> ec7e447bd89950424197a4ae3f89abc591c59e5a
 import be.howest.ti.monopoly.logic.implementation.Tile;
 
 import java.util.List;
