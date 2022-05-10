@@ -2,15 +2,9 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import javax.validation.metadata.ReturnValueDescriptor;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -26,11 +20,11 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<Tile> getTiles() {
         return List.of(
-            new Tile(0, "Go"),
-            new Tile(1, "Mediterranean"),
-            new Tile(2, "Community Chest I"),
-            new Tile(3, "Baltic"),
-            new Tile(4, "Tax Income")
+            new Tile("Go", 0, "Go"),
+            new Tile("Mediterranean", 1, "street"),
+            new Tile("Community Chest I", 2, "community chest"),
+            new Tile("Baltic", 3, "street"),
+            new Tile("Tax Income", 4, "Tax Income")
         );
     }
 

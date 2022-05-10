@@ -2,7 +2,7 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Auction;
-import be.howest.ti.monopoly.logic.implementation.Tile;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
