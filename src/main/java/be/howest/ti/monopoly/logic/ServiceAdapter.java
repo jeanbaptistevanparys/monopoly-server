@@ -75,4 +75,14 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
 }

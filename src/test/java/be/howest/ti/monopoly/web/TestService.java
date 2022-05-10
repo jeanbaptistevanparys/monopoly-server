@@ -84,4 +84,16 @@ public class TestService implements IService {
     public Object getOutOfJailFree() {
         return delegate.getOutOfJailFree();
     }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return delegate.useEstimateTax(gameId, playerName);
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        return delegate.useComputeTax(gameId, playerName);
+    }
+
+
 }

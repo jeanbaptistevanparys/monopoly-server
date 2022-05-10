@@ -23,5 +23,6 @@ public interface IService {
 
     Object getOutOfJailFine();
     Object getOutOfJailFree();
-
+    Object useEstimateTax(String gameId, String playerName);
+    Object useComputeTax(String gameId, String playerName);
 }
