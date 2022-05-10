@@ -48,6 +48,10 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object rollDice(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
     public Object joinGame(String playerName, String gameId) {
         throw new UnsupportedOperationException();
     }
@@ -58,6 +62,10 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
     public Object clearGameList() {
         throw new UnsupportedOperationException();
     }

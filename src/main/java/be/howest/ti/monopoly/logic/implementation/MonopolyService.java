@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -96,10 +97,16 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object rollDice(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
     public Object joinGame(String playerName, String gameId) {
         return null;
     }
 
+    @Override
     public Object getOutOfJailFine() {
         return null;
     }

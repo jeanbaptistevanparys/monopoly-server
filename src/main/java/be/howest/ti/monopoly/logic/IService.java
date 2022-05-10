@@ -13,6 +13,9 @@ public interface IService {
     Object getChance();
     Object getCommunityChest();
 
+    Object rollDice(String gameId, String playerName);
+    Object declareBankruptcy(String gameId, String playerName);
+
     List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
     Game createGames(String prefix, int numberOfPlayers);
     Object joinGame(String playerName, String gameId);
