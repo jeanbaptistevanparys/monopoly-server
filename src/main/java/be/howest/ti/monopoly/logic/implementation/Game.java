@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
@@ -67,6 +68,7 @@ public class Game {
                 return TILES.get(nextPosition).getName();
             }
         }
+        throw new MonopolyResourceNotFoundException("Can't find next tile");
     }
 
     public int getNumberOfPlayers() {
