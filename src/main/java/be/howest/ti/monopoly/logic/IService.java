@@ -10,13 +10,12 @@ public interface IService {
     List<Tile> getTiles();
     Tile getTile(int position);
     Tile getTile(String name);
-    List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
-    Game createGames(String prefix, int numberOfPlayers);
     Object getChance();
     Object getCommunityChest();
 
+    List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
+    Game createGames(String prefix, int numberOfPlayers);
     Object joinGame(String playerName, String gameId);
-
     Object clearGameList();
 
     Object getOutOfJailFine();
