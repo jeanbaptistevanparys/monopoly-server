@@ -12,6 +12,24 @@ public class MonopolyService extends ServiceAdapter {
 
     private List<Game> games = new ArrayList<>();
 
+    private final List<CommunityChest> communityChests = new ArrayList<>(List.of(
+            new CommunityChest("Advance to Go (Collect $200)"),
+            new CommunityChest("Bank error in your favor. Collect $200"),
+            new CommunityChest("Doctor's fee. Pay $50"),
+            new CommunityChest("From sale of stock you get $50"),
+            new CommunityChest("Get Out of Jail Free"),
+            new CommunityChest("Go to Jail. Go directly to jail, do not pass Go, do not collect $200"),
+            new CommunityChest("Holiday fund matures. Receive $100"),
+            new CommunityChest("Income tax refund. Collect $20"),
+            new CommunityChest("It is your birthday. Collect $10 from every player"),
+            new CommunityChest("Life insurance matures. Collect $100"),
+            new CommunityChest("Pay hospital fees of $100 "),
+            new CommunityChest("Pay school fees of $50"),
+            new CommunityChest("Receive $25 consultancy fee "),
+            new CommunityChest("You are assessed for street repair. $40 per house. $115 per hotel"),
+            new CommunityChest("You have won second prize in a beauty contest. Collect $10"),
+            new CommunityChest("You inherit $100")
+    ));
     @Override
     public String getVersion() {
         return "0.0.1";
@@ -84,13 +102,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<CommunityChest> getCommunityChest() {
-        return List.of(
-                new CommunityChest("Advance to Go (Collect $200)"),
-                new CommunityChest("Bank error in your favor. Collect $200"),
-                new CommunityChest("Doctor's fee. Pay $50"),
-                new CommunityChest("From sale of stock you get $50"),
-                new CommunityChest("Get Out of Jail Free")
-        );
+        return communityChests;
     }
 
     @Override
