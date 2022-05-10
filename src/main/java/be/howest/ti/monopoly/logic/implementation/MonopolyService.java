@@ -2,15 +2,9 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import javax.validation.metadata.ReturnValueDescriptor;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -44,11 +38,11 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<Tile> getTiles() {
         return List.of(
-            new Tile(0, "Go"),
-            new Tile(1, "Mediterranean"),
-            new Tile(2, "Community Chest I"),
-            new Tile(3, "Baltic"),
-            new Tile(4, "Tax Income")
+            new Tile("Go", 0, "Go"),
+            new Tile("Mediterranean", 1, "street"),
+            new Tile("Community Chest I", 2, "community chest"),
+            new Tile("Baltic", 3, "street"),
+            new Tile("Tax Income", 4, "Tax Income")
         );
     }
 
@@ -112,6 +106,41 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public List<Auction> getBankAuctions() {
+        return List.of(
+                new Auction(new Player("Jarne"), 30),
+                new Auction(new Player("Jari"), 40),
+                new Auction(new Player("Guust"), 10),
+                new Auction(new Player("JB"), 500)
+                );
+    }
+
+    @Override
+    public Object placeBidOnBankAuction() {
+        return 0;
+    }
+
+    @Override
+    public List<Auction> getPlayerAuctions() {
+        return List.of(
+                new Auction(new Player("Jarne"), 30),
+                new Auction(new Player("Jarne"), 40),
+                new Auction(new Player("Jarne"), 10),
+                new Auction(new Player("Jarne"), 500)
+        );
+    }
+
+    @Override
+    public Object startPlayerAuction() {
+        return 0;
+    }
+
+    @Override
+    public Object placeBidOnPlayerAuction() {
+        return 0;
+    }
+
+    @Override
     public Game getGame(String gameId) {
         return null;
     }
@@ -139,6 +168,7 @@ public class MonopolyService extends ServiceAdapter {
         return dummy;
     }
 
+    @Override
     public Object clearGameList() {
         games.clear();
         return null;
@@ -150,7 +180,52 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
     public Object takeMortgage() {
+        return null;
+    }
+
+    @Override
+    public Object buyHouse(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object sellHouse(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object buyHotel(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object sellHotel(String gameId, String playerName, String propertyName) {
         return null;
     }
 

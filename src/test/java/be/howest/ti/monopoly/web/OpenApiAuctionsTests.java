@@ -1,19 +1,31 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Auction;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+import java.util.List;
 
 
 class OpenApiAuctionsTests extends OpenApiTestsBase {
 
     @Test
     void getBankAuctions(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Auction> getBankAuctions() {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/games/game-id/bank/auctions",
                 "some-token",
-                response -> assertNotYetImplemented(response, "getBankAuctions")
+                this::assertOkResponse
         );
     }
 
@@ -29,6 +41,18 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
 
     @Test
     void placeBidOnBankAuction(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Auction> placeBidOnBankAuction() {
+                return Collections.emptyList();
+            }
+        });
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object placeBidOnBankAuction() {
+                return Collections.emptyList();
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/bank/auctions/some-property/bid",
@@ -36,7 +60,7 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
                 new JsonObject()
                         .put("bidder", "Alice")
                         .put("amount", 100),
-                response -> assertNotYetImplemented(response, "placeBidOnBankAuction")
+                this::assertOkResponse
         );
     }
 
@@ -74,11 +98,17 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
 
     @Test
     void getPlayerAuctions(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<Auction> getPlayerAuctions() {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/games/game-id/players/Alice/auctions",
                 "some-token",
-                response -> assertNotYetImplemented(response, "getPlayerAuctions")
+                this::assertOkResponse
         );
     }
 
@@ -94,11 +124,17 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
 
     @Test
     void startPlayerAuction(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object startPlayerAuction() {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/auctions/some-property",
                 "some-token",
-                response -> assertNotYetImplemented(response, "startPlayerAuction")
+                this::assertOkResponse
         );
     }
 
@@ -114,6 +150,12 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
 
     @Test
     void placeBidOnPlayerAuction(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object placeBidOnPlayerAuction() {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/auctions/some-property/bid",
@@ -121,7 +163,7 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
                 new JsonObject()
                         .put("bidder", "Bob")
                         .put("amount", 100),
-                response -> assertNotYetImplemented(response, "placeBidOnPlayerAuction")
+                this::assertOkResponse
         );
     }
 
