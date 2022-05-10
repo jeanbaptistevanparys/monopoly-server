@@ -131,6 +131,26 @@ public class TestService implements IService {
     }
 
     @Override
+    public Object buyHouse(String gameId, String playerName, String propertyName) {
+        return delegate.buyHouse(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object sellHouse(String gameId, String playerName, String propertyName) {
+        return delegate.sellHouse(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object buyHotel(String gameId, String playerName, String propertyName) {
+        return delegate.buyHotel(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object sellHotel(String gameId, String playerName, String propertyName) {
+        return delegate.sellHotel(gameId, playerName, propertyName);
+    }
+
+    @Override
     public Object useEstimateTax(String gameId, String playerName) {
         return delegate.useEstimateTax(gameId, playerName);
     }

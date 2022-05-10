@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.ServiceAdapter;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
@@ -8,11 +9,17 @@ class OpenApiImprovingPropertyTests extends OpenApiTestsBase {
 
     @Test
     void buyHouse(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object buyHouse(String gameId, String playerName, String propertyName) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/properties/some-property/houses",
                 "some-token",
-                response -> assertNotYetImplemented(response, "buyHouse")
+                this::assertOkResponse
         );
     }
 
@@ -28,11 +35,17 @@ class OpenApiImprovingPropertyTests extends OpenApiTestsBase {
 
     @Test
     void sellHouse(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object sellHouse(String gameId, String playerName, String propertyName) {
+                return null;
+            }
+        });
         delete(
                 testContext,
                 "/games/game-id/players/Alice/properties/some-property/houses",
                 "some-token",
-                response -> assertNotYetImplemented(response, "sellHouse")
+                this::assertOkResponse
         );
     }
 
@@ -49,11 +62,17 @@ class OpenApiImprovingPropertyTests extends OpenApiTestsBase {
     //
     @Test
     void buyHotel(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object buyHotel(String gameId, String playerName, String propertyName) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/properties/some-property/hotel",
                 "some-token",
-                response -> assertNotYetImplemented(response, "buyHotel")
+                this::assertOkResponse
         );
     }
 
@@ -69,11 +88,17 @@ class OpenApiImprovingPropertyTests extends OpenApiTestsBase {
 
     @Test
     void sellHotel(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object sellHotel(String gameId, String playerName, String propertyName) {
+                return null;
+            }
+        });
         delete(
                 testContext,
                 "/games/game-id/players/Alice/properties/some-property/hotel",
                 "some-token",
-                response -> assertNotYetImplemented(response, "sellHotel")
+                this::assertOkResponse
         );
     }
 
