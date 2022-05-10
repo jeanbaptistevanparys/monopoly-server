@@ -88,7 +88,7 @@ public class MonopolyService extends ServiceAdapter {
     public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
         List<Game> res = new ArrayList<>();
         for (Game game : games) {
-            if (game.isStarted() == started && game.getNumberOfPlayers() == numberOfPlayers && game.getPrefix() == prefix) {
+            if (game.isStarted() == started && game.getNumberOfPlayers() == numberOfPlayers && game.getPrefix().equals(prefix)) {
                 res.add(game);
             }
         }
