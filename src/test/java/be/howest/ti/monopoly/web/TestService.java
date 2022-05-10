@@ -93,4 +93,14 @@ public class TestService implements IService {
     public Object getOutOfJailFree() {
         return delegate.getOutOfJailFree();
     }
+
+    @Override
+    public Object takeMortgage() {
+        return delegate.takeMortgage();
+    }
+
+    @Override
+    public Object settleMortgage() {
+        return delegate.settleMortgage();
+    }
 }

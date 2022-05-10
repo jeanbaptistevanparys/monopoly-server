@@ -85,4 +85,14 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Object takeMortgage() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object settleMortgage() {
+        throw new UnsupportedOperationException();
+    }
+
 }

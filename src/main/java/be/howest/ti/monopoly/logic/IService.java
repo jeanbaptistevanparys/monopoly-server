@@ -22,5 +22,6 @@ public interface IService {
     Object clearGameList();
     Object getOutOfJailFine();
     Object getOutOfJailFree();
-
+    Object takeMortgage();
+    Object settleMortgage();
 }
