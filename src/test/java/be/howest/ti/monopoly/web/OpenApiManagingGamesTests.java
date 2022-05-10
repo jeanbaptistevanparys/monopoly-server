@@ -49,33 +49,21 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGamesWithInvalidStartedType(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
-            @Override
-            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
-                return Collections.emptyList();
-            }
-        });
         get(
                 testContext,
                 "/games?started=not-a-boolean",
                 null,
-                this::assertOkResponse
+                response -> assertErrorResponse(response, 400)
         );
     }
 
     @Test
     void getGamesWithInvalidNumberType(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
-            @Override
-            public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
-                return Collections.emptyList();
-            }
-        });
         get(
                 testContext,
                 "/games?numberOfPlayers=not-a-number",
                 null,
-                this::assertOkResponse
+                response -> assertErrorResponse(response, 400)
         );
     }
 
