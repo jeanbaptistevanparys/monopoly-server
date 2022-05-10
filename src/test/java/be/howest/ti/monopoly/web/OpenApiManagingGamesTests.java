@@ -30,6 +30,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         );
     }
 
+
     @Test
     void getGamesWithAllParams(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){

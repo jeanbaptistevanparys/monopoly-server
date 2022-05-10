@@ -32,8 +32,7 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
+    public List<Game> getGames() {
         throw new UnsupportedOperationException();
     }
 
@@ -48,6 +47,13 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Game getGame(String gameId) {
+        throw new UnsupportedOperationException();
+    }
+
+    public List<Game> getGames( boolean started, int numberOfPlayers, String prefix){
+        throw new UnsupportedOperationException();
+    }
     public Object rollDice(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
@@ -62,6 +68,10 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Game getDummyGame() {
+        throw new UnsupportedOperationException();
+    }
+
     public Object declareBankruptcy(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
@@ -81,7 +91,17 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object takeMortgage() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object useComputeTax(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object settleMortgage() {
         throw new UnsupportedOperationException();
     }
 

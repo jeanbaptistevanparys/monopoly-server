@@ -57,6 +57,15 @@ public class TestService implements IService {
     }
 
     @Override
+    public Game getGame(String gameId) {
+        return delegate.getGame(gameId);
+    }
+
+    @Override
+    public Game getDummyGame() {
+        return delegate.getDummyGame();
+    }
+
     public Object rollDice(String gameId, String playerName) {
         return delegate.rollDice(gameId, playerName);
     }
@@ -95,5 +104,12 @@ public class TestService implements IService {
         return delegate.useComputeTax(gameId, playerName);
     }
 
+    public Object takeMortgage() {
+        return delegate.takeMortgage();
+    }
 
+    @Override
+    public Object settleMortgage() {
+        return delegate.settleMortgage();
+    }
 }

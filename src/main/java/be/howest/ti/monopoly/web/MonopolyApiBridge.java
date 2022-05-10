@@ -183,11 +183,12 @@ public class MonopolyApiBridge {
     }
 
     private void getGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("getGame");
+        Request request = Request.from(ctx);
+        Response.sendJsonResponse(ctx,200, service.getGame(request.getGameId()));
     }
 
     private void getDummyGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("getDummyGame");
+        Response.sendJsonResponse(ctx,200, service.getDummyGame());
     }
 
     private void useEstimateTax(RoutingContext ctx) {
@@ -231,11 +232,11 @@ public class MonopolyApiBridge {
     }
 
     private void takeMortgage(RoutingContext ctx) {
-        throw new NotYetImplementedException("takeMortgage");
+        Response.sendJsonResponse(ctx, 200, service.takeMortgage());
     }
 
     private void settleMortgage(RoutingContext ctx) {
-        throw new NotYetImplementedException("settleMortgage");
+        Response.sendJsonResponse(ctx, 200, service.settleMortgage());
     }
 
     private void buyHouse(RoutingContext ctx) {
