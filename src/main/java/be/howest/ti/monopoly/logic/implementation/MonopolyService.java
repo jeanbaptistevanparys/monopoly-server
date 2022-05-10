@@ -94,6 +94,41 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public List<Auction> getBankAuctions() {
+        return List.of(
+                new Auction(new Player("Jarne"), 30),
+                new Auction(new Player("Jari"), 40),
+                new Auction(new Player("Guust"), 10),
+                new Auction(new Player("JB"), 500)
+                );
+    }
+
+    @Override
+    public Object placeBidOnBankAuction() {
+        return 0;
+    }
+
+    @Override
+    public List<Auction> getPlayerAuctions() {
+        return List.of(
+                new Auction(new Player("Jarne"), 30),
+                new Auction(new Player("Jarne"), 40),
+                new Auction(new Player("Jarne"), 10),
+                new Auction(new Player("Jarne"), 500)
+        );
+    }
+
+    @Override
+    public Object startPlayerAuction() {
+        return 0;
+    }
+
+    @Override
+    public Object placeBidOnPlayerAuction() {
+        return 0;
+    }
+
+    @Override
     public Game getGame(String gameId) {
         return null;
     }
@@ -121,6 +156,7 @@ public class MonopolyService extends ServiceAdapter {
         return dummy;
     }
 
+    @Override
     public Object clearGameList() {
         games.clear();
         return null;
@@ -128,6 +164,61 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object getOutOfJailFree() {
+        return null;
+    }
+
+    @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object takeMortgage() {
+        return null;
+    }
+
+    @Override
+    public Object buyHouse(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object sellHouse(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object buyHotel(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object sellHotel(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
+    public Object settleMortgage() {
         return null;
     }
 }

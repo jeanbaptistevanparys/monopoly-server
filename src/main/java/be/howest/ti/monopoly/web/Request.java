@@ -121,4 +121,8 @@ public class Request {
     public int getNumber() {
         return params.body().getJsonObject().getInteger("numberOfPlayers");
     }
+
+    public String getPropertyName() {
+        return params.pathParameter("playerName").getString();
+    }
 }

@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Auction;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
@@ -57,6 +58,31 @@ public class TestService implements IService {
     }
 
     @Override
+    public List<Auction> getBankAuctions() {
+        return delegate.getBankAuctions();
+    }
+
+    @Override
+    public Object placeBidOnBankAuction() {
+        return delegate.placeBidOnBankAuction();
+    }
+
+    @Override
+    public List<Auction> getPlayerAuctions() {
+        return delegate.getPlayerAuctions();
+    }
+
+    @Override
+    public Object startPlayerAuction() {
+        return delegate.startPlayerAuction();
+    }
+
+    @Override
+    public Object placeBidOnPlayerAuction() {
+        return delegate.placeBidOnPlayerAuction();
+    }
+
+    @Override
     public Game getGame(String gameId) {
         return delegate.getGame(gameId);
     }
@@ -92,5 +118,54 @@ public class TestService implements IService {
     @Override
     public Object getOutOfJailFree() {
         return delegate.getOutOfJailFree();
+    }
+
+    @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        return delegate.buyProperty(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        return delegate.dontBuyProperty(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object buyHouse(String gameId, String playerName, String propertyName) {
+        return delegate.buyHouse(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object sellHouse(String gameId, String playerName, String propertyName) {
+        return delegate.sellHouse(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object buyHotel(String gameId, String playerName, String propertyName) {
+        return delegate.buyHotel(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object sellHotel(String gameId, String playerName, String propertyName) {
+        return delegate.sellHotel(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return delegate.useEstimateTax(gameId, playerName);
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        return delegate.useComputeTax(gameId, playerName);
+    }
+
+    public Object takeMortgage() {
+        return delegate.takeMortgage();
+    }
+
+    @Override
+    public Object settleMortgage() {
+        return delegate.settleMortgage();
     }
 }

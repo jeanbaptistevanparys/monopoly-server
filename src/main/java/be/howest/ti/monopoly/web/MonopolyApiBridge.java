@@ -192,11 +192,17 @@ public class MonopolyApiBridge {
     }
 
     private void useEstimateTax(RoutingContext ctx) {
-        throw new NotYetImplementedException("useEstimateTax");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.useEstimateTax(gameId, playerName));
     }
 
     private void useComputeTax(RoutingContext ctx) {
-        throw new NotYetImplementedException("useComputeTax");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.useComputeTax(gameId, playerName));
     }
 
     private void rollDice(RoutingContext ctx) {
@@ -214,11 +220,19 @@ public class MonopolyApiBridge {
     }
 
     private void buyProperty(RoutingContext ctx) {
-        throw new NotYetImplementedException("buyProperty");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.buyProperty(gameId, playerName, propertyName));
     }
 
     private void dontBuyProperty(RoutingContext ctx) {
-        throw new NotYetImplementedException("dontBuyProperty");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.dontBuyProperty(gameId, playerName, propertyName));
     }
 
     private void collectDebt(RoutingContext ctx) {
@@ -226,27 +240,43 @@ public class MonopolyApiBridge {
     }
 
     private void takeMortgage(RoutingContext ctx) {
-        throw new NotYetImplementedException("takeMortgage");
+        Response.sendJsonResponse(ctx, 200, service.takeMortgage());
     }
 
     private void settleMortgage(RoutingContext ctx) {
-        throw new NotYetImplementedException("settleMortgage");
+        Response.sendJsonResponse(ctx, 200, service.settleMortgage());
     }
 
     private void buyHouse(RoutingContext ctx) {
-        throw new NotYetImplementedException("buyHouse");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.buyHouse(gameId, playerName, propertyName));
     }
 
     private void sellHouse(RoutingContext ctx) {
-        throw new NotYetImplementedException("sellHouse");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.sellHouse(gameId, playerName, propertyName));
     }
 
     private void buyHotel(RoutingContext ctx) {
-        throw new NotYetImplementedException("buyHotel");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.buyHotel(gameId, playerName, propertyName));
     }
 
     private void sellHotel(RoutingContext ctx) {
-        throw new NotYetImplementedException("sellHotel");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        Response.sendJsonResponse(ctx, 200, service.sellHotel(gameId, playerName, propertyName));
     }
 
     private void getOutOfJailFine(RoutingContext ctx) {
@@ -258,24 +288,23 @@ public class MonopolyApiBridge {
     }
 
     private void getBankAuctions(RoutingContext ctx) {
-        throw new NotYetImplementedException("getBankAuctions");
+        Response.sendJsonResponse(ctx, 200, service.getBankAuctions());
     }
 
     private void placeBidOnBankAuction(RoutingContext ctx) {
-        throw new NotYetImplementedException("placeBidOnBankAuction");
+        Response.sendJsonResponse(ctx, 200, service.placeBidOnBankAuction());
     }
 
     private void getPlayerAuctions(RoutingContext ctx) {
-        throw new NotYetImplementedException("getPlayerAuctions");
+        Response.sendJsonResponse(ctx, 200, service.getPlayerAuctions());
     }
 
     private void startPlayerAuction(RoutingContext ctx) {
-        throw new NotYetImplementedException("startPlayerAuction");
+        Response.sendJsonResponse(ctx, 200, service.startPlayerAuction());
     }
 
     private void placeBidOnPlayerAuction(RoutingContext ctx) {
-        throw new NotYetImplementedException("placeBidOnPlayerAuction");
-    }
+        Response.sendJsonResponse(ctx, 200, service.placeBidOnPlayerAuction());    }
 
     private void trade(RoutingContext ctx) {
         throw new NotYetImplementedException("trade");
