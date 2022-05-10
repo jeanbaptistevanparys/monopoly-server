@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Auction;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Tile;
 
@@ -54,6 +55,31 @@ public class TestService implements IService {
     @Override
     public Object getCommunityChest() {
         return delegate.getCommunityChest();
+    }
+
+    @Override
+    public List<Auction> getBankAuctions() {
+        return delegate.getBankAuctions();
+    }
+
+    @Override
+    public Object placeBidOnBankAuction() {
+        return delegate.placeBidOnBankAuction();
+    }
+
+    @Override
+    public List<Auction> getPlayerAuctions() {
+        return delegate.getPlayerAuctions();
+    }
+
+    @Override
+    public Object startPlayerAuction() {
+        return delegate.startPlayerAuction();
+    }
+
+    @Override
+    public Object placeBidOnPlayerAuction() {
+        return delegate.placeBidOnPlayerAuction();
     }
 
     @Override

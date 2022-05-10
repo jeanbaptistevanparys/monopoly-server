@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic;
 
+import be.howest.ti.monopoly.logic.implementation.Auction;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Tile;
 
@@ -47,23 +48,41 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public List<Auction> getBankAuctions() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Game getGame(String gameId) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public List<Game> getGames( boolean started, int numberOfPlayers, String prefix){
         throw new UnsupportedOperationException();
     }
+
+    @Override
     public Object rollDice(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object joinGame(String playerName, String gameId) {
         throw new UnsupportedOperationException();
     }
 
     @Override
+    public Object placeBidOnBankAuction() {
+        throw new UnsupportedOperationException();
+    }
+
     public Object getOutOfJailFine() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Auction> getPlayerAuctions() {
         throw new UnsupportedOperationException();
     }
 
@@ -72,16 +91,28 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object declareBankruptcy(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object clearGameList() {
         throw new UnsupportedOperationException();
     }
 
     @Override
+    public Object startPlayerAuction() {
+        throw new UnsupportedOperationException();
+    }
+
+
     public Object getOutOfJailFree() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object placeBidOnPlayerAuction() {
         throw new UnsupportedOperationException();
     }
 

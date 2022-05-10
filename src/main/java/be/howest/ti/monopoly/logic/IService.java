@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic;
 
+import be.howest.ti.monopoly.logic.implementation.Auction;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Tile;
 
@@ -12,6 +13,11 @@ public interface IService {
     Tile getTile(String name);
     Object getChance();
     Object getCommunityChest();
+    List<Auction> getBankAuctions();
+    Object placeBidOnBankAuction();
+    List<Auction> getPlayerAuctions();
+    Object startPlayerAuction();
+    Object placeBidOnPlayerAuction();
     Game getGame(String gameId);
     List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
     Game getDummyGame();
