@@ -86,11 +86,6 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
-        List<Game> games = List.of(
-            new Game(2, "group12"),
-            new Game(3, "group12"),
-            new Game(4, "group12")
-        );
         List<Game> res = new ArrayList<>();
         for (Game game : games) {
             if (game.isStarted() == started && game.getNumberOfPlayers() == numberOfPlayers && game.getPrefix() == prefix) {
