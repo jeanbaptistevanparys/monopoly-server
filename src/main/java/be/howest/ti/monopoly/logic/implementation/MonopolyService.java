@@ -10,7 +10,25 @@ import java.util.List;
 
 public class MonopolyService extends ServiceAdapter {
 
-    private List<Game> games = new ArrayList<>();
+    private final List<Game> games = new ArrayList<>();
+    private final List<Chance> chances = new ArrayList<>(List.of(
+            new Chance("Go to jail Go directly to jail. Do not pass go, do not collect $200."),
+            new Chance("Advance to Boardwalk"),
+            new Chance("Advance to Go (Collect $200)"),
+            new Chance("Advance to Illinois Avenue. If you pass Go, collect $200"),
+            new Chance("Advance to St. Charles Place. If you pass Go, collect $200"),
+            new Chance("Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled"),
+            new Chance("Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown."),
+            new Chance("Bank pays you dividend of $50"),
+            new Chance("Get Out of Jail Free"),
+            new Chance("Go Back 3 Spaces"),
+            new Chance("Go to Jail. Go directly to Jail, do not pass Go, do not collect $200"),
+            new Chance("Make general repairs on all your property. For each house pay $25. For each hotel pay $100"),
+            new Chance("Speeding fine $15"),
+            new Chance("Take a trip to Reading Railroad. If you pass Go, collect $200"),
+            new Chance("You have been elected Chairman of the Board. Pay each player $50"),
+            new Chance("Your building loan matures. Collect $150")
+            ));
 
     private final List<CommunityChest> communityChests = new ArrayList<>(List.of(
             new CommunityChest("Advance to Go (Collect $200)"),
@@ -91,13 +109,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Chance> getChance() {
-        return List.of(
-            new Chance("Advance to Boardwalk"),
-            new Chance("Advance to Go (Collect $200)"),
-            new Chance("Advance to Illinois Avenue. If you pass Go, collect $200"),
-            new Chance("Advance to St. Charles Place. If you pass Go, collect $200"),
-            new Chance("Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled")
-        );
+        return chances;
     }
 
     @Override
