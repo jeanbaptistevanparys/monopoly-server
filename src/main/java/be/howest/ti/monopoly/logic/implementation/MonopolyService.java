@@ -72,4 +72,14 @@ public class MonopolyService extends ServiceAdapter {
     public Object rollDice(String gameId, String playerName) {
         return null;
     }
+
+    @Override
+    public Object getOutOfJailFine() {
+        return null;
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
+        return null;
+    }
 }

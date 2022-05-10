@@ -75,4 +75,8 @@ public class Request {
     public String getPlayerName() {
         return params.pathParameter("playerName").getString();
     }
+
+    public int getNumber() {
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    }
 }

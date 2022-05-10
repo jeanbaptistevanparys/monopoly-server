@@ -42,7 +42,17 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object getOutOfJailFine() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object declareBankruptcy(String gameId, String playerName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
         throw new UnsupportedOperationException();
     }
 

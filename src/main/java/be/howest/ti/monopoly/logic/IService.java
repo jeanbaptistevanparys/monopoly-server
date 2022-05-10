@@ -13,4 +13,6 @@ public interface IService {
     Object getCommunityChest();
     Object rollDice(String gameId, String playerName);
     Object declareBankruptcy(String gameId, String playerName);
+    Object getOutOfJailFine();
+    Object getOutOfJailFree();
 }

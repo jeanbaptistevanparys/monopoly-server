@@ -54,4 +54,13 @@ public class TestService implements IService {
     public Object declareBankruptcy(String gameId, String playerName) {
         return delegate.declareBankruptcy(gameId, playerName);
     }
+
+    public Object getOutOfJailFine() {
+        return delegate.getOutOfJailFine();
+    }
+
+    @Override
+    public Object getOutOfJailFree() {
+        return delegate.getOutOfJailFree();
+    }
 }
