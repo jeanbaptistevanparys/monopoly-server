@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
+import java.security.SecureRandom;
 import java.util.*;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 
@@ -48,8 +49,11 @@ public class Game {
     }
 
     public void rollDice() {
-        int dice1 = (int) ((Math.random() * (12 - 1)) + 1);
-        int dice2 = (int) ((Math.random() * (12 - 1)) + 1);
+        SecureRandom random = new SecureRandom();
+
+
+        int dice1 = random.nextInt(6) + 1;
+        int dice2 = random.nextInt(6) + 1;
         int total = dice1 + dice2;
         String nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
         currentPlayer.moveTile(nextTile);
