@@ -5,6 +5,7 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.*;
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 
 public class Game {
 
@@ -39,7 +40,10 @@ public class Game {
     }
 
     public void addPlayer(Player player) {
+        if (players.size() == numberOfPlayers) throw new IllegalMonopolyActionException("Game already full");
+        if (started) throw new IllegalMonopolyActionException("Game already started");
         players.add(player);
+        if (players.size() == numberOfPlayers) { started = true; }
     }
 
     public void rollDice() {

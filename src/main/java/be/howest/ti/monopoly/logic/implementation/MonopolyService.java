@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -169,6 +170,11 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object joinGame(String playerName, String gameId) {
+        for (Game game : games) {
+            if (game.getId().equals(gameId)) {
+                game.addPlayer(new Player(playerName));
+            }
+        }
         return null;
     }
 
