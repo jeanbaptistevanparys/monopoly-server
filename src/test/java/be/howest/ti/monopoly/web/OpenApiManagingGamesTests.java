@@ -26,7 +26,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
                 testContext,
                 "/games",
                 null,
-                this::assertOkResponse
+                response -> assertErrorResponse(response, 400)
         );
     }
 
