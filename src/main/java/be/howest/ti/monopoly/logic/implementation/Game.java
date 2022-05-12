@@ -93,4 +93,16 @@ public class Game {
     }
 
     public String getId() { return id; }
+
+    public static int getGames() {
+        return games;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public boolean isCanRoll() {
+        return canRoll;
+    }
 }
