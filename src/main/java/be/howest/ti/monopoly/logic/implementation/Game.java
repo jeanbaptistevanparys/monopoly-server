@@ -29,7 +29,7 @@ public class Game {
         this.prefix = prefix;
         this.started = false;
         this.players = new ArrayList<>();
-        this.id = prefix + "-" + games;
+        this.id = prefix + "_" + games;
         games += 1;
         this.currentPlayer = players.get(0);
         this.canRoll = true;

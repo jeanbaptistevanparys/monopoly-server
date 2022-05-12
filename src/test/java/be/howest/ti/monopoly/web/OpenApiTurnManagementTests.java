@@ -18,8 +18,8 @@ class OpenApiTurnManagementTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/dice",
-                "some-token",
+                "/games/group12_1/players/Alice/dice",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
