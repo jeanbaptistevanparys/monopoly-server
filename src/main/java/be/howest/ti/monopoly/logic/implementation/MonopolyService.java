@@ -185,7 +185,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Game getDummyGame() {
-        Game dummy = new Game(2,"group-12");
+        Game dummy = new Game(3,"group-12");
         dummy.addPlayer(new Player("jari meneerke"));
         dummy.addPlayer(new Player("jean meneerke"));
         dummy.addPlayer(new Player("jarne meneerke"));

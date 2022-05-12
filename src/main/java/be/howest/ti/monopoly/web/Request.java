@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
@@ -80,27 +81,11 @@ public class Request {
         return params.queryParameter("prefix").getString();
     }
 
-    public boolean hasStarted() {
-        return params.queryParameter("started").isBoolean();
-    }
-
-    public boolean hasNumberOfPlayers() {
-        return params.queryParameter("numberOfPlayers").isNumber();
-    }
-
     public boolean hasPrefix() {
         return params.queryParameter("prefix").isString();
     }
 
     public String getGameId() { return params.pathParameter("gameId").getString(); }
-
-    public boolean hasParameters() {
-        try {
-            return params.queryParameter("prefix").isString();
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     public int getBodyNumberOfPlayers() {
         return params.body().getJsonObject().getInteger("numberOfPlayers");

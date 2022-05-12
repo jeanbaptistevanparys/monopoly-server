@@ -21,6 +21,7 @@ import io.vertx.ext.web.handler.BearerAuthHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -164,14 +165,13 @@ public class MonopolyApiBridge {
     private void getGames(RoutingContext ctx) {
         Request request = Request.from(ctx);
         List<Game> games;
-        if (!request.hasParameters()) games = service.getGames(false, 4, null);
-        else if (!request.hasStarted()) throw new InvalidRequestException("Invalid started type");
-        else if (!request.hasNumberOfPlayers()) throw new InvalidRequestException("Invalid number of players type");
-        else {
+        try {
             boolean started = request.isStarted();
             int numberOfPlayers = request.getNumberOfPlayers();
             String prefix = request.getPrefix();
             games = service.getGames(started, numberOfPlayers, prefix);
+        } catch (Exception ex) {
+            throw new InvalidRequestException("Invaled header");
         }
         Response.sendJsonResponse(ctx, 200, games);
     }

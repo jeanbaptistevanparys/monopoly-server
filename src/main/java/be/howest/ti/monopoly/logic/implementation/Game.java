@@ -14,7 +14,7 @@ public class Game {
             1, new Street("Mediterranean", 1, "street", 60, 30, 10, 2, Colors.PURPLE, 10,30, 90, 160, 250, 50)
     ));
 
-    private static int games = 0;
+    private static int games = 1;
 
     private final int numberOfPlayers;
     private final String prefix;
@@ -31,7 +31,7 @@ public class Game {
         this.players = new ArrayList<>();
         this.id = prefix + "_" + games;
         games += 1;
-        this.currentPlayer = players.get(0);
+        this.currentPlayer = null;
         this.canRoll = true;
     }
 
@@ -43,6 +43,7 @@ public class Game {
         if (players.size() == numberOfPlayers) throw new IllegalMonopolyActionException("Game already full");
         if (started) throw new IllegalMonopolyActionException("Game already started");
         players.add(player);
+        if (currentPlayer == null) currentPlayer = player;
         if (players.size() == numberOfPlayers) { started = true; }
     }
 
