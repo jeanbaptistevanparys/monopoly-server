@@ -18,8 +18,8 @@ class OpenApiGameInfoTests extends OpenApiTestsBase {
         });
         get(
                 testContext,
-                "/games/game-id",
-                "some-token",
+                "/games/group12_1",
+                "group12_1-Jamie",
                 this::assertOkResponse
         );
     }

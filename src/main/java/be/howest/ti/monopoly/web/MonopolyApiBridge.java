@@ -13,6 +13,7 @@ import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
+import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -21,6 +22,7 @@ import io.vertx.ext.web.handler.BearerAuthHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -164,14 +166,16 @@ public class MonopolyApiBridge {
 
     private void getGames(RoutingContext ctx) {
         Request request = Request.from(ctx);
-        List<Game> games;
+        List<GameView> games = new ArrayList<>();
         try {
             boolean started = request.isStarted();
             int numberOfPlayers = request.getNumberOfPlayers();
             String prefix = request.getPrefix();
-            games = service.getGames(started, numberOfPlayers, prefix);
+            for (Game game : service.getGames(started, numberOfPlayers, prefix)) {
+                games.add(new GameView(game));
+            }
         } catch (Exception ex) {
-            throw new InvalidRequestException("Invaled header");
+            throw new InvalidRequestException("Invalid header");
         }
         Response.sendJsonResponse(ctx, 200, games);
     }
