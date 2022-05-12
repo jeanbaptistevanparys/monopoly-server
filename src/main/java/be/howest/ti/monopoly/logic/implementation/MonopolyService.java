@@ -86,14 +86,9 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
-        List<Game> games = List.of(
-            new Game(2, "group12"),
-            new Game(3, "group12"),
-            new Game(4, "group12")
-        );
         List<Game> res = new ArrayList<>();
         for (Game game : games) {
-            if (game.isStarted() == started && game.getNumberOfPlayers() == numberOfPlayers && game.getPrefix() == prefix) {
+            if (game.isStarted() == started && game.getNumberOfPlayers() == numberOfPlayers && game.getPrefix().equals(prefix)) {
                 res.add(game);
             }
         }
@@ -102,7 +97,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Game createGames(String prefix, int numberOfPlayers) {
-        Game game = new Game(3, prefix);
+        Game game = new Game(numberOfPlayers, prefix);
         games.add(game);
         return game;
     }
@@ -154,7 +149,12 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Game getGame(String gameId) {
-        return null;
+        for (Game game : games) {
+            if (game.getId().equals(gameId)) {
+                return game;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("No such game");
     }
 
     public Object rollDice(String gameId, String playerName) {
