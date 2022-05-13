@@ -18,8 +18,8 @@ class OpenApiBuyingPropertyTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -44,8 +44,8 @@ class OpenApiBuyingPropertyTests extends OpenApiTestsBase {
         });
         delete(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
