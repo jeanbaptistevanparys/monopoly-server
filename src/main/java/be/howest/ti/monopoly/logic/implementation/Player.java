@@ -15,7 +15,7 @@ public class Player {
     private boolean bankrupt;
     private int outOfJailFreeCards;
     private String taxSystem;
-    private final Set<Property> properties;
+    private final List<PlayerProperty> properties;
 
     public Player(String name) {
         this.name = name;
@@ -24,16 +24,15 @@ public class Player {
         this.money = 1500;
         this.bankrupt = false;
         this.outOfJailFreeCards = 0;
-        this.taxSystem = "ESTIMATE";
-        this.properties = new HashSet<>();
+        this.properties = new ArrayList<>();
     }
 
     public void moveTile(String tile) {
         currentTile = tile;
     }
 
-    public void addProperty(Property property) {
-        properties.add(property);
+    public void addProperty(String property) {
+        properties.add(new PlayerProperty(property));
     }
 
     public String getName() {
@@ -60,11 +59,7 @@ public class Player {
         return outOfJailFreeCards;
     }
 
-    public String getTaxSystem() {
-        return taxSystem;
-    }
-
-    public Set<Property> getProperties() {
+    public List<PlayerProperty> getProperties() {
         return properties;
     }
 

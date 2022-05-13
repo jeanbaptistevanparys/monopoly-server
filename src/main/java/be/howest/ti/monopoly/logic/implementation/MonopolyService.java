@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 ;
 
@@ -140,6 +141,68 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Game getGame(String gameId) {
+        for (Game game : games) {
+            if (game.getId().equals(gameId)) {
+                return game;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("No such game");
+    }
+
+    @Override
+    public Game getDummyGame() {
+        Game dummy = new Game(3,"group-12");
+        Player player1 = new Player("Jamie");
+        Player player2 = new Player("Walter");
+        player1.addProperty(Game.getTiles().get(8).getName());
+        player2.addProperty(Game.getTiles().get(5).getName());
+        player2.addProperty(Game.getTiles().get(19).getName());
+        dummy.addPlayer(player1);
+        dummy.addPlayer(player2);
+        return dummy;
+    }
+
+
+    public Object rollDice(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        game.rollDice();
+        return null;
+    }
+
+    @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        Game game = getGame(gameId);
+        List<Player> players = game.getPlayers();
+        for (Player player : players) {
+            if (playerName.equals(player.getName())) {
+                player.addProperty(propertyName);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
     public List<Auction> getBankAuctions() {
         return List.of(
                 new Auction(new Player("Jarne"), 30),
@@ -175,52 +238,12 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Game getGame(String gameId) {
-        for (Game game : games) {
-            if (game.getId().equals(gameId)) {
-                return game;
-            }
-        }
-        throw new MonopolyResourceNotFoundException("No such game");
-    }
-
-    public Object rollDice(String gameId, String playerName) {
-        Game game = getGame(gameId);
-        game.rollDice();
-        return null;
-    }
-
-    @Override
     public Object getOutOfJailFine() {
         return null;
     }
 
     @Override
-    public Game getDummyGame() {
-        Game dummy = new Game(3,"group-12");
-        dummy.addPlayer(new Player("jari meneerke"));
-        dummy.addPlayer(new Player("jean meneerke"));
-        dummy.addPlayer(new Player("jarne meneerke"));
-        return dummy;
-    }
-
-    @Override
     public Object getOutOfJailFree() {
-        return null;
-    }
-
-    @Override
-    public Object buyProperty(String gameId, String playerName, String propertyName) {
-        return null;
-    }
-
-    @Override
-    public Object declareBankruptcy(String gameId, String playerName) {
-        return null;
-    }
-
-    @Override
-    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
         return null;
     }
 
@@ -235,17 +258,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object useEstimateTax(String gameId, String playerName) {
-        return null;
-    }
-
-    @Override
     public Object sellHouse(String gameId, String playerName, String propertyName) {
-        return null;
-    }
-
-    @Override
-    public Object useComputeTax(String gameId, String playerName) {
         return null;
     }
 

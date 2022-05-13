@@ -201,7 +201,7 @@ public class MonopolyApiBridge {
     }
 
     private void getDummyGame(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx,200, service.getDummyGame());
+        Response.sendJsonResponse(ctx,200, new GameStateView(service.getDummyGame()));
     }
 
     private void useEstimateTax(RoutingContext ctx) {
@@ -232,6 +232,9 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException("You aren't part of this game");
+        }
         Response.sendJsonResponse(ctx, 200, service.declareBankruptcy(gameId, playerName));
     }
 
@@ -239,6 +242,9 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException("You aren't part of this game");
+        }
         String propertyName = request.getPropertyName();
         Response.sendJsonResponse(ctx, 200, service.buyProperty(gameId, playerName, propertyName));
     }
@@ -247,6 +253,9 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException("You aren't part of this game");
+        }
         String propertyName = request.getPropertyName();
         Response.sendJsonResponse(ctx, 200, service.dontBuyProperty(gameId, playerName, propertyName));
     }

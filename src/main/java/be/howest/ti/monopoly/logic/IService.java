@@ -20,19 +20,14 @@ public interface IService {
     Object joinGame(String playerName, String gameId);
     Object clearGameList();
 
-    List<Auction> getBankAuctions();
-    Object placeBidOnBankAuction();
-    List<Auction> getPlayerAuctions();
-    Object startPlayerAuction();
-    Object placeBidOnPlayerAuction();
-
     Game getGame(String gameId);
     Game getDummyGame();
 
     Object rollDice(String gameId, String playerName);
     Object declareBankruptcy(String gameId, String playerName);
-    Object getOutOfJailFine();
-    Object getOutOfJailFree();
+
+    Object useEstimateTax(String gameId, String playerName);
+    Object useComputeTax(String gameId, String playerName);
 
     Object buyProperty(String gameId, String playerName, String propertyName);
     Object dontBuyProperty(String gameId, String playerName, String propertyName);
@@ -42,8 +37,15 @@ public interface IService {
     Object buyHotel(String gameId, String playerName, String propertyName);
     Object sellHotel(String gameId, String playerName, String propertyName);
 
-    Object useEstimateTax(String gameId, String playerName);
-    Object useComputeTax(String gameId, String playerName);
     Object takeMortgage();
     Object settleMortgage();
+
+    Object getOutOfJailFine();
+    Object getOutOfJailFree();
+
+    List<Auction> getBankAuctions();
+    Object placeBidOnBankAuction();
+    List<Auction> getPlayerAuctions();
+    Object startPlayerAuction();
+    Object placeBidOnPlayerAuction();
 }

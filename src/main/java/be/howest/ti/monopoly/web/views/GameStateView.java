@@ -37,11 +37,11 @@ public class GameStateView {
     }
 
     public Object getTurns() {
-        return Collections.emptyList();
+        return game.getTurns();
     }
 
     public List<Integer> getLastDiceRoll() {
-        return Collections.emptyList();
+        return game.getTurns().get(game.getTurns().size()).getRoll();
     }
 
     public boolean isCanRoll() {

@@ -67,6 +67,7 @@ public class Game {
     private Player winner;
     private int availableHouses;
     private int availableHotels;
+    private List<Turn> turns;
 
     public Game(int numberOfPlayers, String prefix) {
         this.numberOfPlayers = numberOfPlayers;
@@ -103,6 +104,7 @@ public class Game {
             int total = dice1 + dice2;
             Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
             currentPlayer.moveTile(nextTile.getName());
+            turns.add(new Turn(currentPlayer.getName(), dice1, dice2));
             if (dice1 != dice2) currentPlayer = getNextPlayer();
             if (isProperty(nextTile)) canRoll = false;
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
@@ -188,5 +190,9 @@ public class Game {
 
     public int getAvailableHotels() {
         return availableHotels;
+    }
+
+    public List<Turn> getTurns() {
+        return turns;
     }
 }
