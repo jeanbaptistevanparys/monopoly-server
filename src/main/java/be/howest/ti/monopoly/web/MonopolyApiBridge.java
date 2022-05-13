@@ -14,6 +14,7 @@ import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
+import be.howest.ti.monopoly.web.views.GameStateView;
 import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
@@ -158,7 +159,7 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         int numberOfPlayers = request.getBodyNumberOfPlayers();
         String prefix = request.getBodyPrefix();
-        Response.sendJsonResponse(ctx, 200, service.createGames(prefix, numberOfPlayers));
+        Response.sendJsonResponse(ctx, 200, new GameView(service.createGames(prefix, numberOfPlayers)));
     }
 
     private void getGames(RoutingContext ctx) {
@@ -196,7 +197,7 @@ public class MonopolyApiBridge {
         if (!request.isAuthorized(gameId)) {
             throw new ForbiddenAccessException("You aren't part of this game");
         }
-        Response.sendJsonResponse(ctx,200, service.getGame(gameId));
+        Response.sendJsonResponse(ctx,200, new GameStateView(service.getGame(gameId)));
     }
 
     private void getDummyGame(RoutingContext ctx) {

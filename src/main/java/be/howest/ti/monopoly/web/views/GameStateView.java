@@ -4,6 +4,8 @@ import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class GameStateView {
@@ -26,7 +28,43 @@ public class GameStateView {
         return game.isStarted();
     }
 
-    public String getId() {
-        return game.getId();
+    public int getAvailableHouses() {
+        return game.getAvailableHouses();
+    }
+
+    public int getAvailableHotels() {
+        return game.getAvailableHotels();
+    }
+
+    public Object getTurns() {
+        return Collections.emptyList();
+    }
+
+    public List<Integer> getLastDiceRoll() {
+        return Collections.emptyList();
+    }
+
+    public boolean isCanRoll() {
+        return game.isCanRoll();
+    }
+
+    public boolean isEnded() {
+        return game.isEnded();
+    }
+
+    public String getCurrentPlayer() {
+        try {
+            return game.getCurrentPlayer().getName();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public String getWinner() {
+        try {
+            return game.getWinner().getName();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 }

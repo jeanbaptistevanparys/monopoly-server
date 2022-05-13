@@ -65,6 +65,8 @@ public class Game {
     private boolean canRoll;
     private Player currentPlayer;
     private Player winner;
+    private int availableHouses;
+    private int availableHotels;
 
     public Game(int numberOfPlayers, String prefix) {
         this.numberOfPlayers = numberOfPlayers;
@@ -77,6 +79,8 @@ public class Game {
         this.canRoll = true;
         this.currentPlayer = null;
         this.winner = null;
+        this.availableHouses = 32;
+        this.availableHotels = 12;
     }
 
     public void startGame() {
@@ -168,5 +172,21 @@ public class Game {
 
     public boolean isCanRoll() {
         return canRoll;
+    }
+
+    public boolean isEnded() {
+        return ended;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public int getAvailableHouses() {
+        return availableHouses;
+    }
+
+    public int getAvailableHotels() {
+        return availableHotels;
     }
 }
