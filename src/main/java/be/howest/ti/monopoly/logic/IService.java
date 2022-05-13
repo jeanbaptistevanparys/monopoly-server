@@ -15,6 +15,11 @@ public interface IService {
     List<String> getChance();
     List<String> getCommunityChest();
 
+    List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
+    Game createGames(String prefix, int numberOfPlayers);
+    Object joinGame(String playerName, String gameId);
+    Object clearGameList();
+
     List<Auction> getBankAuctions();
     Object placeBidOnBankAuction();
     List<Auction> getPlayerAuctions();
@@ -22,14 +27,10 @@ public interface IService {
     Object placeBidOnPlayerAuction();
 
     Game getGame(String gameId);
-    List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
     Game getDummyGame();
 
     Object rollDice(String gameId, String playerName);
     Object declareBankruptcy(String gameId, String playerName);
-    Game createGames(String prefix, int numberOfPlayers);
-    Object joinGame(String playerName, String gameId);
-    Object clearGameList();
     Object getOutOfJailFine();
     Object getOutOfJailFree();
 

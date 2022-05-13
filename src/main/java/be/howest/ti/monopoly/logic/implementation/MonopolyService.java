@@ -118,6 +118,22 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object joinGame(String playerName, String gameId) {
+        for (Game game : games) {
+            if (game.getId().equals(gameId)) {
+                game.addPlayer(new Player(playerName));
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Object clearGameList() {
+        games.clear();
+        return null;
+    }
+
+    @Override
     public List<Auction> getBankAuctions() {
         return List.of(
                 new Auction(new Player("Jarne"), 30),
@@ -169,16 +185,6 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object joinGame(String playerName, String gameId) {
-        for (Game game : games) {
-            if (game.getId().equals(gameId)) {
-                game.addPlayer(new Player(playerName));
-            }
-        }
-        return null;
-    }
-
-    @Override
     public Object getOutOfJailFine() {
         return null;
     }
@@ -190,12 +196,6 @@ public class MonopolyService extends ServiceAdapter {
         dummy.addPlayer(new Player("jean meneerke"));
         dummy.addPlayer(new Player("jarne meneerke"));
         return dummy;
-    }
-
-    @Override
-    public Object clearGameList() {
-        games.clear();
-        return null;
     }
 
     @Override
