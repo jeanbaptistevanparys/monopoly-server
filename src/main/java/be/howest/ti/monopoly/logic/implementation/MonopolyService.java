@@ -74,7 +74,7 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Tile getTile(String name) {
         for (Tile tile : getTiles()) {
-            if (tile.getName().equals(name)) {
+            if (tile.getNameAsPathParameter().equals(name)) {
                 return tile;
             }
         }
