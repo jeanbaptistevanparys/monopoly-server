@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 ;
@@ -121,10 +122,15 @@ public class MonopolyService extends ServiceAdapter {
     public Object joinGame(String playerName, String gameId) {
         for (Game game : games) {
             if (game.getId().equals(gameId)) {
+                if (game.isStarted()) throw new IllegalMonopolyActionException("Game has already started");
+                for (Player player : game.getPlayers()) {
+                    if (player.getName().equals(playerName)) throw new IllegalMonopolyActionException("Name is already taken");
+                }
                 game.addPlayer(new Player(playerName));
+                return null;
             }
         }
-        return null;
+        throw new MonopolyResourceNotFoundException("Game does not exist");
     }
 
     @Override
