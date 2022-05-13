@@ -58,21 +58,25 @@ public class Game {
 
     private final int numberOfPlayers;
     private final String prefix;
-    private boolean started;
     private final List<Player> players;
     private final String id;
-    private Player currentPlayer;
+    private boolean started;
+    private boolean ended;
     private boolean canRoll;
+    private Player currentPlayer;
+    private Player winner;
 
     public Game(int numberOfPlayers, String prefix) {
         this.numberOfPlayers = numberOfPlayers;
         this.prefix = prefix;
-        this.started = false;
         this.players = new ArrayList<>();
         this.id = prefix + "_" + games;
         games += 1;
-        this.currentPlayer = null;
+        this.started = false;
+        this.ended = false;
         this.canRoll = true;
+        this.currentPlayer = null;
+        this.winner = null;
     }
 
     public void startGame() {
@@ -88,30 +92,45 @@ public class Game {
     }
 
     public void rollDice() {
-        SecureRandom random = new SecureRandom();
-        int dice1 = random.nextInt(6) + 1;
-        int dice2 = random.nextInt(6) + 1;
-        int total = dice1 + dice2;
-        String nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
-        currentPlayer.moveTile(nextTile);
-        if (dice1 != dice2) currentPlayer = getNextPlayer();
-        if (isProperty(nextTile)) canRoll = false;
+        if (canRoll) {
+            SecureRandom random = new SecureRandom();
+            int dice1 = random.nextInt(6) + 1;
+            int dice2 = random.nextInt(6) + 1;
+            int total = dice1 + dice2;
+            Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
+            currentPlayer.moveTile(nextTile.getName());
+            if (dice1 != dice2) currentPlayer = getNextPlayer();
+            if (isProperty(nextTile)) canRoll = false;
+        } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
 
-    private boolean isProperty(String nextTile) {
-        return true;
+    private boolean isProperty(Tile nextTile) {
+        try {
+            Property property = (Property) nextTile;
+            int cost = property.getCost();
+            return cost >= 0;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     private Player getNextPlayer() {
-        return null;
+        boolean currentFlag = false;
+        for (Player player : players) {
+            if (currentFlag) return player;
+            if (player.getName() == currentPlayer.getName()) {
+                currentFlag = true;
+            }
+        }
+        return players.get(0);
     }
 
-    private String getNextTile(String currentTile, int total) {
+    private Tile getNextTile(String currentTile, int total) {
         for (Tile tile : TILES) {
             if (tile.getName().equals(currentTile)) {
                 int nextPosition = tile.getPosition() + total;
                 if (nextPosition > TILES.size()) nextPosition = 0;
-                return TILES.get(nextPosition).getName();
+                return TILES.get(nextPosition);
             }
         }
         throw new MonopolyResourceNotFoundException("Can't find next tile");
