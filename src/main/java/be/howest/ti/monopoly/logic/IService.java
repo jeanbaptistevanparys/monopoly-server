@@ -13,7 +13,7 @@ public interface IService {
     Tile getTile(int position);
     Tile getTile(String name);
     List<String> getChance();
-    Object getCommunityChest();
+    List<String> getCommunityChest();
 
     List<Auction> getBankAuctions();
     Object placeBidOnBankAuction();

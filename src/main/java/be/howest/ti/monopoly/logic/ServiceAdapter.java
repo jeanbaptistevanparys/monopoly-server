@@ -44,7 +44,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object getCommunityChest() {
+    public List<String> getCommunityChest() {
         throw new UnsupportedOperationException();
     }
 

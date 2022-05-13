@@ -91,8 +91,12 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<CommunityChest> getCommunityChest() {
-        return communityChests;
+    public List<String> getCommunityChest() {
+        List<String> communityChestDescriptions = new ArrayList<>();
+        for (CommunityChest chance : communityChests) {
+            communityChestDescriptions.add(chance.getDescription());
+        }
+        return communityChestDescriptions;
     }
 
     @Override

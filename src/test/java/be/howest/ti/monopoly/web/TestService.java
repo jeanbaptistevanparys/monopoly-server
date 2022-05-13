@@ -54,7 +54,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object getCommunityChest() {
+    public List<String> getCommunityChest() {
         return delegate.getCommunityChest();
     }
 
