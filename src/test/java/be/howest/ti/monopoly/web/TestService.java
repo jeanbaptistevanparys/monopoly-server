@@ -49,7 +49,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object getChance() {
+    public List<String> getChance() {
         return delegate.getChance();
     }
 

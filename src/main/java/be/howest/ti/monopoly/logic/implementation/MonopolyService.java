@@ -82,6 +82,20 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public List<String> getChance() {
+        List<String> chanceDescriptions = new ArrayList<>();
+        for (Chance chance : chances) {
+            chanceDescriptions.add(chance.getDescription());
+        }
+        return chanceDescriptions;
+    }
+
+    @Override
+    public List<CommunityChest> getCommunityChest() {
+        return communityChests;
+    }
+
+    @Override
     public List<Game> getGames(boolean started, int numberOfPlayers, String prefix) {
         List<Game> res = new ArrayList<>();
         for (Game game : games) {
@@ -97,16 +111,6 @@ public class MonopolyService extends ServiceAdapter {
         Game game = new Game(numberOfPlayers, prefix);
         games.add(game);
         return game;
-    }
-
-    @Override
-    public List<Chance> getChance() {
-        return chances;
-    }
-
-    @Override
-    public List<CommunityChest> getCommunityChest() {
-        return communityChests;
     }
 
     @Override

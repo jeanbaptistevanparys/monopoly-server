@@ -30,7 +30,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object getChance() {
+    public List<String> getChance() {
         throw new UnsupportedOperationException();
     }
 

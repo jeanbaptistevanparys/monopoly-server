@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.Chance;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -192,6 +193,9 @@ public class MonopolyApiBridge {
     private void getGame(RoutingContext ctx) {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
+        if (!request.isAuthorized(gameId)) {
+            throw new ForbiddenAccessException("You aren't part of this game");
+        }
         Response.sendJsonResponse(ctx,200, service.getGame(gameId));
     }
 

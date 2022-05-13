@@ -12,7 +12,7 @@ public interface IService {
     List<Tile> getTiles();
     Tile getTile(int position);
     Tile getTile(String name);
-    Object getChance();
+    List<String> getChance();
     Object getCommunityChest();
 
     List<Auction> getBankAuctions();

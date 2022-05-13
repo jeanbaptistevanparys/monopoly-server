@@ -90,7 +90,7 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
     void getChance(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public List<Tile> getChance() {
+            public List<String> getChance() {
                 return Collections.emptyList();
             }
         });
