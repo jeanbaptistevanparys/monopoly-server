@@ -7,6 +7,7 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class MonopolyService extends ServiceAdapter {
@@ -57,13 +58,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Tile> getTiles() {
-        return List.of(
-            new Tile("Go", 0, "Go"),
-            new Tile("Mediterranean", 1, "street"),
-            new Tile("Community Chest I", 2, "community chest"),
-            new Tile("Baltic", 3, "street"),
-            new Tile("Tax Income", 4, "Tax Income")
-        );
+        return Game.getTiles();
     }
 
     @Override

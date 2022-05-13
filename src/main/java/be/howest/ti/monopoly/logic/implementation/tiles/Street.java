@@ -43,5 +43,9 @@ public class Street extends Property {
     public int getHousePrice() {
         return housePrice;
     }
+
+    public Colors getStreetColor() {
+        return super.getColor();
+    }
 }
 
