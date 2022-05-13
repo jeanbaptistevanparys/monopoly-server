@@ -97,7 +97,7 @@ public class Game {
     }
 
     public void rollDice() {
-        if (canRoll) {
+        if (canRoll && started) {
             SecureRandom random = new SecureRandom();
             int dice1 = random.nextInt(6) + 1;
             int dice2 = random.nextInt(6) + 1;
