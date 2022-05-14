@@ -40,8 +40,8 @@ public interface IService {
     Object takeMortgage();
     Object settleMortgage();
 
-    Object getOutOfJailFine();
-    Object getOutOfJailFree();
+    Object getOutOfJailFine(String gameId, String playerName);
+    Object getOutOfJailFree(String gameId, String playerName);
 
     List<Auction> getBankAuctions();
     Object placeBidOnBankAuction();

@@ -1,8 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 
 import java.util.*;
 
@@ -14,6 +12,8 @@ public class Player {
     private int money;
     private boolean bankrupt;
     private int outOfJailFreeCards;
+    private int triesToGetOutOfJail;
+    private boolean justGotOutOfJail;
     private String taxSystem;
     private final List<PlayerProperty> properties;
 
@@ -24,6 +24,7 @@ public class Player {
         this.money = 1500;
         this.bankrupt = false;
         this.outOfJailFreeCards = 0;
+        this.triesToGetOutOfJail = 0;
         this.properties = new ArrayList<>();
     }
 
@@ -31,8 +32,49 @@ public class Player {
         currentTile = tile;
     }
 
+    public boolean spendMoney(int amount) {
+        if (money > amount) {
+            money -= amount;
+            return true;
+        } else {
+            throw new MonopolyResourceNotFoundException("Not enough money");
+        }
+    }
+
     public void addProperty(String property) {
         properties.add(new PlayerProperty(property));
+    }
+
+    public void goToJail() {
+        jailed = true;
+    }
+
+    public void getOutOfJailFine() {
+        if (spendMoney(50)) {
+            jailed = false;
+            triesToGetOutOfJail = 0;
+        } else {
+            throw new MonopolyResourceNotFoundException("Not enough money to go out of jail");
+        }
+    }
+
+    public void getOutOfJailFree() {
+        if (outOfJailFreeCards > 0) {
+            jailed = false;
+            outOfJailFreeCards -= 1;
+            triesToGetOutOfJail = 0;
+        } else {
+            throw new MonopolyResourceNotFoundException("You don't have any out-of-jail-free cards");
+        }
+    }
+
+    public void goOutOfJailDouble() {
+        jailed = false;
+        triesToGetOutOfJail = 0;
+    }
+
+    public void addTrieToGetOutOfJail() {
+        triesToGetOutOfJail += 1;
     }
 
     public String getName() {
@@ -61,6 +103,14 @@ public class Player {
 
     public List<PlayerProperty> getProperties() {
         return properties;
+    }
+
+    public int getTriesToGetOutOfJail() {
+        return triesToGetOutOfJail;
+    }
+
+    public boolean isJustGotOutOfJail() {
+        return justGotOutOfJail;
     }
 
     @Override

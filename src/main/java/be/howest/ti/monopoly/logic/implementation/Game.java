@@ -103,11 +103,42 @@ public class Game {
             int dice2 = random.nextInt(6) + 1;
             int total = dice1 + dice2;
             Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
+            if (Objects.equals(nextTile.getName(), "Go to Jail")) {
+                nextTile = getTile("Jail");
+                currentPlayer.goToJail();
+            }
+            if (currentPlayer.isJailed()) {
+                nextTile = turnInJail(dice1, dice2, nextTile);
+            }
             currentPlayer.moveTile(nextTile.getName());
             turns.add(new Turn(currentPlayer.getName(), dice1, dice2));
             if (dice1 != dice2) currentPlayer = getNextPlayer();
             if (isProperty(nextTile)) canRoll = false;
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
+    }
+
+    private Tile turnInJail(int dice1, int dice2, Tile nextTile) {
+        if (dice1 == dice2) {
+            currentPlayer.goOutOfJailDouble();
+            return nextTile;
+        } else {
+            if (currentPlayer.getTriesToGetOutOfJail() < 3) {
+                currentPlayer.addTrieToGetOutOfJail();
+                return getTile(currentPlayer.getCurrentTile());
+            } else {
+                currentPlayer.getOutOfJailFine();
+                return nextTile;
+            }
+        }
+    }
+
+    public Tile getTile(String name) {
+        for (Tile tile : TILES) {
+            if (Objects.equals(tile.getName(), name)) {
+                return tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not found the requested tile: " + name);
     }
 
     private boolean isProperty(Tile nextTile) {
@@ -194,5 +225,13 @@ public class Game {
 
     public List<Turn> getTurns() {
         return turns;
+    }
+
+    public void getOutOfJailFine() {
+        currentPlayer.getOutOfJailFine();
+    }
+
+    public void getOutOfJailFree() {
+        currentPlayer.getOutOfJailFree();
     }
 }
