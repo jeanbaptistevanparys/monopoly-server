@@ -142,6 +142,10 @@ public class Game {
         throw new MonopolyResourceNotFoundException("Can't find next tile");
     }
 
+    public void setCanRoll(boolean canRoll) {
+        this.canRoll = canRoll;
+    }
+
     public static List<Tile> getTiles() {
         return TILES;
     }

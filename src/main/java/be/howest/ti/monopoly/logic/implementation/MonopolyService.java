@@ -192,14 +192,17 @@ public class MonopolyService extends ServiceAdapter {
         for (Player player : players) {
             if (playerName.equals(player.getName())) {
                 player.addProperty(propertyName);
+                game.setCanRoll(true);
                 return null;
             }
         }
-        throw new MonopolyResourceNotFoundException("No such tile")
+        throw new MonopolyResourceNotFoundException("No such tile");
     }
 
     @Override
     public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        Game game = getGame(gameId);
+        game.setCanRoll(true);
         return null;
     }
 
