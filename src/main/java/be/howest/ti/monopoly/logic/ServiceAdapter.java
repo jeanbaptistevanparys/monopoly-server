@@ -5,6 +5,7 @@ import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.List;
+import java.util.Map;
 
 public class ServiceAdapter implements IService {
 
@@ -29,7 +30,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object getChance() {
+    public List<String> getChance() {
         throw new UnsupportedOperationException();
     }
 
@@ -43,7 +44,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object getCommunityChest() {
+    public List<String> getCommunityChest() {
         throw new UnsupportedOperationException();
     }
 

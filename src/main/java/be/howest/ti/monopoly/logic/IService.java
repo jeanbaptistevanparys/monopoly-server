@@ -5,32 +5,29 @@ import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IService {
     String getVersion();
     List<Tile> getTiles();
     Tile getTile(int position);
     Tile getTile(String name);
-    Object getChance();
-    Object getCommunityChest();
+    List<String> getChance();
+    List<String> getCommunityChest();
 
-    List<Auction> getBankAuctions();
-    Object placeBidOnBankAuction();
-    List<Auction> getPlayerAuctions();
-    Object startPlayerAuction();
-    Object placeBidOnPlayerAuction();
+    List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
+    Game createGames(String prefix, int numberOfPlayers);
+    Object joinGame(String playerName, String gameId);
+    Object clearGameList();
 
     Game getGame(String gameId);
-    List<Game> getGames(boolean started, int numberOfPlayers, String prefix);
     Game getDummyGame();
 
     Object rollDice(String gameId, String playerName);
     Object declareBankruptcy(String gameId, String playerName);
-    Game createGames(String prefix, int numberOfPlayers);
-    Object joinGame(String playerName, String gameId);
-    Object clearGameList();
-    Object getOutOfJailFine();
-    Object getOutOfJailFree();
+
+    Object useEstimateTax(String gameId, String playerName);
+    Object useComputeTax(String gameId, String playerName);
 
     Object buyProperty(String gameId, String playerName, String propertyName);
     Object dontBuyProperty(String gameId, String playerName, String propertyName);
@@ -40,8 +37,15 @@ public interface IService {
     Object buyHotel(String gameId, String playerName, String propertyName);
     Object sellHotel(String gameId, String playerName, String propertyName);
 
-    Object useEstimateTax(String gameId, String playerName);
-    Object useComputeTax(String gameId, String playerName);
     Object takeMortgage();
     Object settleMortgage();
+
+    Object getOutOfJailFine();
+    Object getOutOfJailFree();
+
+    List<Auction> getBankAuctions();
+    Object placeBidOnBankAuction();
+    List<Auction> getPlayerAuctions();
+    Object startPlayerAuction();
+    Object placeBidOnPlayerAuction();
 }

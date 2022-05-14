@@ -1,12 +1,15 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 ;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class MonopolyService extends ServiceAdapter {
@@ -49,6 +52,7 @@ public class MonopolyService extends ServiceAdapter {
             new CommunityChest("You have won second prize in a beauty contest. Collect $10"),
             new CommunityChest("You inherit $100")
     ));
+
     @Override
     public String getVersion() {
         return "0.0.1";
@@ -56,13 +60,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Tile> getTiles() {
-        return List.of(
-            new Tile("Go", 0, "Go"),
-            new Tile("Mediterranean", 1, "street"),
-            new Tile("Community Chest I", 2, "community chest"),
-            new Tile("Baltic", 3, "street"),
-            new Tile("Tax Income", 4, "Tax Income")
-        );
+        return Game.getTiles();
     }
 
     @Override
@@ -78,11 +76,29 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Tile getTile(String name) {
         for (Tile tile : getTiles()) {
-            if (tile.getName().equals(name)) {
+            if (tile.getNameAsPathParameter().equals(name)) {
                 return tile;
             }
         }
         throw new MonopolyResourceNotFoundException("No such tile");
+    }
+
+    @Override
+    public List<String> getChance() {
+        List<String> chanceDescriptions = new ArrayList<>();
+        for (Chance chance : chances) {
+            chanceDescriptions.add(chance.getDescription());
+        }
+        return chanceDescriptions;
+    }
+
+    @Override
+    public List<String> getCommunityChest() {
+        List<String> communityChestDescriptions = new ArrayList<>();
+        for (CommunityChest chance : communityChests) {
+            communityChestDescriptions.add(chance.getDescription());
+        }
+        return communityChestDescriptions;
     }
 
     @Override
@@ -104,13 +120,86 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<Chance> getChance() {
-        return chances;
+    public Object joinGame(String playerName, String gameId) {
+        for (Game game : games) {
+            if (game.getId().equals(gameId)) {
+                if (game.isStarted()) throw new IllegalMonopolyActionException("Game has already started");
+                for (Player player : game.getPlayers()) {
+                    if (player.getName().equals(playerName)) throw new IllegalMonopolyActionException("Name is already taken");
+                }
+                game.addPlayer(new Player(playerName));
+                return null;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Game does not exist");
     }
 
     @Override
-    public List<CommunityChest> getCommunityChest() {
-        return communityChests;
+    public Object clearGameList() {
+        games.clear();
+        return null;
+    }
+
+    @Override
+    public Game getGame(String gameId) {
+        for (Game game : games) {
+            if (game.getId().equals(gameId)) {
+                return game;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("No such game");
+    }
+
+    @Override
+    public Game getDummyGame() {
+        Game dummy = new Game(3,"group-12");
+        Player player1 = new Player("Jamie");
+        Player player2 = new Player("Walter");
+        player1.addProperty(Game.getTiles().get(8).getName());
+        player2.addProperty(Game.getTiles().get(5).getName());
+        player2.addProperty(Game.getTiles().get(19).getName());
+        dummy.addPlayer(player1);
+        dummy.addPlayer(player2);
+        return dummy;
+    }
+
+
+    public Object rollDice(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        game.rollDice();
+        return null;
+    }
+
+    @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object useEstimateTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object useComputeTax(String gameId, String playerName) {
+        return null;
+    }
+
+    @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        Game game = getGame(gameId);
+        List<Player> players = game.getPlayers();
+        for (Player player : players) {
+            if (playerName.equals(player.getName())) {
+                player.addProperty(propertyName);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        return null;
     }
 
     @Override
@@ -149,66 +238,12 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Game getGame(String gameId) {
-        for (Game game : games) {
-            if (game.getId().equals(gameId)) {
-                return game;
-            }
-        }
-        throw new MonopolyResourceNotFoundException("No such game");
-    }
-
-    public Object rollDice(String gameId, String playerName) {
-        return null;
-    }
-
-    @Override
-    public Object joinGame(String playerName, String gameId) {
-        for (Game game : games) {
-            if (game.getId().equals(gameId)) {
-                game.addPlayer(new Player(playerName));
-            }
-        }
-        return null;
-    }
-
-    @Override
     public Object getOutOfJailFine() {
         return null;
     }
 
     @Override
-    public Game getDummyGame() {
-        Game dummy = new Game(2,"group-12");
-        dummy.addPlayer(new Player("jari meneerke"));
-        dummy.addPlayer(new Player("jean meneerke"));
-        dummy.addPlayer(new Player("jarne meneerke"));
-        return dummy;
-    }
-
-    @Override
-    public Object clearGameList() {
-        games.clear();
-        return null;
-    }
-
-    @Override
     public Object getOutOfJailFree() {
-        return null;
-    }
-
-    @Override
-    public Object buyProperty(String gameId, String playerName, String propertyName) {
-        return null;
-    }
-
-    @Override
-    public Object declareBankruptcy(String gameId, String playerName) {
-        return null;
-    }
-
-    @Override
-    public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
         return null;
     }
 
@@ -223,17 +258,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object useEstimateTax(String gameId, String playerName) {
-        return null;
-    }
-
-    @Override
     public Object sellHouse(String gameId, String playerName, String propertyName) {
-        return null;
-    }
-
-    @Override
-    public Object useComputeTax(String gameId, String playerName) {
         return null;
     }
 

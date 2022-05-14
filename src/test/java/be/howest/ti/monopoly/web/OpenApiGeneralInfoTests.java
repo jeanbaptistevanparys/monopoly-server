@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -89,7 +90,7 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
     void getChance(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public List<Tile> getChance() {
+            public List<String> getChance() {
                 return Collections.emptyList();
             }
         });
@@ -106,7 +107,7 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
     void getCommunityChest(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public List<Tile> getCommunityChest() {
+            public List<String> getCommunityChest() {
                 return Collections.emptyList();
             }
         });
