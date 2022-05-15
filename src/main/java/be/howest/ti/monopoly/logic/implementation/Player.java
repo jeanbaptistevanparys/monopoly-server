@@ -1,7 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 
 import java.util.*;
@@ -31,8 +30,13 @@ public class Player {
         currentTile = tile;
     }
 
-    public void addProperty(String property) {
-        properties.add(new PlayerProperty(property));
+    public void buyProperty(Property property) {
+        if (money >= property.getCost()) {
+            properties.add(new PlayerProperty(property.getName()));
+            money -= property.getCost();
+        } else {
+            throw new InsufficientFundsException("Not enough money to buy" + property.getName());
+        }
     }
 
     public String getName() {
