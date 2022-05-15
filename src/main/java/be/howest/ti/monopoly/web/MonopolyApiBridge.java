@@ -305,11 +305,17 @@ public class MonopolyApiBridge {
     }
 
     private void getOutOfJailFine(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.getOutOfJailFine());
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.getOutOfJailFine(gameId, playerName));
     }
 
     private void getOutOfJailFree(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.getOutOfJailFree());
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        Response.sendJsonResponse(ctx, 200, service.getOutOfJailFree(gameId, playerName));
     }
 
     private void getBankAuctions(RoutingContext ctx) {

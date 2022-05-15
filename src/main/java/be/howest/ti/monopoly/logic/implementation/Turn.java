@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Turn {
     private final String player;
@@ -18,5 +19,9 @@ public class Turn {
 
     public String getName() {
         return player;
+    }
+
+    public boolean isDouble() {
+        return Objects.equals(roll.get(0), roll.get(1));
     }
 }
