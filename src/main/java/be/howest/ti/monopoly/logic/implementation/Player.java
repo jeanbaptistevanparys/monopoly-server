@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.*;
 
@@ -47,6 +48,7 @@ public class Player {
 
     public void goToJail() {
         jailed = true;
+        moveTile("Jail");
     }
 
     public void getOutOfJailFine() {
@@ -68,7 +70,11 @@ public class Player {
         }
     }
 
-    public void goOutOfJailDouble() {
+    public void addOutOfJailFreeCards() {
+        outOfJailFreeCards += 1;
+    }
+
+    public void getOutOfJailDouble() {
         jailed = false;
         triesToGetOutOfJail = 0;
     }
