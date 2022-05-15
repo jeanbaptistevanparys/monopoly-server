@@ -280,4 +280,9 @@ public class MonopolyService extends ServiceAdapter {
     public Object settleMortgage() {
         return null;
     }
+
+    @Override
+    public Object collectDebt() {
+        return null;
+    }
 }

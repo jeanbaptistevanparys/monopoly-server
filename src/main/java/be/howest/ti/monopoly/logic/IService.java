@@ -48,4 +48,6 @@ public interface IService {
     List<Auction> getPlayerAuctions();
     Object startPlayerAuction();
     Object placeBidOnPlayerAuction();
+
+    Object collectDebt();
 }
