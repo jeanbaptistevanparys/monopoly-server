@@ -50,7 +50,6 @@ public class MonopolyApiBridge {
         );
     }
 
-
     public Router buildRouter(RouterBuilder routerBuilder) {
         LOGGER.log(Level.INFO, "Installing CORS handlers");
         routerBuilder.rootHandler(createCorsHandler());
@@ -117,7 +116,6 @@ public class MonopolyApiBridge {
         routerBuilder.operation("getPlayerAuctions").handler(this::getPlayerAuctions);
         routerBuilder.operation("startPlayerAuction").handler(this::startPlayerAuction);
         routerBuilder.operation("placeBidOnPlayerAuction").handler(this::placeBidOnPlayerAuction);
-
 
         LOGGER.log(Level.INFO, "All handlers are installed");
         return routerBuilder.createRouter();

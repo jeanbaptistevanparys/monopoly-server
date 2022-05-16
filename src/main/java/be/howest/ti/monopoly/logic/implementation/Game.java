@@ -194,6 +194,10 @@ public class Game {
         throw new MonopolyResourceNotFoundException("Can't find next tile");
     }
 
+    public void setCanRoll(boolean canRoll) {
+        this.canRoll = canRoll;
+    }
+
     public void addTurn(Turn turn) {
         turns.add(turn);
     }

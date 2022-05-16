@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IService {
+
     String getVersion();
     List<Tile> getTiles();
     Tile getTile(int position);
@@ -40,6 +41,9 @@ public interface IService {
     Object takeMortgage();
     Object settleMortgage();
 
+    Object collectDebt();
+    Object trade();
+
     Object getOutOfJailFine(String gameId, String playerName);
     Object getOutOfJailFree(String gameId, String playerName);
 
@@ -48,7 +52,4 @@ public interface IService {
     List<Auction> getPlayerAuctions();
     Object startPlayerAuction();
     Object placeBidOnPlayerAuction();
-
-    Object collectDebt();
-    Object trade();
 }

@@ -9,7 +9,6 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class MonopolyService extends ServiceAdapter {
@@ -155,9 +154,9 @@ public class MonopolyService extends ServiceAdapter {
         Game dummy = new Game(3,"group-12");
         Player player1 = new Player("Jamie");
         Player player2 = new Player("Walter");
-        player1.addProperty(Game.getTiles().get(8).getName());
-        player2.addProperty(Game.getTiles().get(5).getName());
-        player2.addProperty(Game.getTiles().get(19).getName());
+        player1.buyProperty((Property) Game.getTiles().get(8));
+        player2.buyProperty((Property) Game.getTiles().get(5));
+        player2.buyProperty((Property) Game.getTiles().get(19));
         dummy.addPlayer(player1);
         dummy.addPlayer(player2);
         return dummy;
@@ -191,14 +190,22 @@ public class MonopolyService extends ServiceAdapter {
         List<Player> players = game.getPlayers();
         for (Player player : players) {
             if (playerName.equals(player.getName())) {
-                player.addProperty(propertyName);
+                for (Tile tile : Game.getTiles()) {
+                    if (tile.getName().equals(propertyName)) {
+                        player.buyProperty((Property) tile);
+                        game.setCanRoll(true);
+                    }
+                }
+                return null;
             }
         }
-        return null;
+        throw new MonopolyResourceNotFoundException("No such tile");
     }
 
     @Override
     public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
+        Game game = getGame(gameId);
+        game.setCanRoll(true);
         return null;
     }
 
