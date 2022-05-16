@@ -34,6 +34,8 @@ import java.util.logging.Logger;
 public class MonopolyApiBridge {
 
     private static final Logger LOGGER = Logger.getLogger(MonopolyApiBridge.class.getName());
+    private static final String FORBIDDEN_ACCESS_TEXT = "No access";
+    private static final String INVALID_REQUEST_TEXT = "Bad header";
 
     private final IService service;
     private final TokenManager tokenManager;
@@ -171,7 +173,7 @@ public class MonopolyApiBridge {
                 games.add(new GameView(game));
             }
         } catch (Exception ex) {
-            throw new InvalidRequestException("Invalid header");
+            throw new InvalidRequestException(INVALID_REQUEST_TEXT);
         }
         Response.sendJsonResponse(ctx, 200, games);
     }
@@ -193,7 +195,7 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         if (!request.isAuthorized(gameId)) {
-            throw new ForbiddenAccessException("You aren't part of this game");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
         }
         Response.sendJsonResponse(ctx,200, new GameStateView(service.getGame(gameId)));
     }
@@ -206,6 +208,9 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.useEstimateTax(gameId, playerName));
     }
 
@@ -213,6 +218,9 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.useComputeTax(gameId, playerName));
     }
 
@@ -221,7 +229,7 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
         if (!request.isAuthorized(gameId, playerName)) {
-            throw new ForbiddenAccessException("You aren't part of this game");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
         }
         Response.sendJsonResponse(ctx, 200, service.rollDice(gameId, playerName));
     }
@@ -231,7 +239,7 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
         if (!request.isAuthorized(gameId, playerName)) {
-            throw new ForbiddenAccessException("You aren't part of this game");
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
         }
         Response.sendJsonResponse(ctx, 200, service.declareBankruptcy(gameId, playerName));
     }
@@ -240,10 +248,10 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
-        if (!request.isAuthorized(gameId, playerName)) {
-            throw new ForbiddenAccessException("You aren't part of this game");
-        }
         String propertyName = request.getPropertyName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.buyProperty(gameId, playerName, propertyName));
     }
 
@@ -251,23 +259,11 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
-        if (!request.isAuthorized(gameId, playerName)) {
-            throw new ForbiddenAccessException("You aren't part of this game");
-        }
         String propertyName = request.getPropertyName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.dontBuyProperty(gameId, playerName, propertyName));
-    }
-
-    private void collectDebt(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.collectDebt());
-    }
-
-    private void takeMortgage(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.takeMortgage());
-    }
-
-    private void settleMortgage(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.settleMortgage());
     }
 
     private void buyHouse(RoutingContext ctx) {
@@ -275,6 +271,9 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
         String propertyName = request.getPropertyName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.buyHouse(gameId, playerName, propertyName));
     }
 
@@ -283,6 +282,9 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
         String propertyName = request.getPropertyName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.sellHouse(gameId, playerName, propertyName));
     }
 
@@ -291,6 +293,9 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
         String propertyName = request.getPropertyName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.buyHotel(gameId, playerName, propertyName));
     }
 
@@ -299,13 +304,63 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
         String propertyName = request.getPropertyName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.sellHotel(gameId, playerName, propertyName));
+    }
+
+    private void takeMortgage(RoutingContext ctx) {
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
+        Response.sendJsonResponse(ctx, 200, service.takeMortgage(gameId, playerName, propertyName));
+    }
+
+    private void settleMortgage(RoutingContext ctx) {
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
+        Response.sendJsonResponse(ctx, 200, service.settleMortgage(gameId, playerName, propertyName));
+    }
+
+    private void collectDebt(RoutingContext ctx) {
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        String debtorName = request.getDebtorName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
+        Response.sendJsonResponse(ctx, 200, service.collectDebt(gameId, playerName, propertyName, debtorName));
+    }
+
+    private void trade(RoutingContext ctx) {
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
+        Response.sendJsonResponse(ctx, 200, service.trade(gameId, playerName));
     }
 
     private void getOutOfJailFine(RoutingContext ctx) {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.getOutOfJailFine(gameId, playerName));
     }
 
@@ -313,30 +368,68 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
         String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
         Response.sendJsonResponse(ctx, 200, service.getOutOfJailFree(gameId, playerName));
     }
 
     private void getBankAuctions(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.getBankAuctions());
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
+        Response.sendJsonResponse(ctx, 200, service.getBankAuctions(gameId, playerName));
     }
 
     private void placeBidOnBankAuction(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.placeBidOnBankAuction());
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String propertyName = request.getPropertyName();
+        String bidder = request.getBodyBidder();
+        int amount = request.getBodyAmount();
+        if (!request.isAuthorized(gameId)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
+        Response.sendJsonResponse(ctx, 200, service.placeBidOnBankAuction(gameId, propertyName, bidder, amount));
     }
 
     private void getPlayerAuctions(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.getPlayerAuctions());
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        if (!request.isAuthorized(gameId)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
+        Response.sendJsonResponse(ctx, 200, service.getPlayerAuctions(gameId, playerName));
     }
 
     private void startPlayerAuction(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.startPlayerAuction());
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        int startBid = request.getBodyStartBid();
+        int duration = request.getBodyDuration();
+        if (!request.isAuthorized(gameId)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
+        Response.sendJsonResponse(ctx, 200, service.startPlayerAuction(gameId, playerName, propertyName, startBid, duration));
     }
 
     private void placeBidOnPlayerAuction(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.placeBidOnPlayerAuction());    }
-
-    private void trade(RoutingContext ctx) {
-        Response.sendJsonResponse(ctx, 200, service.trade());
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerName();
+        String propertyName = request.getPropertyName();
+        String bidder = request.getBodyBidder();
+        int amount = request.getBodyAmount();
+        if (!request.isAuthorized(gameId)) {
+            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
+        }
+        Response.sendJsonResponse(ctx, 200, service.placeBidOnPlayerAuction(gameId, playerName, propertyName, bidder, amount));
     }
 
     private void onFailedRequest(RoutingContext ctx) {

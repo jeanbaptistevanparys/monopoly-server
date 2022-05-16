@@ -38,11 +38,11 @@ public interface IService {
     Object buyHotel(String gameId, String playerName, String propertyName);
     Object sellHotel(String gameId, String playerName, String propertyName);
 
-    Object takeMortgage();
-    Object settleMortgage();
+    Object takeMortgage(String gameId, String playerName, String propertyName);
+    Object settleMortgage(String gameId, String playerName, String propertyName);
 
-    Object collectDebt();
-    Object trade();
+    Object collectDebt(String gameId, String playerName, String propertyName, String debtorName);
+    Object trade(String gameId, String playerName);
 
     Object getOutOfJailFine(String gameId, String playerName);
     Object getOutOfJailFree(String gameId, String playerName);

@@ -259,7 +259,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object takeMortgage() {
+    public Object takeMortgage(String gameId, String playerName, String propertyName) {
         return null;
     }
 
@@ -284,17 +284,17 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object settleMortgage() {
+    public Object settleMortgage(String gameId, String playerName, String propertyName) {
         return null;
     }
 
     @Override
-    public Object collectDebt() {
+    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         return null;
     }
 
     @Override
-    public Object trade() {
+    public Object trade(String gameId, String playerName) {
         return null;
     }
 }

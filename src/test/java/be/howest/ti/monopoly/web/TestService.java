@@ -84,13 +84,13 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object collectDebt() {
-        return delegate.collectDebt();
+    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        return delegate.collectDebt(gameId, playerName, propertyName, debtorName);
     }
 
     @Override
-    public Object trade() {
-        return delegate.trade();
+    public Object trade(String gameId, String playerName) {
+        return delegate.trade(gameId, playerName);
     }
 
     @Override
@@ -171,12 +171,12 @@ public class TestService implements IService {
         return delegate.useComputeTax(gameId, playerName);
     }
 
-    public Object takeMortgage() {
-        return delegate.takeMortgage();
+    public Object takeMortgage(String gameId, String playerName, String propertyName) {
+        return delegate.takeMortgage(gameId, playerName, propertyName);
     }
 
     @Override
-    public Object settleMortgage() {
-        return delegate.settleMortgage();
+    public Object settleMortgage(String gameId, String playerName, String propertyName) {
+        return delegate.settleMortgage(gameId, playerName, propertyName);
     }
 }

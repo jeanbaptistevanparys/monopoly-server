@@ -129,12 +129,12 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object collectDebt() {
+    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Object trade() {
+    public Object trade(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 
@@ -144,7 +144,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object takeMortgage() {
+    public Object takeMortgage(String gameId, String playerName, String propertyName) {
         throw new UnsupportedOperationException();
     }
 
@@ -174,7 +174,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object settleMortgage() {
+    public Object settleMortgage(String gameId, String playerName, String propertyName) {
         throw new UnsupportedOperationException();
     }
 

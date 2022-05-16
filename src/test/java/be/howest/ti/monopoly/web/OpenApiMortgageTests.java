@@ -10,7 +10,7 @@ class OpenApiMortgageTests extends OpenApiTestsBase {
     void takeMortgage(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public Object takeMortgage() {
+            public Object takeMortgage(String gameId, String playerName, String propertyName) {
                 return null;
             }
         });
@@ -36,7 +36,7 @@ class OpenApiMortgageTests extends OpenApiTestsBase {
     void settleMortgage(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Object settleMortgage() {
+            public Object settleMortgage(String gameId, String playerName, String propertyName) {
                 return null;
             }
         });
