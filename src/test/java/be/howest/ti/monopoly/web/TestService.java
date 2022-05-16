@@ -84,6 +84,16 @@ public class TestService implements IService {
     }
 
     @Override
+    public Object collectDebt() {
+        return delegate.collectDebt();
+    }
+
+    @Override
+    public Object trade() {
+        return delegate.trade();
+    }
+
+    @Override
     public Game getGame(String gameId) {
         return delegate.getGame(gameId);
     }

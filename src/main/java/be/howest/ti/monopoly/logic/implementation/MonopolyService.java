@@ -285,4 +285,9 @@ public class MonopolyService extends ServiceAdapter {
     public Object collectDebt() {
         return null;
     }
+
+    @Override
+    public Object trade() {
+        return null;
+    }
 }
