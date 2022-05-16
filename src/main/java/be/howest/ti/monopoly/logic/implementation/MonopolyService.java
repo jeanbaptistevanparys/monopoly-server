@@ -210,7 +210,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<Auction> getBankAuctions() {
+    public List<Auction> getBankAuctions(String gameId, String playerName) {
         return List.of(
                 new Auction(new Player("Jarne"), 30),
                 new Auction(new Player("Jari"), 40),
@@ -220,12 +220,12 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object placeBidOnBankAuction() {
+    public Object placeBidOnBankAuction(String gameId, String propertyName, String bidder, int amount) {
         return 0;
     }
 
     @Override
-    public List<Auction> getPlayerAuctions() {
+    public List<Auction> getPlayerAuctions(String gameId, String playerName) {
         return List.of(
                 new Auction(new Player("Jarne"), 30),
                 new Auction(new Player("Jarne"), 40),
@@ -235,12 +235,12 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object startPlayerAuction() {
+    public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
         return 0;
     }
 
     @Override
-    public Object placeBidOnPlayerAuction() {
+    public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
         return 0;
     }
 

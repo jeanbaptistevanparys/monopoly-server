@@ -59,28 +59,28 @@ public class TestService implements IService {
     }
 
     @Override
-    public List<Auction> getBankAuctions() {
-        return delegate.getBankAuctions();
+    public List<Auction> getBankAuctions(String gameId, String playerName) {
+        return delegate.getBankAuctions(gameId, playerName);
     }
 
     @Override
-    public Object placeBidOnBankAuction() {
-        return delegate.placeBidOnBankAuction();
+    public Object placeBidOnBankAuction(String gameId, String propertyName, String bidder, int amount) {
+        return delegate.placeBidOnBankAuction(gameId, propertyName, bidder, amount);
     }
 
     @Override
-    public List<Auction> getPlayerAuctions() {
-        return delegate.getPlayerAuctions();
+    public List<Auction> getPlayerAuctions(String gameId, String playerName) {
+        return delegate.getPlayerAuctions(gameId, playerName);
     }
 
     @Override
-    public Object startPlayerAuction() {
-        return delegate.startPlayerAuction();
+    public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
+        return delegate.startPlayerAuction(gameId, playerName, propertyName, startBid, duration);
     }
 
     @Override
-    public Object placeBidOnPlayerAuction() {
-        return delegate.placeBidOnPlayerAuction();
+    public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
+        return delegate.placeBidOnPlayerAuction(gameId, playerName, propertyName, bidder, amount);
     }
 
     @Override

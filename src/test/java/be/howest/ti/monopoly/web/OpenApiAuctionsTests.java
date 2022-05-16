@@ -17,7 +17,7 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void getBankAuctions(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public List<Auction> getBankAuctions() {
+            public List<Auction> getBankAuctions(String gameId, String playerName) {
                 return Collections.emptyList();
             }
         });
@@ -43,13 +43,7 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void placeBidOnBankAuction(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public List<Auction> placeBidOnBankAuction() {
-                return Collections.emptyList();
-            }
-        });
-        service.setDelegate(new ServiceAdapter(){
-            @Override
-            public Object placeBidOnBankAuction() {
+            public List<Auction> placeBidOnBankAuction(String gameId, String propertyName, String bidder, int amount) {
                 return Collections.emptyList();
             }
         });
@@ -100,7 +94,7 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void getPlayerAuctions(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public List<Auction> getPlayerAuctions() {
+            public List<Auction> getPlayerAuctions(String gameId, String playerName) {
                 return Collections.emptyList();
             }
         });
@@ -126,7 +120,7 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void startPlayerAuction(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Object startPlayerAuction() {
+            public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
                 return null;
             }
         });
@@ -152,7 +146,7 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void placeBidOnPlayerAuction(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Object placeBidOnPlayerAuction() {
+            public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
                 return null;
             }
         });
