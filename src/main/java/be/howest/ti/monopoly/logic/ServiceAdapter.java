@@ -78,7 +78,8 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
-    public Object getOutOfJailFine() {
+    @Override
+    public Object getOutOfJailFine(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 
@@ -107,8 +108,8 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
-
-    public Object getOutOfJailFree() {
+    @Override
+    public Object getOutOfJailFree(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
 
@@ -124,6 +125,16 @@ public class ServiceAdapter implements IService {
 
     @Override
     public Object placeBidOnPlayerAuction() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object collectDebt() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object trade() {
         throw new UnsupportedOperationException();
     }
 

@@ -1,18 +1,25 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.IService;
+import be.howest.ti.monopoly.logic.ServiceAdapter;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
 
 class OpenApiInteractionWithOtherPlayerTests extends OpenApiTestsBase {
-
     @Test
     void collectDebt(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object collectDebt() {
+                return null;
+            }
+        });
         delete(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/visitors/Bob/rent",
-                "some-token",
-                response -> assertNotYetImplemented(response, "collectDebt")
+                "/games/1-Alice/players/Alice/properties/some-property/visitors/Bob/rent",
+                "1-Alice",
+                this::assertOkResponse
         );
     }
 

@@ -245,12 +245,16 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object getOutOfJailFine() {
+    public Object getOutOfJailFine(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        game.getOutOfJailFine();
         return null;
     }
 
     @Override
-    public Object getOutOfJailFree() {
+    public Object getOutOfJailFree(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        game.getOutOfJailFree();
         return null;
     }
 
@@ -281,6 +285,16 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object settleMortgage() {
+        return null;
+    }
+
+    @Override
+    public Object collectDebt() {
+        return null;
+    }
+
+    @Override
+    public Object trade() {
         return null;
     }
 }

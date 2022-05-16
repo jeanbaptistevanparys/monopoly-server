@@ -84,6 +84,16 @@ public class TestService implements IService {
     }
 
     @Override
+    public Object collectDebt() {
+        return delegate.collectDebt();
+    }
+
+    @Override
+    public Object trade() {
+        return delegate.trade();
+    }
+
+    @Override
     public Game getGame(String gameId) {
         return delegate.getGame(gameId);
     }
@@ -112,13 +122,13 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object getOutOfJailFine() {
-        return delegate.getOutOfJailFine();
+    public Object getOutOfJailFine(String gameId, String playerName) {
+        return delegate.getOutOfJailFine(gameId, playerName);
     }
 
     @Override
-    public Object getOutOfJailFree() {
-        return delegate.getOutOfJailFree();
+    public Object getOutOfJailFree(String gameId, String playerName) {
+        return delegate.getOutOfJailFree(gameId, playerName);
     }
 
     @Override
