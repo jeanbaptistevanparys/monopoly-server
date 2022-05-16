@@ -16,8 +16,8 @@ class OpenApiMortgageTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/mortgage",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property/mortgage",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -42,8 +42,8 @@ class OpenApiMortgageTests extends OpenApiTestsBase {
         });
         delete(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/mortgage",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property/mortgage",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }

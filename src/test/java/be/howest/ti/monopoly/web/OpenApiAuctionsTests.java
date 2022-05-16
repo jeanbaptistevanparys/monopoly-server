@@ -17,14 +17,14 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void getBankAuctions(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public List<Auction> getBankAuctions(String gameId, String playerName) {
+            public List<Auction> getBankAuctions(String gameId) {
                 return Collections.emptyList();
             }
         });
         get(
                 testContext,
-                "/games/game-id/bank/auctions",
-                "some-token",
+                "/games/group12_1/bank/auctions",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -49,8 +49,8 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/bank/auctions/some-property/bid",
-                "some-token",
+                "/games/group12_1/bank/auctions/some-property/bid",
+                "group12_1-Alice",
                 new JsonObject()
                         .put("bidder", "Alice")
                         .put("amount", 100),
@@ -62,8 +62,8 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void placeBidOnBankAuctionWithEmptyBody(final VertxTestContext testContext) {
         post(
                 testContext,
-                "/games/game-id/bank/auctions/some-property/bid",
-                "some-token",
+                "/games/group12_1-Alice/bank/auctions/some-property/bid",
+                "group12_1-Alice",
                 new JsonObject(),
                 response -> assertErrorResponse(response, 400)
         );
@@ -73,8 +73,8 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void placeBidOnBankAuctionWithoutBody(final VertxTestContext testContext) {
         post(
                 testContext,
-                "/games/game-id/bank/auctions/some-property/bid",
-                "some-token",
+                "/games/group12_1/bank/auctions/some-property/bid",
+                "group12_1-Alice",
                 response -> assertErrorResponse(response, 400)
         );
     }
@@ -100,8 +100,8 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
         });
         get(
                 testContext,
-                "/games/game-id/players/Alice/auctions",
-                "some-token",
+                "/games/group12_1/players/Alice/auctions",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -126,8 +126,11 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/auctions/some-property",
-                "some-token",
+                "/games/group12_1/players/Alice/auctions/some-property",
+                "group12_1-Alice",
+                new JsonObject()
+                        .put("start-bid", 0)
+                        .put("duration", 0),
                 this::assertOkResponse
         );
     }
@@ -152,8 +155,8 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/auctions/some-property/bid",
-                "some-token",
+                "/games/group12_1/players/Alice/auctions/some-property/bid",
+                "group12_1-Alice",
                 new JsonObject()
                         .put("bidder", "Bob")
                         .put("amount", 100),
@@ -165,8 +168,8 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void placeBidOnPlayerAuctionWithoutBody(final VertxTestContext testContext) {
         post(
                 testContext,
-                "/games/game-id/players/Alice/auctions/some-property/bid",
-                "some-token",
+                "/games/group12_1/players/Alice/auctions/some-property/bid",
+                "group12_1-Alice",
                 response -> assertErrorResponse(response, 400)
         );
     }
@@ -175,8 +178,8 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
     void placeBidOnPlayerAuctionWithEmptyBody(final VertxTestContext testContext) {
         post(
                 testContext,
-                "/games/game-id/players/Alice/auctions/some-property/bid",
-                "some-token",
+                "/games/group12_1/players/Alice/auctions/some-property/bid",
+                "group12_1-Alice",
                 new JsonObject(),
                 response -> assertErrorResponse(response, 400)
         );

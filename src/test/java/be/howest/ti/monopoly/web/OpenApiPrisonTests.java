@@ -17,8 +17,8 @@ class OpenApiPrisonTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/prison/Alice/fine",
-                "some-token",
+                "/games/group12_1/prison/Alice/fine",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -43,8 +43,8 @@ class OpenApiPrisonTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/prison/Alice/free",
-                "some-token",
+                "/games/group12_1/prison/Alice/free",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }

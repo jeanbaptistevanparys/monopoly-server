@@ -47,7 +47,7 @@ public interface IService {
     Object getOutOfJailFine(String gameId, String playerName);
     Object getOutOfJailFree(String gameId, String playerName);
 
-    List<Auction> getBankAuctions(String gameId, String playerName);
+    List<Auction> getBankAuctions(String gameId);
     Object placeBidOnBankAuction(String gameId, String propertyName, String bidder, int amount);
     List<Auction> getPlayerAuctions(String gameId, String playerName);
     Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration);

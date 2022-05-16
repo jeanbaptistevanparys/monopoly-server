@@ -16,8 +16,8 @@ class OpenApiInteractionWithOtherPlayerTests extends OpenApiTestsBase {
         });
         delete(
                 testContext,
-                "/games/1-Alice/players/Alice/properties/some-property/visitors/Bob/rent",
-                "1-Alice",
+                "/games/group12_1/players/Alice/properties/some-property/visitors/Bob/rent",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }

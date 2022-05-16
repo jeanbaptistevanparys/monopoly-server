@@ -17,8 +17,8 @@ class OpenApiImprovingPropertyTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/houses",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property/houses",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -43,8 +43,8 @@ class OpenApiImprovingPropertyTests extends OpenApiTestsBase {
         });
         delete(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/houses",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property/houses",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -70,8 +70,8 @@ class OpenApiImprovingPropertyTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/hotel",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property/hotel",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -96,8 +96,8 @@ class OpenApiImprovingPropertyTests extends OpenApiTestsBase {
         });
         delete(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/hotel",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property/hotel",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }

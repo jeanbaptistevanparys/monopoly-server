@@ -49,7 +49,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public List<Auction> getBankAuctions(String gameId, String playerName) {
+    public List<Auction> getBankAuctions(String gameId) {
         throw new UnsupportedOperationException();
     }
 

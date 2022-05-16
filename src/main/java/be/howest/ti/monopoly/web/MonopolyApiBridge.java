@@ -377,11 +377,10 @@ public class MonopolyApiBridge {
     private void getBankAuctions(RoutingContext ctx) {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
-        String playerName = request.getPlayerName();
-        if (!request.isAuthorized(gameId, playerName)) {
+        if (!request.isAuthorized(gameId)) {
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
         }
-        Response.sendJsonResponse(ctx, 200, service.getBankAuctions(gameId, playerName));
+        Response.sendJsonResponse(ctx, 200, service.getBankAuctions(gameId));
     }
 
     private void placeBidOnBankAuction(RoutingContext ctx) {
@@ -413,7 +412,7 @@ public class MonopolyApiBridge {
         String propertyName = request.getPropertyName();
         int startBid = request.getBodyStartBid();
         int duration = request.getBodyDuration();
-        if (!request.isAuthorized(gameId)) {
+        if (!request.isAuthorized(gameId, playerName)) {
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
         }
         Response.sendJsonResponse(ctx, 200, service.startPlayerAuction(gameId, playerName, propertyName, startBid, duration));

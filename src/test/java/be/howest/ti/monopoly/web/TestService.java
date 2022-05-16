@@ -59,8 +59,8 @@ public class TestService implements IService {
     }
 
     @Override
-    public List<Auction> getBankAuctions(String gameId, String playerName) {
-        return delegate.getBankAuctions(gameId, playerName);
+    public List<Auction> getBankAuctions(String gameId) {
+        return delegate.getBankAuctions(gameId);
     }
 
     @Override
