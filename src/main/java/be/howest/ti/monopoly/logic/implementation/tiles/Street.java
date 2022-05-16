@@ -1,6 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
-import be.howest.ti.monopoly.logic.implementation.Colors;
+import be.howest.ti.monopoly.logic.implementation.enums.Colors;
 
 public class Street extends Property {
     private final int rentWithOneHouse;

@@ -104,7 +104,7 @@ public class Request {
     }
 
     public String getPropertyName() {
-        return params.pathParameter("playerName").getString();
+        return params.pathParameter("propertyName").getString();
     }
 
     public String getDebtorName() {

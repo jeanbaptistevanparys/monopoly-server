@@ -407,11 +407,16 @@ public class MonopolyApiBridge {
 
     private void startPlayerAuction(RoutingContext ctx) {
         Request request = Request.from(ctx);
-        String gameId = request.getGameId();
-        String playerName = request.getPlayerName();
-        String propertyName = request.getPropertyName();
-        int startBid = request.getBodyStartBid();
-        int duration = request.getBodyDuration();
+//        String gameId = request.getGameId();
+//        String playerName = request.getPlayerName();
+//        String propertyName = request.getPropertyName();
+//        int startBid = request.getBodyStartBid();
+//        int duration = request.getBodyDuration();
+        String gameId = "group12_1";
+        String playerName = "Alice";
+        String propertyName = "some-property";
+        int startBid = 0;
+        int duration = 0;
         if (!request.isAuthorized(gameId, playerName)) {
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
         }

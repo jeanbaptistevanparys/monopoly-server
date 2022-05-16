@@ -3,8 +3,6 @@ package be.howest.ti.monopoly.web.views;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,12 +35,12 @@ public class GameStateView {
     }
 
     public Object getTurns() {
-        return game.getTurns();
+        return game.getTurnHistory();
     }
 
     public List<Integer> getLastDiceRoll() {
         try {
-            return game.getTurns().get(game.getTurns().size()).getRoll();
+            return game.getTurnHistory().get(game.getTurnHistory().size()).getRoll();
         } catch (Exception ex) {
             return Collections.emptyList();
         }

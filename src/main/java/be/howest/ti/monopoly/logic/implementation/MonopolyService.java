@@ -3,54 +3,19 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
+import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
-;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MonopolyService extends ServiceAdapter {
 
     private final List<Game> games = new ArrayList<>();
-    private final List<Chance> chances = new ArrayList<>(List.of(
-            new Chance("Go to jail Go directly to jail. Do not pass go, do not collect $200."),
-            new Chance("Advance to Boardwalk"),
-            new Chance("Advance to Go (Collect $200)"),
-            new Chance("Advance to Illinois Avenue. If you pass Go, collect $200"),
-            new Chance("Advance to St. Charles Place. If you pass Go, collect $200"),
-            new Chance("Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled"),
-            new Chance("Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown."),
-            new Chance("Bank pays you dividend of $50"),
-            new Chance("Get Out of Jail Free"),
-            new Chance("Go Back 3 Spaces"),
-            new Chance("Go to Jail. Go directly to Jail, do not pass Go, do not collect $200"),
-            new Chance("Make general repairs on all your property. For each house pay $25. For each hotel pay $100"),
-            new Chance("Speeding fine $15"),
-            new Chance("Take a trip to Reading Railroad. If you pass Go, collect $200"),
-            new Chance("You have been elected Chairman of the Board. Pay each player $50"),
-            new Chance("Your building loan matures. Collect $150")
-            ));
-
-    private final List<CommunityChest> communityChests = new ArrayList<>(List.of(
-            new CommunityChest("Advance to Go (Collect $200)"),
-            new CommunityChest("Bank error in your favor. Collect $200"),
-            new CommunityChest("Doctor's fee. Pay $50"),
-            new CommunityChest("From sale of stock you get $50"),
-            new CommunityChest("Get Out of Jail Free"),
-            new CommunityChest("Go to Jail. Go directly to jail, do not pass Go, do not collect $200"),
-            new CommunityChest("Holiday fund matures. Receive $100"),
-            new CommunityChest("Income tax refund. Collect $20"),
-            new CommunityChest("It is your birthday. Collect $10 from every player"),
-            new CommunityChest("Life insurance matures. Collect $100"),
-            new CommunityChest("Pay hospital fees of $100 "),
-            new CommunityChest("Pay school fees of $50"),
-            new CommunityChest("Receive $25 consultancy fee "),
-            new CommunityChest("You are assessed for street repair. $40 per house. $115 per hotel"),
-            new CommunityChest("You have won second prize in a beauty contest. Collect $10"),
-            new CommunityChest("You inherit $100")
-    ));
+    private final List<Chance> chances = new CardFactory().createChances();
+    private final List<CommunityChest> communityChests = new CardFactory().createCommunityChests();
 
     @Override
     public String getVersion() {
@@ -59,7 +24,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Tile> getTiles() {
-        return Game.getTiles();
+        return new TileFactory().createTiles();
     }
 
     @Override
@@ -154,9 +119,10 @@ public class MonopolyService extends ServiceAdapter {
         Game dummy = new Game(3,"group-12");
         Player player1 = new Player("Jamie");
         Player player2 = new Player("Walter");
-        player1.buyProperty((Property) Game.getTiles().get(8));
-        player2.buyProperty((Property) Game.getTiles().get(5));
-        player2.buyProperty((Property) Game.getTiles().get(19));
+        List<Tile> tiles = new TileFactory().createTiles();
+        player1.buyProperty((Property) tiles.get(8));
+        player2.buyProperty((Property) tiles.get(5));
+        player2.buyProperty((Property) tiles.get(19));
         dummy.addPlayer(player1);
         dummy.addPlayer(player2);
         return dummy;
@@ -190,7 +156,7 @@ public class MonopolyService extends ServiceAdapter {
         List<Player> players = game.getPlayers();
         for (Player player : players) {
             if (playerName.equals(player.getName())) {
-                for (Tile tile : Game.getTiles()) {
+                for (Tile tile : new TileFactory().createTiles()) {
                     if (tile.getName().equals(propertyName)) {
                         player.buyProperty((Property) tile);
                         game.setCanRoll(true);
@@ -221,7 +187,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object placeBidOnBankAuction(String gameId, String propertyName, String bidder, int amount) {
-        return 0;
+        return null;
     }
 
     @Override

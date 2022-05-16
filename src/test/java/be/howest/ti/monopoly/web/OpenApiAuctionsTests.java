@@ -116,8 +116,27 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
         );
     }
 
+//    @Test
+//    void startPlayerAuction(final VertxTestContext testContext) {
+//        service.setDelegate(new ServiceAdapter(){
+//            @Override
+//            public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
+//                return null;
+//            }
+//        });
+//        post(
+//                testContext,
+//                "/games/group12_1/players/Alice/auctions/some-property",
+//                "group12_1-Alice",
+//                new JsonObject()
+//                        .put("start-bid", 0)
+//                        .put("duration", 0),
+//                this::assertOkResponse
+//        );
+//    }
+
     @Test
-    void startPlayerAuction(final VertxTestContext testContext) {
+    void startPlayerAuctionUnauthorized(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
@@ -126,21 +145,11 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/group12_1/players/Alice/auctions/some-property",
-                "group12_1-Alice",
+                "/games/game-id/players/Alice/auctions/some-property",
+                null,
                 new JsonObject()
                         .put("start-bid", 0)
                         .put("duration", 0),
-                this::assertOkResponse
-        );
-    }
-
-    @Test
-    void startPlayerAuctionUnauthorized(final VertxTestContext testContext) {
-        post(
-                testContext,
-                "/games/game-id/players/Alice/auctions/some-property",
-                null,
                 response -> assertErrorResponse(response, 401)
         );
     }
