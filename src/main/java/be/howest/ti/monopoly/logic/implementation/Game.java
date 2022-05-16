@@ -18,6 +18,7 @@ public class Game {
     private final int numberOfPlayers;
     private final String prefix;
     private final List<Player> players;
+    private final List<Turn> turns;
     private final String id;
     private boolean started;
     private boolean ended;
@@ -26,7 +27,6 @@ public class Game {
     private Player winner;
     private int availableHouses;
     private int availableHotels;
-    private List<Turn> turnHistory;
 
     public Game(int numberOfPlayers, String prefix) {
         this.tiles = new TileFactory().createTiles();
@@ -42,7 +42,7 @@ public class Game {
         this.winner = null;
         this.availableHouses = 32;
         this.availableHotels = 12;
-        turnHistory = new ArrayList<>();
+        this.turns = new ArrayList<>();
     }
 
     public void startGame() {
@@ -70,7 +70,7 @@ public class Game {
                 turnInJail(dice1, dice2, nextTile);
             } else {
                 currentPlayer.moveTile(nextTile.getName());
-                turnHistory.add(new Turn(currentPlayer.getName(), dice1, dice2));
+                turns.add(new Turn(currentPlayer.getName(), dice1, dice2));
                 if (dice1 != dice2) currentPlayer = getNextPlayer();
                 if (isProperty(nextTile)) canRoll = false;
             }
@@ -81,8 +81,8 @@ public class Game {
          if (Objects.equals(nextTile.getName(), "Go to Jail")) {
              return true;
          } else {
-             Turn lastTurn = turnHistory.get(turnHistory.size() - 1);
-             Turn secondLastTurn = turnHistory.get(turnHistory.size() - 2);
+             Turn lastTurn = turns.get(turns.size() - 1);
+             Turn secondLastTurn = turns.get(turns.size() - 2);
              if (!Objects.equals(lastTurn.getName(), currentPlayer.getName()) || !Objects.equals(secondLastTurn.getName(), currentPlayer.getName())) {
                  return false;
              } else
@@ -92,7 +92,7 @@ public class Game {
 
     private void turnGoToJail(int dice1, int dice2) {
         currentPlayer.goToJail();
-        turnHistory.add(new Turn(currentPlayer.getName(), dice1, dice2));
+        turns.add(new Turn(currentPlayer.getName(), dice1, dice2));
         currentPlayer = getNextPlayer();
     }
 
@@ -108,7 +108,7 @@ public class Game {
             }
         }
         currentPlayer.moveTile(nextTile.getName());
-        turnHistory.add(new Turn(currentPlayer.getName(), dice1, dice2));
+        turns.add(new Turn(currentPlayer.getName(), dice1, dice2));
         currentPlayer = getNextPlayer();
         if (isProperty(nextTile)) canRoll = false;
     }
@@ -159,7 +159,7 @@ public class Game {
     }
 
     public void addTurn(Turn turn) {
-        turnHistory.add(turn);
+        turns.add(turn);
     }
 
     public List<Tile> getTiles() {
@@ -212,8 +212,8 @@ public class Game {
         return availableHotels;
     }
 
-    public List<Turn> getTurnHistory() {
-        return turnHistory;
+    public List<Turn> getTurns() {
+        return turns;
     }
 
     public void getOutOfJailFine() {

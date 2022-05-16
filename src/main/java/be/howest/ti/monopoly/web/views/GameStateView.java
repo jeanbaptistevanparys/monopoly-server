@@ -35,12 +35,12 @@ public class GameStateView {
     }
 
     public Object getTurns() {
-        return game.getTurnHistory();
+        return game.getTurns();
     }
 
     public List<Integer> getLastDiceRoll() {
         try {
-            return game.getTurnHistory().get(game.getTurnHistory().size()).getRoll();
+            return game.getTurns().get(game.getTurns().size()).getRoll();
         } catch (Exception ex) {
             return Collections.emptyList();
         }
