@@ -261,7 +261,7 @@ public class MonopolyApiBridge {
     }
 
     private void collectDebt(RoutingContext ctx) {
-        throw new NotYetImplementedException("collectDebt");
+        Response.sendJsonResponse(ctx, 200, service.collectDebt());
     }
 
     private void takeMortgage(RoutingContext ctx) {
@@ -338,7 +338,7 @@ public class MonopolyApiBridge {
         Response.sendJsonResponse(ctx, 200, service.placeBidOnPlayerAuction());    }
 
     private void trade(RoutingContext ctx) {
-        throw new NotYetImplementedException("trade");
+        Response.sendJsonResponse(ctx, 200, service.trade());
     }
 
     private void onFailedRequest(RoutingContext ctx) {
