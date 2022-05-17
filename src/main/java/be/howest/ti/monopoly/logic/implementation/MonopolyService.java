@@ -194,26 +194,6 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<Auction> getPlayerAuctions(String gameId, String playerName) {
-        return List.of(
-                new Auction(new Player("Jarne"), 30),
-                new Auction(new Player("Jarne"), 40),
-                new Auction(new Player("Jarne"), 10),
-                new Auction(new Player("Jarne"), 500)
-        );
-    }
-
-    @Override
-    public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
-        return null;
-    }
-
-    @Override
-    public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
-        return null;
-    }
-
-    @Override
     public Object getOutOfJailFine(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.getOutOfJailFine();
