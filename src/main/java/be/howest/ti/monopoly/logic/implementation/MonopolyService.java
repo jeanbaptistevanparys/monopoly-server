@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.cards.Card;
 import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
@@ -14,8 +15,8 @@ import java.util.List;
 public class MonopolyService extends ServiceAdapter {
 
     private final List<Game> games = new ArrayList<>();
-    private final List<Chance> chances = new CardFactory().createChances();
-    private final List<CommunityChest> communityChests = new CardFactory().createCommunityChests();
+    private final List<Card> cards = new CardFactory().createChances();
+    private final List<Card> communityChests = new CardFactory().createCommunityChests();
 
     @Override
     public String getVersion() {
@@ -50,8 +51,8 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<String> getChance() {
         List<String> chanceDescriptions = new ArrayList<>();
-        for (Chance chance : chances) {
-            chanceDescriptions.add(chance.getDescription());
+        for (Card card : cards) {
+            chanceDescriptions.add(card.getDescription());
         }
         return chanceDescriptions;
     }
@@ -59,7 +60,7 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<String> getCommunityChest() {
         List<String> communityChestDescriptions = new ArrayList<>();
-        for (CommunityChest chance : communityChests) {
+        for (Card chance : communityChests) {
             communityChestDescriptions.add(chance.getDescription());
         }
         return communityChestDescriptions;

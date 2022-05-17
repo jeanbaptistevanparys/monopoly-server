@@ -4,7 +4,6 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.logic.implementation.Chance;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -25,7 +24,6 @@ import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;

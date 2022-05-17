@@ -92,6 +92,7 @@ public class Game {
         currentPlayer.goToJail();
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
         turn.addMove(new Move(nextTile, "Go to jail"));
+        turns.add(turn);
         currentPlayer = getNextPlayer();
     }
 
@@ -110,6 +111,7 @@ public class Game {
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
         turn.addMove(new Move(nextTile, "In jail"));
         currentPlayer = getNextPlayer();
+        turns.add(turn);
         if (isProperty(nextTile)) canRoll = false;
     }
 
@@ -123,6 +125,7 @@ public class Game {
             turn.addMove(new Move(nextTile, ""));
             canRoll = false;
         }
+        turns.add(turn);
     }
 
     public void buyHouse(String playerName, String propertyName) {

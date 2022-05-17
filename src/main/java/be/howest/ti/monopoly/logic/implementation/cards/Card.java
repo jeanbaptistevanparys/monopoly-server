@@ -1,10 +1,10 @@
-package be.howest.ti.monopoly.logic.implementation;
+package be.howest.ti.monopoly.logic.implementation.cards;
 
-public class Chance {
+public class Card {
 
     private final String description;
 
-    public Chance(String description) {
+    public Card(String description) {
         this.description = description;
     }
 
