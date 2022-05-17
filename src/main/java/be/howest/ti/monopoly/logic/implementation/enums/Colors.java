@@ -1,4 +1,4 @@
-package be.howest.ti.monopoly.logic.implementation;
+package be.howest.ti.monopoly.logic.implementation.enums;
 
 public enum Colors {
     PURPLE,

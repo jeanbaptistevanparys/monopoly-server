@@ -59,38 +59,38 @@ public class TestService implements IService {
     }
 
     @Override
-    public List<Auction> getBankAuctions() {
-        return delegate.getBankAuctions();
+    public List<Auction> getBankAuctions(String gameId) {
+        return delegate.getBankAuctions(gameId);
     }
 
     @Override
-    public Object placeBidOnBankAuction() {
-        return delegate.placeBidOnBankAuction();
+    public Object placeBidOnBankAuction(String gameId, String propertyName, String bidder, int amount) {
+        return delegate.placeBidOnBankAuction(gameId, propertyName, bidder, amount);
     }
 
     @Override
-    public List<Auction> getPlayerAuctions() {
-        return delegate.getPlayerAuctions();
+    public List<Auction> getPlayerAuctions(String gameId, String playerName) {
+        return delegate.getPlayerAuctions(gameId, playerName);
     }
 
     @Override
-    public Object startPlayerAuction() {
-        return delegate.startPlayerAuction();
+    public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
+        return delegate.startPlayerAuction(gameId, playerName, propertyName, startBid, duration);
     }
 
     @Override
-    public Object placeBidOnPlayerAuction() {
-        return delegate.placeBidOnPlayerAuction();
+    public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
+        return delegate.placeBidOnPlayerAuction(gameId, playerName, propertyName, bidder, amount);
     }
 
     @Override
-    public Object collectDebt() {
-        return delegate.collectDebt();
+    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        return delegate.collectDebt(gameId, playerName, propertyName, debtorName);
     }
 
     @Override
-    public Object trade() {
-        return delegate.trade();
+    public Object trade(String gameId, String playerName) {
+        return delegate.trade(gameId, playerName);
     }
 
     @Override
@@ -171,12 +171,12 @@ public class TestService implements IService {
         return delegate.useComputeTax(gameId, playerName);
     }
 
-    public Object takeMortgage() {
-        return delegate.takeMortgage();
+    public Object takeMortgage(String gameId, String playerName, String propertyName) {
+        return delegate.takeMortgage(gameId, playerName, propertyName);
     }
 
     @Override
-    public Object settleMortgage() {
-        return delegate.settleMortgage();
+    public Object settleMortgage(String gameId, String playerName, String propertyName) {
+        return delegate.settleMortgage(gameId, playerName, propertyName);
     }
 }

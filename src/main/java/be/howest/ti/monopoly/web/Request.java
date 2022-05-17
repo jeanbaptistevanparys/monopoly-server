@@ -8,7 +8,6 @@ import io.vertx.ext.web.validation.ValidationHandler;
 
 import java.util.Objects;
 
-
 /**
  * The Request class is responsible for translating information that is part of the
  * request into Java.
@@ -28,6 +27,7 @@ import java.util.Objects;
  * that consists of more than one "player name". You cannot use the method `getPlayerName()` for both,
  * you will need a second one with a different name.
  */
+
 public class Request {
 
     private final RoutingContext ctx;
@@ -85,10 +85,6 @@ public class Request {
         return params.queryParameter("prefix").getString();
     }
 
-    public boolean hasPrefix() {
-        return params.queryParameter("prefix").isString();
-    }
-
     public String getGameId() { return params.pathParameter("gameId").getString(); }
 
     public int getBodyNumberOfPlayers() {
@@ -107,11 +103,27 @@ public class Request {
         return params.pathParameter("playerName").getString();
     }
 
-    public int getNumber() {
-        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    public String getPropertyName() {
+        return params.pathParameter("propertyName").getString();
     }
 
-    public String getPropertyName() {
-        return params.pathParameter("playerName").getString();
+    public String getDebtorName() {
+        return params.pathParameter("debtorName").getString();
+    }
+
+    public String getBodyBidder() {
+        return params.body().getJsonObject().getString("bidder");
+    }
+
+    public int getBodyAmount() {
+        return params.body().getJsonObject().getInteger("amount");
+    }
+
+    public int getBodyStartBid() {
+        return params.body().getJsonObject().getInteger("start-bid");
+    }
+
+    public int getBodyDuration() {
+        return params.body().getJsonObject().getInteger("duration");
     }
 }
