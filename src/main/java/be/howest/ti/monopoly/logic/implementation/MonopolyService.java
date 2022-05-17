@@ -131,7 +131,7 @@ public class MonopolyService extends ServiceAdapter {
 
     public Object rollDice(String gameId, String playerName) {
         Game game = getGame(gameId);
-        game.rollDice();
+        game.rollDice(playerName);
         return null;
     }
 
@@ -158,7 +158,9 @@ public class MonopolyService extends ServiceAdapter {
             if (playerName.equals(player.getName())) {
                 for (Tile tile : new TileFactory().createTiles()) {
                     if (tile.getName().equals(propertyName)) {
-                        player.buyProperty((Property) tile);
+                        Property property = (Property) tile;
+                        if (game.isAlreadyOwned(property)) throw new IllegalMonopolyActionException("Is already owned");
+                        player.buyProperty(property);
                         game.setCanRoll(true);
                     }
                 }

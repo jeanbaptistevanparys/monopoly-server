@@ -57,22 +57,19 @@ public class Game {
         if (players.size() == numberOfPlayers) { started = true; }
     }
 
-    public void rollDice() {
-        if (canRoll && started) {
+    public void rollDice(String playerName) {
+        if (canRoll && started && currentPlayer.equals(playerName)) {
             SecureRandom random = new SecureRandom();
             int dice1 = random.nextInt(6) + 1;
             int dice2 = random.nextInt(6) + 1;
             int total = dice1 + dice2;
             Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
             if (checkIfGoToJail(nextTile, dice1, dice2)) {
-                turnGoToJail(dice1, dice2);
+                turnGoToJail(dice1, dice2, nextTile);
             } else if (currentPlayer.isJailed()) {
                 turnInJail(dice1, dice2, nextTile);
             } else {
-                currentPlayer.moveTile(nextTile.getName());
-                turns.add(new Turn(currentPlayer.getName(), dice1, dice2));
-                if (dice1 != dice2) currentPlayer = getNextPlayer();
-                if (isProperty(nextTile)) canRoll = false;
+                turnDefault(dice1, dice2, nextTile);
             }
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
@@ -90,9 +87,10 @@ public class Game {
          }
     }
 
-    private void turnGoToJail(int dice1, int dice2) {
+    private void turnGoToJail(int dice1, int dice2, Tile nextTile) {
         currentPlayer.goToJail();
-        turns.add(new Turn(currentPlayer.getName(), dice1, dice2));
+        Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
+        turn.addMove(new Move(nextTile, "Go to jail"));
         currentPlayer = getNextPlayer();
     }
 
@@ -108,28 +106,37 @@ public class Game {
             }
         }
         currentPlayer.moveTile(nextTile.getName());
-        turns.add(new Turn(currentPlayer.getName(), dice1, dice2));
+        Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
+        turn.addMove(new Move(nextTile, "In jail"));
         currentPlayer = getNextPlayer();
         if (isProperty(nextTile)) canRoll = false;
     }
 
-    public Tile getTile(String name) {
-        for (Tile tile : tiles) {
-            if (Objects.equals(tile.getName(), name)) {
-                return tile;
-            }
+    private void turnDefault(int dice1, int dice2, Tile nextTile) {
+        currentPlayer.moveTile(nextTile.getName());
+        Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
+        if (isCard(nextTile)) {
+
+            turn.addMove(new Move(nextTile, ""));
+        } else if (isProperty(nextTile)) {
+            turn.addMove(new Move(nextTile, ""));
+            canRoll = false;
         }
-        throw new MonopolyResourceNotFoundException("Did not found the requested tile: " + name);
+        if (dice1 != dice2) currentPlayer = getNextPlayer();
+    }
+
+    private boolean isCard(Tile nextTile) {
+        if (nextTile.getType().equals("chance") || nextTile.getType().equals("community chest")) {
+            return true;
+        }
+        return false;
     }
 
     private boolean isProperty(Tile nextTile) {
-        try {
-            Property property = (Property) nextTile;
-            int cost = property.getCost();
-            return cost >= 0;
-        } catch (Exception ex) {
-            return false;
+        if (nextTile.getType().equals("street") || nextTile.getType().equals("utility") || nextTile.getType().equals("railroad")) {
+            return true;
         }
+        return false;
     }
 
     private Player getNextPlayer() {
@@ -152,6 +159,24 @@ public class Game {
             }
         }
         throw new MonopolyResourceNotFoundException("Can't find next tile");
+    }
+
+    public Tile getTile(String name) {
+        for (Tile tile : tiles) {
+            if (Objects.equals(tile.getName(), name)) {
+                return tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not found the requested tile: " + name);
+    }
+
+    public boolean isAlreadyOwned(Property property) {
+        for (Player player : players) {
+            for (PlayerProperty playerProperty : player.getProperties()) {
+                if (playerProperty.getName().equals(property.getName())) return true;
+            }
+        }
+        return false;
     }
 
     public void setCanRoll(boolean canRoll) {
@@ -223,6 +248,4 @@ public class Game {
     public void getOutOfJailFree() {
         currentPlayer.getOutOfJailFree();
     }
-
-
 }
