@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.security.SecureRandom;
@@ -122,7 +123,66 @@ public class Game {
             turn.addMove(new Move(nextTile, ""));
             canRoll = false;
         }
-        if (dice1 != dice2) currentPlayer = getNextPlayer();
+    }
+
+    public void buyHouse(String playerName, String propertyName) {
+        if (availableHouses > 0) {
+            Player player = getPlayer(playerName);
+            PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+            int amount = getStreet(playerProperty.getName()).getHousePrice();
+            if (playerProperty.getHouseCount() < 4) {
+                player.spendMoney(amount);
+                playerProperty.increaseHouseCount();
+                availableHouses--;
+            } else {
+                throw new IllegalMonopolyActionException("You already have 4 houses on this property.");
+            }
+        } else {
+            throw new IllegalMonopolyActionException("There are no more houses left.");
+        }
+    }
+
+    public void sellHouse(String playerName, String propertyName) {
+        Player player = getPlayer(playerName);
+        PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+        int amount = getStreet(playerProperty.getName()).getHousePrice();
+        if (playerProperty.getHouseCount() > 0) {
+            player.receiveMoney(amount);
+            playerProperty.decreaseHouseCount();
+            availableHouses ++;
+        } else {
+            throw new IllegalMonopolyActionException("You don't have any houses on this property.");
+        }
+    }
+
+    public void buyHotel(String playerName, String propertyName) {
+        if (availableHotels > 0) {
+            Player player = getPlayer(playerName);
+            PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+            int amount = getStreet(playerProperty.getName()).getHousePrice();
+            if (playerProperty.getHouseCount() == 4 && playerProperty.getHotelCount() == 0) {
+                player.spendMoney(amount);
+                playerProperty.increaseHotelCount();
+                availableHotels--;
+            } else {
+                throw new IllegalMonopolyActionException("You already have a hotel or you have not enough houses on this property.");
+            }
+        } else {
+            throw new IllegalMonopolyActionException("There are no more hotels left.");
+        }
+    }
+
+    public void sellHotel(String playerName, String propertyName) {
+        Player player = getPlayer(playerName);
+        PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+        int amount = getStreet(playerProperty.getName()).getHousePrice();
+        if (playerProperty.getHotelCount() == 1) {
+            player.receiveMoney(amount);
+            playerProperty.decreaseHotelCount();
+            availableHotels ++;
+        } else {
+            throw new IllegalMonopolyActionException("You don't have a hotel on this property.");
+        }
     }
 
     private boolean isCard(Tile nextTile) {
@@ -130,6 +190,15 @@ public class Game {
             return true;
         }
         return false;
+    }
+
+    public Street getStreet(String name) {
+        for (Tile tile : tiles) {
+            if (Objects.equals(tile.getName(), name)) {
+                return (Street) tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not found the requested street: " + name);
     }
 
     private boolean isProperty(Tile nextTile) {
@@ -158,7 +227,25 @@ public class Game {
                 return tiles.get(nextPosition);
             }
         }
-        throw new MonopolyResourceNotFoundException("Can't find next tile");
+        throw new MonopolyResourceNotFoundException("Can't find next tile.");
+    }
+
+    public Player getPlayer(String playerName) {
+        for (Player player : players) {
+            if (player.getName().equals(playerName)) {
+                return player;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not found the requested player.");
+    }
+
+    public PlayerProperty getPlayerProperty(List<PlayerProperty> playerProperties, String propertyName) {
+        for (PlayerProperty playerProperty : playerProperties) {
+            if (playerProperty.getName().equals(propertyName)) {
+                return playerProperty;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not found the requested playerProperty.");
     }
 
     public Tile getTile(String name) {

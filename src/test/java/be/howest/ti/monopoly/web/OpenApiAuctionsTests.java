@@ -116,24 +116,24 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
         );
     }
 
-//    @Test
-//    void startPlayerAuction(final VertxTestContext testContext) {
-//        service.setDelegate(new ServiceAdapter(){
-//            @Override
-//            public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
-//                return null;
-//            }
-//        });
-//        post(
-//                testContext,
-//                "/games/group12_1/players/Alice/auctions/some-property",
-//                "group12_1-Alice",
-//                new JsonObject()
-//                        .put("start-bid", 0)
-//                        .put("duration", 0),
-//                this::assertOkResponse
-//        );
-//    }
+    @Test
+    void startPlayerAuction(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
+                return null;
+            }
+        });
+        post(
+                testContext,
+                "/games/group12_1/players/Alice/auctions/some-property",
+                "group12_1-Alice",
+                new JsonObject()
+                        .put("start-bid", 0)
+                        .put("duration", 30),
+                this::assertOkResponse
+        );
+    }
 
     @Test
     void startPlayerAuctionUnauthorized(final VertxTestContext testContext) {
