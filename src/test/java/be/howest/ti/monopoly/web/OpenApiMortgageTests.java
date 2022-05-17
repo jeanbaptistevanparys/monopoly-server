@@ -10,14 +10,14 @@ class OpenApiMortgageTests extends OpenApiTestsBase {
     void takeMortgage(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public Object takeMortgage() {
+            public Object takeMortgage(String gameId, String playerName, String propertyName) {
                 return null;
             }
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/mortgage",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property/mortgage",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -36,14 +36,14 @@ class OpenApiMortgageTests extends OpenApiTestsBase {
     void settleMortgage(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Object settleMortgage() {
+            public Object settleMortgage(String gameId, String playerName, String propertyName) {
                 return null;
             }
         });
         delete(
                 testContext,
-                "/games/game-id/players/Alice/properties/some-property/mortgage",
-                "some-token",
+                "/games/group12_1/players/Alice/properties/some-property/mortgage",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }

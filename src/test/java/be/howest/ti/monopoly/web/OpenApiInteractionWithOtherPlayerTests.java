@@ -5,20 +5,19 @@ import be.howest.ti.monopoly.logic.ServiceAdapter;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
-
 class OpenApiInteractionWithOtherPlayerTests extends OpenApiTestsBase {
     @Test
     void collectDebt(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Object collectDebt() {
+            public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
                 return null;
             }
         });
         delete(
                 testContext,
-                "/games/1-Alice/players/Alice/properties/some-property/visitors/Bob/rent",
-                "1-Alice",
+                "/games/group12_1/players/Alice/properties/some-property/visitors/Bob/rent",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -32,6 +31,4 @@ class OpenApiInteractionWithOtherPlayerTests extends OpenApiTestsBase {
                 response -> assertErrorResponse(response, 401)
         );
     }
-
-
 }

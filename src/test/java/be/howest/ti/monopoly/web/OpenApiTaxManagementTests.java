@@ -17,8 +17,8 @@ class OpenApiTaxManagementTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/tax/estimate",
-                "some-token",
+                "/games/group12_1/players/Alice/tax/estimate",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
@@ -43,8 +43,8 @@ class OpenApiTaxManagementTests extends OpenApiTestsBase {
         });
         post(
                 testContext,
-                "/games/game-id/players/Alice/tax/compute",
-                "some-token",
+                "/games/group12_1/players/Alice/tax/compute",
+                "group12_1-Alice",
                 this::assertOkResponse
         );
     }
