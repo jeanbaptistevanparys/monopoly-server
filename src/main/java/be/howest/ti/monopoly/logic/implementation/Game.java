@@ -114,6 +114,13 @@ public class Game {
         if (isProperty(nextTile)) canRoll = false;
     }
 
+    public void buyProperty(String playerName, String propertyName) {
+        Player player = getPlayer(playerName);
+        Tile tile = getTile(propertyName);
+        player.buyProperty((Property) tile);
+        setCanRoll(true);
+    }
+
     public void buyHouse(String playerName, String propertyName) {
         if (availableHouses > 0) {
             Player player = getPlayer(playerName);
@@ -175,18 +182,18 @@ public class Game {
     }
 
     public void collectDebt(String playerName, String propertyName, String debtorName) {
-         Player debtor = getPlayer(debtorName);
-         Player receiver = getPlayer(playerName);
-         int amountOfHouses = getPlayerProperty(receiver.getProperties(), propertyName).getHouseCount();
-         int amountOfHotels = getPlayerProperty(receiver.getProperties(), propertyName).getHotelCount();
-         int debtValue;
-         if (amountOfHotels > 0) {
-             debtValue = getStreet(propertyName).getRentWithHotel();
-         } else {
+        Player debtor = getPlayer(debtorName);
+        Player receiver = getPlayer(playerName);
+        int amountOfHouses = getPlayerProperty(receiver.getProperties(), propertyName).getHouseCount();
+        int amountOfHotels = getPlayerProperty(receiver.getProperties(), propertyName).getHotelCount();
+        int debtValue;
+        if (amountOfHotels > 0) {
+            debtValue = getStreet(propertyName).getRentWithHotel();
+        } else {
              debtValue = getDebtValue(amountOfHouses, propertyName);
-         }
-         debtor.giveMoney(debtValue);
-         receiver.receiveMoney(debtValue);
+        }
+        debtor.giveMoney(debtValue);
+        receiver.receiveMoney(debtValue);
     }
 
     public int getDebtValue(int amountOfHouses, String propertyName) {
@@ -243,7 +250,7 @@ public class Game {
         boolean currentFlag = false;
         for (Player player : players) {
             if (currentFlag) return player;
-            if (player.getName() == currentPlayer.getName()) {
+            if (Objects.equals(player.getName(), currentPlayer.getName())) {
                 currentFlag = true;
             }
         }

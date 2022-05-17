@@ -152,20 +152,10 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyProperty(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
-        List<Player> players = game.getPlayers();
-        for (Player player : players) {
-            if (playerName.equals(player.getName())) {
-                for (Tile tile : new TileFactory().createTiles()) {
-                    if (tile.getName().equals(propertyName)) {
-                        player.buyProperty((Property) tile);
-                        game.setCanRoll(true);
-                    }
-                }
-                return null;
-            }
-        }
-        throw new MonopolyResourceNotFoundException("No such tile");
+        game.buyProperty(playerName, propertyName);
+        return null;
     }
 
     @Override
@@ -202,11 +192,13 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
+        // Don't make anymore
         return null;
     }
 
     @Override
     public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
+        // Don't make anymore
         return null;
     }
 
@@ -231,6 +223,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyHouse(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.buyHouse(playerName, propertyName);
         return null;
@@ -238,6 +231,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object sellHouse(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.sellHouse(playerName, propertyName);
         return null;
@@ -245,6 +239,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyHotel(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.buyHotel(playerName, propertyName);
         return null;
@@ -252,6 +247,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object sellHotel(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.sellHotel(playerName, propertyName);
         return null;
@@ -264,6 +260,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.collectDebt(playerName, propertyName, debtorName);
         return null;

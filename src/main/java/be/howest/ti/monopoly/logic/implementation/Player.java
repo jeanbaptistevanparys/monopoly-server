@@ -16,7 +16,6 @@ public class Player {
     private boolean bankrupt;
     private int outOfJailFreeCards;
     private int triesToGetOutOfJail;
-    private boolean justGotOutOfJail;
     private String taxSystem;
     private final List<PlayerProperty> properties;
 
@@ -36,12 +35,8 @@ public class Player {
     }
 
     public void buyProperty(Property property) {
-        if (money >= property.getCost()) {
-            properties.add(new PlayerProperty(property.getName()));
-            money -= property.getCost();
-        } else {
-            throw new InsufficientFundsException("Not enough money to buy" + property.getName());
-        }
+        spendMoney(property.getCost());
+        properties.add(new PlayerProperty(property.getName()));
     }
 
     public void spendMoney(int amount) {
@@ -140,10 +135,6 @@ public class Player {
 
     public int getTriesToGetOutOfJail() {
         return triesToGetOutOfJail;
-    }
-
-    public boolean isJustGotOutOfJail() {
-        return justGotOutOfJail;
     }
 
     @Override

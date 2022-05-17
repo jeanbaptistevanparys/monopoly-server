@@ -1,14 +1,17 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
 
     private Game newGame() {
-        Game game = new Game(2, "helo");
+        Game game = new Game(2, "test");
         Player player1 = new Player("Jarne");
         Player player2 = new Player("Jari");
         game.addPlayer(player1);
@@ -71,5 +74,51 @@ class GameTest {
         game.addTurn(turn1);
         game.addTurn(turn2);
         assertFalse(game.checkIfGoToJail(tile, 2, 2));
+    }
+
+    @Test
+    void buyProperty() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Mediterranean");
+        List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
+        assertEquals(1, properties.size());
+        assertEquals(1498, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void buyHouse() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Mediterranean");
+        game.buyHouse("Jarne", "Mediterranean");
+        List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
+        assertEquals(1, properties.get(0).getHouseCount());
+        assertEquals(1448, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void buyHotel() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Mediterranean");
+        game.buyHouse("Jarne", "Mediterranean");
+        game.buyHouse("Jarne", "Mediterranean");
+        game.buyHouse("Jarne", "Mediterranean");
+        game.buyHouse("Jarne", "Mediterranean");
+        game.buyHotel("Jarne", "Mediterranean");
+        List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
+        assertEquals(1, properties.get(0).getHotelCount());
+        assertEquals(1248, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void collectDebt() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Mediterranean");
+        game.buyHouse("Jarne", "Mediterranean");
+        game.buyHouse("Jarne", "Mediterranean");
+        game.buyHouse("Jarne", "Mediterranean");
+        game.collectDebt("Jarne", "Mediterranean", "Jari");
+        assertEquals(1438, game.getPlayer("Jarne").getMoney());
+        assertEquals(1410, game.getPlayer("Jari").getMoney());
+
     }
 }
