@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.security.SecureRandom;
@@ -113,56 +114,6 @@ public class Game {
         if (isProperty(nextTile)) canRoll = false;
     }
 
-    public Tile getTile(String name) {
-        for (Tile tile : tiles) {
-            if (Objects.equals(tile.getName(), name)) {
-                return tile;
-            }
-        }
-        throw new MonopolyResourceNotFoundException("Did not found the requested tile: " + name);
-    }
-
-    public Street getStreet(String name) {
-        for (Tile tile : TILES) {
-            if (Objects.equals(tile.getName(), name)) {
-                return (Street) tile;
-            }
-        }
-        throw new MonopolyResourceNotFoundException("Did not found the requested street: " + name);
-    }
-
-    private boolean isProperty(Tile nextTile) {
-        try {
-            Property property = (Property) nextTile;
-            int cost = property.getCost();
-            return cost >= 0;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
-
-    private Player getNextPlayer() {
-        boolean currentFlag = false;
-        for (Player player : players) {
-            if (currentFlag) return player;
-            if (player.getName() == currentPlayer.getName()) {
-                currentFlag = true;
-            }
-        }
-        return players.get(0);
-    }
-
-    private Tile getNextTile(String currentTile, int total) {
-        for (Tile tile : tiles) {
-            if (tile.getName().equals(currentTile)) {
-                int nextPosition = tile.getPosition() + total;
-                if (nextPosition > tiles.size()) nextPosition = 0;
-                return tiles.get(nextPosition);
-            }
-        }
-        throw new MonopolyResourceNotFoundException("Can't find next tile.");
-    }
-
     public void buyHouse(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
@@ -215,6 +166,56 @@ public class Game {
         } else {
             throw new IllegalMonopolyActionException("You don't have a hotel on this property.");
         }
+    }
+
+    public Tile getTile(String name) {
+        for (Tile tile : tiles) {
+            if (Objects.equals(tile.getName(), name)) {
+                return tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not found the requested tile: " + name);
+    }
+
+    public Street getStreet(String name) {
+        for (Tile tile : tiles) {
+            if (Objects.equals(tile.getName(), name)) {
+                return (Street) tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not found the requested street: " + name);
+    }
+
+    private boolean isProperty(Tile nextTile) {
+        try {
+            Property property = (Property) nextTile;
+            int cost = property.getCost();
+            return cost >= 0;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    private Player getNextPlayer() {
+        boolean currentFlag = false;
+        for (Player player : players) {
+            if (currentFlag) return player;
+            if (player.getName() == currentPlayer.getName()) {
+                currentFlag = true;
+            }
+        }
+        return players.get(0);
+    }
+
+    private Tile getNextTile(String currentTile, int total) {
+        for (Tile tile : tiles) {
+            if (tile.getName().equals(currentTile)) {
+                int nextPosition = tile.getPosition() + total;
+                if (nextPosition > tiles.size()) nextPosition = 0;
+                return tiles.get(nextPosition);
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Can't find next tile.");
     }
 
     public Player getPlayer(String playerName) {
