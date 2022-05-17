@@ -1,5 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+
 public class PlayerProperty {
 
     private final String name;
@@ -24,10 +26,12 @@ public class PlayerProperty {
 
     public void increaseHotelCount() {
         hotelCount++;
+        houseCount = 0;
     }
 
     public void decreaseHotelCount() {
         hotelCount--;
+        houseCount = 4;
     }
 
     public void setMortgage(boolean mortgage) {
@@ -49,4 +53,5 @@ public class PlayerProperty {
     public int getHotelCount() {
         return hotelCount;
     }
+
 }

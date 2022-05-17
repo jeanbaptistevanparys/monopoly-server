@@ -44,13 +44,16 @@ public class Player {
         }
     }
 
-    public boolean spendMoney(int amount) {
-        if (money > amount) {
+    public void spendMoney(int amount) {
+        if (money >= amount) {
             money -= amount;
-            return true;
         } else {
             throw new MonopolyResourceNotFoundException("Not enough money");
         }
+    }
+
+    public void receiveMoney(int amount) {
+        money += amount;
     }
 
     public void addProperty(String property) {
@@ -63,12 +66,9 @@ public class Player {
     }
 
     public void getOutOfJailFine() {
-        if (spendMoney(50)) {
-            jailed = false;
-            triesToGetOutOfJail = 0;
-        } else {
-            throw new MonopolyResourceNotFoundException("Not enough money to go out of jail");
-        }
+        spendMoney(50);
+        jailed = false;
+        triesToGetOutOfJail = 0;
     }
 
     public void getOutOfJailFree() {
