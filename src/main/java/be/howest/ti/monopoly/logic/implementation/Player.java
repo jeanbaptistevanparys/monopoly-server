@@ -52,6 +52,18 @@ public class Player {
         }
     }
 
+    public void giveMoney(int amount) {
+        if (money >= amount) {
+            money -= amount;
+        } else {
+            goBankrupt();
+        }
+    }
+
+    public void goBankrupt() {
+        bankrupt = true;
+    }
+
     public void receiveMoney(int amount) {
         money += amount;
     }
@@ -66,7 +78,11 @@ public class Player {
     }
 
     public void getOutOfJailFine() {
-        spendMoney(50);
+        if (triesToGetOutOfJail == 3) {
+            giveMoney(50);
+        } else {
+            spendMoney(50);
+        }
         jailed = false;
         triesToGetOutOfJail = 0;
     }
