@@ -265,21 +265,29 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyHouse(String gameId, String playerName, String propertyName) {
+        Game game = getGame(gameId);
+        game.buyHouse(playerName, propertyName);
         return null;
     }
 
     @Override
     public Object sellHouse(String gameId, String playerName, String propertyName) {
+        Game game = getGame(gameId);
+        game.sellHouse(playerName, propertyName);
         return null;
     }
 
     @Override
     public Object buyHotel(String gameId, String playerName, String propertyName) {
+        Game game = getGame(gameId);
+        game.buyHotel(playerName, propertyName);
         return null;
     }
 
     @Override
     public Object sellHotel(String gameId, String playerName, String propertyName) {
+        Game game = getGame(gameId);
+        game.sellHotel(playerName, propertyName);
         return null;
     }
 

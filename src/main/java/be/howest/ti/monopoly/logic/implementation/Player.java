@@ -53,6 +53,10 @@ public class Player {
         }
     }
 
+    public void receiveMoney(int amount) {
+        money += amount;
+    }
+
     public void addProperty(String property) {
         properties.add(new PlayerProperty(property));
     }
