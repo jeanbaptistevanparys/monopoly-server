@@ -264,6 +264,8 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        Game game = getGame(gameId);
+        game.collectDebt(playerName, propertyName, debtorName);
         return null;
     }
 

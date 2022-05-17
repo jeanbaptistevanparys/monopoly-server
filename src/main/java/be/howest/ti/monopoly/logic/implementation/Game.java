@@ -174,13 +174,50 @@ public class Game {
         }
     }
 
+    public void collectDebt(String playerName, String propertyName, String debtorName) {
+         Player debtor = getPlayer(debtorName);
+         Player receiver = getPlayer(playerName);
+         int amountOfHouses = getPlayerProperty(receiver.getProperties(), propertyName).getHouseCount();
+         int amountOfHotels = getPlayerProperty(receiver.getProperties(), propertyName).getHotelCount();
+         int debtValue;
+         if (amountOfHotels > 0) {
+             debtValue = getStreet(propertyName).getRentWithHotel();
+         } else {
+             debtValue = getDebtValue(amountOfHouses, propertyName);
+         }
+         debtor.giveMoney(debtValue);
+         receiver.receiveMoney(debtValue);
+    }
+
+    public int getDebtValue(int amountOfHouses, String propertyName) {
+        int debtValue;
+        switch (amountOfHouses) {
+            case 1:
+                debtValue = getStreet(propertyName).getRentWithOneHouse();
+                break;
+            case 2:
+                debtValue = getStreet(propertyName).getRentWithTwoHouses();
+                break;
+            case 3:
+                debtValue = getStreet(propertyName).getRentWithThreeHouses();
+                break;
+            case 4:
+                debtValue = getStreet(propertyName).getRentWithFourHouses();
+                break;
+            default:
+                debtValue = getStreet(propertyName).getRent();
+                break;
+        }
+        return debtValue;
+    }
+
     public Tile getTile(String name) {
         for (Tile tile : tiles) {
             if (Objects.equals(tile.getName(), name)) {
                 return tile;
             }
         }
-        throw new MonopolyResourceNotFoundException("Did not found the requested tile: " + name);
+        throw new MonopolyResourceNotFoundException("Did not find the requested tile: " + name);
     }
 
     public Street getStreet(String name) {
@@ -189,7 +226,7 @@ public class Game {
                 return (Street) tile;
             }
         }
-        throw new MonopolyResourceNotFoundException("Did not found the requested street: " + name);
+        throw new MonopolyResourceNotFoundException("Did not find the requested street: " + name);
     }
 
     private boolean isProperty(Tile nextTile) {
