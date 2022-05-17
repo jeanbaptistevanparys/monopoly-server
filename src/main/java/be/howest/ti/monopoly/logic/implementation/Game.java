@@ -115,17 +115,19 @@ public class Game {
     }
 
     public void buyHouse(String playerName, String propertyName) {
-        Player player = getPlayer(playerName);
-        PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
-        int amount = getStreet(playerProperty.getName()).getHousePrice();
-        if (playerProperty.getHouseCount() < 4) {
-            if (player.spendMoney(amount)) {
+        if (availableHouses > 0) {
+            Player player = getPlayer(playerName);
+            PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+            int amount = getStreet(playerProperty.getName()).getHousePrice();
+            if (playerProperty.getHouseCount() < 4) {
+                player.spendMoney(amount);
                 playerProperty.increaseHouseCount();
+                availableHouses--;
             } else {
-                throw new MonopolyResourceNotFoundException("Not enough money to buy a house.");
+                throw new IllegalMonopolyActionException("You already have 4 houses on this property.");
             }
         } else {
-            throw new IllegalMonopolyActionException("You already have 4 houses on this property.");
+            throw new IllegalMonopolyActionException("There are no more houses left.");
         }
     }
 
@@ -136,23 +138,26 @@ public class Game {
         if (playerProperty.getHouseCount() > 0) {
             player.receiveMoney(amount);
             playerProperty.decreaseHouseCount();
+            availableHouses ++;
         } else {
             throw new IllegalMonopolyActionException("You don't have any houses on this property.");
         }
     }
 
     public void buyHotel(String playerName, String propertyName) {
-        Player player = getPlayer(playerName);
-        PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
-        int amount = getStreet(playerProperty.getName()).getHousePrice();
-        if (playerProperty.getHouseCount() == 4 && playerProperty.getHotelCount() == 0) {
-            if (player.spendMoney(amount)) {
+        if (availableHotels > 0) {
+            Player player = getPlayer(playerName);
+            PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+            int amount = getStreet(playerProperty.getName()).getHousePrice();
+            if (playerProperty.getHouseCount() == 4 && playerProperty.getHotelCount() == 0) {
+                player.spendMoney(amount);
                 playerProperty.increaseHotelCount();
+                availableHotels--;
             } else {
-                throw new MonopolyResourceNotFoundException("Not enough money to buy a hotel.");
+                throw new IllegalMonopolyActionException("You already have a hotel or you have not enough houses on this property.");
             }
         } else {
-            throw new IllegalMonopolyActionException("You already have a hotel or you have not enough houses on this property.");
+            throw new IllegalMonopolyActionException("There are no more hotels left.");
         }
     }
 
@@ -163,6 +168,7 @@ public class Game {
         if (playerProperty.getHotelCount() == 1) {
             player.receiveMoney(amount);
             playerProperty.decreaseHotelCount();
+            availableHotels ++;
         } else {
             throw new IllegalMonopolyActionException("You don't have a hotel on this property.");
         }
