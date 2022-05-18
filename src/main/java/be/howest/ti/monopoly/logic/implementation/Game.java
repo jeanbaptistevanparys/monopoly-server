@@ -1,6 +1,8 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.cards.Card;
+import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Street;
@@ -119,13 +121,51 @@ public class Game {
         currentPlayer.moveTile(nextTile.getName());
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
         if (isCard(nextTile)) {
-
-            turn.addMove(new Move(nextTile, ""));
+            cardTurn(turn);
         } else if (isProperty(nextTile)) {
-            turn.addMove(new Move(nextTile, ""));
-            canRoll = false;
+            propertyTurn(turn);
+        } else if (isTax(nextTile)) {
+            taxTurn(turn);
         }
         turns.add(turn);
+    }
+
+    private void cardTurn(Turn turn) {
+        SecureRandom random = new SecureRandom();
+        int number = random.nextInt(14);
+        Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
+        Card card;
+        if (nextTile.getType().equals("chance")) card = new CardFactory().createChances().get(number);
+        else card = new CardFactory().createCommunityChests().get(number);
+        card.executeCard(currentPlayer, this, turn);
+        String description = card.getDescription();
+        turn.addMove(new Move(nextTile, description));
+    }
+
+    private void propertyTurn(Turn turn) {
+        Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
+        String description;
+        if (isAlreadyOwned((Property) nextTile)) description = "Should pay rent";
+        else description = "Direct sale";
+        turn.addMove(new Move(nextTile, description));
+        canRoll = false;
+    }
+
+    private void taxTurn(Turn turn) {
+        String description = "Pay taxes";
+        turn.addMove(new Move(getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1)), description));
+    }
+
+    private boolean isCard(Tile nextTile) {
+        return nextTile.getType().equals("chance") || nextTile.getType().equals("community chest");
+    }
+
+    private boolean isProperty(Tile nextTile) {
+        return nextTile.getType().equals("street") || nextTile.getType().equals("utility") || nextTile.getType().equals("railroad");
+    }
+
+    private boolean isTax(Tile nextTile) {
+        return nextTile.getType().equals("Luxury Tax") || nextTile.getType().equals("Income Tax");
     }
 
     public void buyHouse(String playerName, String propertyName) {
@@ -188,13 +228,6 @@ public class Game {
         }
     }
 
-    private boolean isCard(Tile nextTile) {
-        if (nextTile.getType().equals("chance") || nextTile.getType().equals("community chest")) {
-            return true;
-        }
-        return false;
-    }
-
     public Street getStreet(String name) {
         for (Tile tile : tiles) {
             if (Objects.equals(tile.getName(), name)) {
@@ -202,13 +235,6 @@ public class Game {
             }
         }
         throw new MonopolyResourceNotFoundException("Did not found the requested street: " + name);
-    }
-
-    private boolean isProperty(Tile nextTile) {
-        if (nextTile.getType().equals("street") || nextTile.getType().equals("utility") || nextTile.getType().equals("railroad")) {
-            return true;
-        }
-        return false;
     }
 
     private Player getNextPlayer() {

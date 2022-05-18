@@ -36,13 +36,11 @@ public class CardFactory {
                 new MoveToTileCard("Go to Jail", "Jail"),
                 new ChangeMoneyCard("Holiday fund matures. Receive $100", 100),
                 new ChangeMoneyCard("Income tax refund. Collect $20", 20),
-                new ChangeMoneyCard("It is your birthday. Collect $50", 50),
                 new ChangeMoneyCard("Life insurance matures. Collect $100", 100),
                 new ChangeMoneyCard("Pay hospital fees of $100", -100),
                 new ChangeMoneyCard("Pay school fees of $50", -50),
                 new ChangeMoneyCard("Receive $25 consultancy fee", -25),
                 new ChangeMoneyCard("You are assessed for street repair. Pay 200$", -200),
-                new ChangeMoneyCard("You have won second prize in a beauty contest. Collect $10", 10),
                 new ChangeMoneyCard("You inherit $100", 100)
         ));
     }
