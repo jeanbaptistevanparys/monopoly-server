@@ -1,7 +1,5 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
-
 public class PlayerProperty {
 
     private final String name;
