@@ -13,7 +13,7 @@ class OpenApiGameInfoTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game getGame(String gameId) {
-                return new Game(3, "group12", lastDiceRoll);
+                return new Game(3, "group12");
             }
         });
         get(
@@ -39,7 +39,7 @@ class OpenApiGameInfoTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game getDummyGame() {
-                return new Game(3, "group12", lastDiceRoll);
+                return new Game(3, "group12");
             }});
         get(
                 testContext,

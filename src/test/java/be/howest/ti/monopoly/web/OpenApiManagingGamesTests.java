@@ -72,7 +72,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGames(String prefix, int numberOfPlayers) {
-                return new Game(3, null, lastDiceRoll);
+                return new Game(3, null);
             }
         });
         post(
@@ -89,7 +89,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         service.setDelegate(new ServiceAdapter(){
             @Override
             public Game createGames(String prefix, int numberOfPlayers) {
-                return new Game(3, "group12", lastDiceRoll);
+                return new Game(3, "group12");
             }
         });
         post(
