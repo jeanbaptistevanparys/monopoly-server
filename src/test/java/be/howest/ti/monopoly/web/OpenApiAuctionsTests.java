@@ -92,17 +92,11 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
 
     @Test
     void getPlayerAuctions(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
-            @Override
-            public List<Auction> getPlayerAuctions(String gameId, String playerName) {
-                return Collections.emptyList();
-            }
-        });
         get(
                 testContext,
                 "/games/group12_1/players/Alice/auctions",
                 "group12_1-Alice",
-                this::assertOkResponse
+                response -> assertNotYetImplemented(response, "getPlayerAuctions")
         );
     }
 
@@ -116,33 +110,18 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
         );
     }
 
-//    @Test
-//    void startPlayerAuction(final VertxTestContext testContext) {
-//        service.setDelegate(new ServiceAdapter(){
-//            @Override
-//            public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
-//                return null;
-//            }
-//        });
-//        post(
-//                testContext,
-//                "/games/group12_1/players/Alice/auctions/some-property",
-//                "group12_1-Alice",
-//                new JsonObject()
-//                        .put("start-bid", 0)
-//                        .put("duration", 0),
-//                this::assertOkResponse
-//        );
-//    }
+    @Test
+    void startPlayerAuction(final VertxTestContext testContext) {
+        post(
+                testContext,
+                "/games/group12_1/players/Alice/auctions/some-property",
+                "group12_1-Alice",
+                response -> assertNotYetImplemented(response, "startPlayerAuction")
+        );
+    }
 
     @Test
     void startPlayerAuctionUnauthorized(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
-            @Override
-            public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
-                return null;
-            }
-        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/auctions/some-property",
@@ -156,12 +135,6 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
 
     @Test
     void placeBidOnPlayerAuction(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
-            @Override
-            public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
-                return null;
-            }
-        });
         post(
                 testContext,
                 "/games/group12_1/players/Alice/auctions/some-property/bid",
@@ -169,7 +142,7 @@ class OpenApiAuctionsTests extends OpenApiTestsBase {
                 new JsonObject()
                         .put("bidder", "Bob")
                         .put("amount", 100),
-                this::assertOkResponse
+                response -> assertNotYetImplemented(response, "placeBidOnPlayerAuction")
         );
     }
 

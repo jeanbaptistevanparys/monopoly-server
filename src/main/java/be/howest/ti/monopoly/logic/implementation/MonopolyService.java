@@ -3,10 +3,12 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.cards.Card;
 import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import io.vertx.core.json.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +16,8 @@ import java.util.List;
 public class MonopolyService extends ServiceAdapter {
 
     private final List<Game> games = new ArrayList<>();
-    private final List<Chance> chances = new CardFactory().createChances();
-    private final List<CommunityChest> communityChests = new CardFactory().createCommunityChests();
+    private final List<Card> cards = new CardFactory().createChances();
+    private final List<Card> communityChests = new CardFactory().createCommunityChests();
 
     @Override
     public String getVersion() {
@@ -50,8 +52,8 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<String> getChance() {
         List<String> chanceDescriptions = new ArrayList<>();
-        for (Chance chance : chances) {
-            chanceDescriptions.add(chance.getDescription());
+        for (Card card : cards) {
+            chanceDescriptions.add(card.getDescription());
         }
         return chanceDescriptions;
     }
@@ -59,7 +61,7 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public List<String> getCommunityChest() {
         List<String> communityChestDescriptions = new ArrayList<>();
-        for (CommunityChest chance : communityChests) {
+        for (Card chance : communityChests) {
             communityChestDescriptions.add(chance.getDescription());
         }
         return communityChestDescriptions;
@@ -128,11 +130,11 @@ public class MonopolyService extends ServiceAdapter {
         return dummy;
     }
 
-
+    @Override
     public Object rollDice(String gameId, String playerName) {
         Game game = getGame(gameId);
-        game.rollDice();
-        return null;
+        game.rollDice(playerName);
+        return game;
     }
 
     @Override
@@ -155,7 +157,9 @@ public class MonopolyService extends ServiceAdapter {
         propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.buyProperty(playerName, propertyName);
-        return null;
+        return new JsonObject()
+                .put("property", propertyName)
+                .put("purchased", true);
     }
 
     @Override
@@ -177,28 +181,6 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object placeBidOnBankAuction(String gameId, String propertyName, String bidder, int amount) {
-        return null;
-    }
-
-    @Override
-    public List<Auction> getPlayerAuctions(String gameId, String playerName) {
-        return List.of(
-                new Auction(new Player("Jarne"), 30),
-                new Auction(new Player("Jarne"), 40),
-                new Auction(new Player("Jarne"), 10),
-                new Auction(new Player("Jarne"), 500)
-        );
-    }
-
-    @Override
-    public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
-        // Don't make anymore
-        return null;
-    }
-
-    @Override
-    public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
-        // Don't make anymore
         return null;
     }
 

@@ -84,11 +84,6 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public List<Auction> getPlayerAuctions(String gameId, String playerName) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public Game getDummyGame() {
         throw new UnsupportedOperationException();
     }
@@ -104,11 +99,6 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public Object getOutOfJailFree(String gameId, String playerName) {
         throw new UnsupportedOperationException();
     }
@@ -120,11 +110,6 @@ public class ServiceAdapter implements IService {
 
     @Override
     public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
         throw new UnsupportedOperationException();
     }
 

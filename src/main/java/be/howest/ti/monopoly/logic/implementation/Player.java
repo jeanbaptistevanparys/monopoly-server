@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;

@@ -49,7 +49,4 @@ public interface IService {
 
     List<Auction> getBankAuctions(String gameId);
     Object placeBidOnBankAuction(String gameId, String propertyName, String bidder, int amount);
-    List<Auction> getPlayerAuctions(String gameId, String playerName);
-    Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration);
-    Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount);
 }

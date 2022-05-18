@@ -30,4 +30,8 @@ public class Turn {
     public boolean isDouble() {
         return Objects.equals(roll.get(0), roll.get(1));
     }
+
+    public List<Move> getMoves() {
+        return moves;
+    }
 }

@@ -1,6 +1,5 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +18,19 @@ class GameTest {
         game.startGame();
         return game;
     }
+
+    @Test
+    void startGame() {
+        Game game = newGame();
+        assertTrue(game.isStarted());
+    }
+
+    @Test
+    void addPlayer() {
+        Game game = newGame();
+        assertEquals(2, game.getPlayers().size());
+    }
+
 
     @Test
     void goOutOfJailFree() {
@@ -49,8 +61,12 @@ class GameTest {
         Game game = newGame();
         Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
         Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
+        Turn turn3 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
+        Turn turn4 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
         game.addTurn(turn1);
         game.addTurn(turn2);
+        game.addTurn(turn3);
+        game.addTurn(turn4);
         assertTrue(game.checkIfGoToJail(tile, 2, 2));
     }
 
@@ -89,16 +105,18 @@ class GameTest {
     void buyHouse() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
         game.buyHouse("Jarne", "Chrome Crib");
         List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
         assertEquals(1, properties.get(0).getHouseCount());
-        assertEquals(1390, game.getPlayer("Jarne").getMoney());
+        assertEquals(1330, game.getPlayer("Jarne").getMoney());
     }
 
     @Test
     void buyHotel() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
         game.buyHouse("Jarne", "Chrome Crib");
         game.buyHouse("Jarne", "Chrome Crib");
         game.buyHouse("Jarne", "Chrome Crib");
@@ -106,18 +124,55 @@ class GameTest {
         game.buyHotel("Jarne", "Chrome Crib");
         List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
         assertEquals(1, properties.get(0).getHotelCount());
-        assertEquals(1190, game.getPlayer("Jarne").getMoney());
+        assertEquals(1130, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void playerHasFullStreet() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        assertTrue(game.playerHasFullStreet(game.getPlayer("Jarne"), "Chrome Crib"));
     }
 
     @Test
     void collectDebt() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
         game.buyHouse("Jarne", "Chrome Crib");
         game.buyHouse("Jarne", "Chrome Crib");
         game.buyHouse("Jarne", "Chrome Crib");
         game.collectDebt("Jarne", "Chrome Crib", "Jari");
-        assertEquals(1380, game.getPlayer("Jarne").getMoney());
+        assertEquals(1320, game.getPlayer("Jarne").getMoney());
         assertEquals(1410, game.getPlayer("Jari").getMoney());
+    }
+
+    @Test
+    void collectDebtDefault() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.collectDebt("Jarne", "Chrome Crib", "Jari");
+        assertEquals(1442, game.getPlayer("Jarne").getMoney());
+        assertEquals(1498, game.getPlayer("Jari").getMoney());
+    }
+
+    @Test
+    void takeMortgage() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.takeMortgage("Jarne", "Chrome Crib");
+        assertEquals(1470, game.getPlayer("Jarne").getMoney());
+        assertTrue(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Chrome Crib").isMortgage());
+    }
+
+    @Test
+    void settleMortgage() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.takeMortgage("Jarne", "Chrome Crib");
+        game.settleMortgage("Jarne","Chrome Crib");
+        assertEquals(1437, game.getPlayer("Jarne").getMoney());
+        assertFalse(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Chrome Crib").isMortgage());
     }
 }
