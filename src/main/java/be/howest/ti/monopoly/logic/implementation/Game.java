@@ -118,8 +118,12 @@ public class Game {
     }
 
     private void turnDefault(int dice1, int dice2, Tile nextTile) {
-        currentPlayer.moveTile(nextTile.getName());
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
+        if (passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
+            currentPlayer.receiveMoney(200);
+            turn.addMove(new Move(getTile("Go"), "Passed GO (receive $200)"));
+        }
+        currentPlayer.moveTile(nextTile.getName());
         if (isCard(nextTile)) {
             cardTurn(turn);
         } else if (isProperty(nextTile)) {
@@ -166,6 +170,17 @@ public class Game {
 
     private boolean isTax(Tile nextTile) {
         return nextTile.getType().equals("Luxury Tax") || nextTile.getType().equals("Income Tax");
+    }
+
+    public boolean passedGo(String nextTile, String currentTile) {
+        boolean passed = false;
+        for (Tile tile : getTiles()) {
+            if (tile.getName().equals(currentTile)) passed = true;
+            if (passed) {
+                if (tile.getName().equals(nextTile)) return false;
+            }
+        }
+        return true;
     }
 
     public void buyHouse(String playerName, String propertyName) {

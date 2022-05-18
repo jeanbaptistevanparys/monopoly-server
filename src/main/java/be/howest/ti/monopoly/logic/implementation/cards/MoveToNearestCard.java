@@ -3,6 +3,9 @@ package be.howest.ti.monopoly.logic.implementation.cards;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.Turn;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+
+import java.util.List;
 
 public class MoveToNearestCard extends Card {
 
@@ -15,5 +18,6 @@ public class MoveToNearestCard extends Card {
 
     @Override
     public void executeCard(Player currentPlayer, Game game, Turn turn) {
+
     }
 }
