@@ -156,28 +156,10 @@ public class MonopolyService extends ServiceAdapter {
     public Object buyProperty(String gameId, String playerName, String propertyName) {
         propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
-<<<<<<< HEAD
-        List<Player> players = game.getPlayers();
-        for (Player player : players) {
-            if (playerName.equals(player.getName())) {
-                for (Tile tile : new TileFactory().createTiles()) {
-                    if (tile.getName().equals(propertyName)) {
-                        Property property = (Property) tile;
-                        if (game.isAlreadyOwned(property)) throw new IllegalMonopolyActionException("Is already owned");
-                        player.buyProperty(property);
-                        game.setCanRoll(true);
-                    }
-                }
-                return null;
-            }
-        }
-        throw new MonopolyResourceNotFoundException("No such tile");
-=======
         game.buyProperty(playerName, propertyName);
         return new JsonObject()
                 .put("property", propertyName)
                 .put("purchased", true);
->>>>>>> dbb575a878f52de596ee2911dfa3d28b57f3e964
     }
 
     @Override
