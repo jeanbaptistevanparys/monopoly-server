@@ -4,7 +4,6 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.logic.implementation.Chance;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -25,7 +24,6 @@ import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -396,39 +394,15 @@ public class MonopolyApiBridge {
     }
 
     private void getPlayerAuctions(RoutingContext ctx) {
-        Request request = Request.from(ctx);
-        String gameId = request.getGameId();
-        String playerName = request.getPlayerName();
-        if (!request.isAuthorized(gameId)) {
-            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
-        }
-        Response.sendJsonResponse(ctx, 200, service.getPlayerAuctions(gameId, playerName));
+        throw new NotYetImplementedException("getPlayerAuctions");
     }
 
     private void startPlayerAuction(RoutingContext ctx) {
-        Request request = Request.from(ctx);
-        String gameId = request.getGameId();
-        String playerName = request.getPlayerName();
-        String propertyName = request.getPropertyName();
-        int startBid = request.getBodyStartBid();
-        int duration = request.getBodyDuration();
-        if (!request.isAuthorized(gameId, playerName)) {
-            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
-        }
-        Response.sendJsonResponse(ctx, 200, service.startPlayerAuction(gameId, playerName, propertyName, startBid, duration));
+        throw new NotYetImplementedException("startPlayerAuction");
     }
 
     private void placeBidOnPlayerAuction(RoutingContext ctx) {
-        Request request = Request.from(ctx);
-        String gameId = request.getGameId();
-        String playerName = request.getPlayerName();
-        String propertyName = request.getPropertyName();
-        String bidder = request.getBodyBidder();
-        int amount = request.getBodyAmount();
-        if (!request.isAuthorized(gameId)) {
-            throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
-        }
-        Response.sendJsonResponse(ctx, 200, service.placeBidOnPlayerAuction(gameId, playerName, propertyName, bidder, amount));
+        throw new NotYetImplementedException("placeBidOnPlayerAuction");
     }
 
     private void onFailedRequest(RoutingContext ctx) {
