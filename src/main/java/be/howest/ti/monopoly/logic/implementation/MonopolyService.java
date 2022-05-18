@@ -7,6 +7,7 @@ import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import io.vertx.core.json.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,11 +129,11 @@ public class MonopolyService extends ServiceAdapter {
         return dummy;
     }
 
-
+    @Override
     public Object rollDice(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.rollDice();
-        return null;
+        return game;
     }
 
     @Override
@@ -155,7 +156,9 @@ public class MonopolyService extends ServiceAdapter {
         propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.buyProperty(playerName, propertyName);
-        return null;
+        return new JsonObject()
+                .put("property", propertyName)
+                .put("purchased", true);
     }
 
     @Override

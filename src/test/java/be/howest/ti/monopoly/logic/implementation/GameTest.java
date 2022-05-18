@@ -21,6 +21,19 @@ class GameTest {
     }
 
     @Test
+    void startGame() {
+        Game game = newGame();
+        assertTrue(game.isStarted());
+    }
+
+    @Test
+    void addPlayer() {
+        Game game = newGame();
+        assertEquals(2, game.getPlayers().size());
+    }
+
+
+    @Test
     void goOutOfJailFree() {
         Game game = newGame();
         game.getCurrentPlayer().goToJail();
@@ -49,8 +62,12 @@ class GameTest {
         Game game = newGame();
         Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
         Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
+        Turn turn3 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
+        Turn turn4 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
         game.addTurn(turn1);
         game.addTurn(turn2);
+        game.addTurn(turn3);
+        game.addTurn(turn4);
         assertTrue(game.checkIfGoToJail(tile, 2, 2));
     }
 
@@ -89,16 +106,18 @@ class GameTest {
     void buyHouse() {
         Game game = newGame();
         game.buyProperty("Jarne", "Mediterranean");
+        game.buyProperty("Jarne", "Baltic");
         game.buyHouse("Jarne", "Mediterranean");
         List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
         assertEquals(1, properties.get(0).getHouseCount());
-        assertEquals(1448, game.getPlayer("Jarne").getMoney());
+        assertEquals(1446, game.getPlayer("Jarne").getMoney());
     }
 
     @Test
     void buyHotel() {
         Game game = newGame();
         game.buyProperty("Jarne", "Mediterranean");
+        game.buyProperty("Jarne", "Baltic");
         game.buyHouse("Jarne", "Mediterranean");
         game.buyHouse("Jarne", "Mediterranean");
         game.buyHouse("Jarne", "Mediterranean");
@@ -106,19 +125,55 @@ class GameTest {
         game.buyHotel("Jarne", "Mediterranean");
         List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
         assertEquals(1, properties.get(0).getHotelCount());
-        assertEquals(1248, game.getPlayer("Jarne").getMoney());
+        assertEquals(1246, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void playerHasFullStreet() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Mediterranean");
+        game.buyProperty("Jarne", "Baltic");
+        assertTrue(game.playerHasFullStreet(game.getPlayer("Jarne"), "Mediterranean"));
     }
 
     @Test
     void collectDebt() {
         Game game = newGame();
         game.buyProperty("Jarne", "Mediterranean");
+        game.buyProperty("Jarne", "Baltic");
         game.buyHouse("Jarne", "Mediterranean");
         game.buyHouse("Jarne", "Mediterranean");
         game.buyHouse("Jarne", "Mediterranean");
         game.collectDebt("Jarne", "Mediterranean", "Jari");
-        assertEquals(1438, game.getPlayer("Jarne").getMoney());
+        assertEquals(1436, game.getPlayer("Jarne").getMoney());
         assertEquals(1410, game.getPlayer("Jari").getMoney());
+    }
 
+    @Test
+    void collectDebtDefault() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Mediterranean");
+        game.collectDebt("Jarne", "Mediterranean", "Jari");
+        assertEquals(1528, game.getPlayer("Jarne").getMoney());
+        assertEquals(1470, game.getPlayer("Jari").getMoney());
+    }
+
+    @Test
+    void takeMortgage() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Mediterranean");
+        game.takeMortgage("Jarne", "Mediterranean");
+        assertEquals(1558, game.getPlayer("Jarne").getMoney());
+        assertTrue(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Mediterranean").isMortgage());
+    }
+
+    @Test
+    void settleMortgage() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Mediterranean");
+        game.takeMortgage("Jarne", "Mediterranean");
+        game.settleMortgage("Jarne","Mediterranean");
+        assertEquals(1492, game.getPlayer("Jarne").getMoney());
+        assertFalse(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Mediterranean").isMortgage());
     }
 }
