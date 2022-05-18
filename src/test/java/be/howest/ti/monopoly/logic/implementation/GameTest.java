@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     private Game newGame() {
-        Game game = new Game(2, "test", lastDiceRoll);
+        Game game = new Game(2, "test");
         Player player1 = new Player("Jarne");
         Player player2 = new Player("Jari");
         game.addPlayer(player1);
