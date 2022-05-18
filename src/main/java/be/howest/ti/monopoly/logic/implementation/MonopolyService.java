@@ -8,6 +8,7 @@ import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import io.vertx.core.json.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,11 +130,11 @@ public class MonopolyService extends ServiceAdapter {
         return dummy;
     }
 
-
+    @Override
     public Object rollDice(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.rollDice(playerName);
-        return null;
+        return game;
     }
 
     @Override
@@ -155,6 +156,7 @@ public class MonopolyService extends ServiceAdapter {
     public Object buyProperty(String gameId, String playerName, String propertyName) {
         propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
+<<<<<<< HEAD
         List<Player> players = game.getPlayers();
         for (Player player : players) {
             if (playerName.equals(player.getName())) {
@@ -170,6 +172,12 @@ public class MonopolyService extends ServiceAdapter {
             }
         }
         throw new MonopolyResourceNotFoundException("No such tile");
+=======
+        game.buyProperty(playerName, propertyName);
+        return new JsonObject()
+                .put("property", propertyName)
+                .put("purchased", true);
+>>>>>>> dbb575a878f52de596ee2911dfa3d28b57f3e964
     }
 
     @Override

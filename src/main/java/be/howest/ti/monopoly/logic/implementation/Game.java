@@ -85,12 +85,16 @@ public class Game {
          if (Objects.equals(nextTile.getName(), "Go to Jail")) {
              return true;
          } else {
-             Turn lastTurn = turns.get(turns.size() - 1);
-             Turn secondLastTurn = turns.get(turns.size() - 2);
-             if (!Objects.equals(lastTurn.getName(), currentPlayer.getName()) || !Objects.equals(secondLastTurn.getName(), currentPlayer.getName())) {
+             if (turns.size() >= 2) {
+                 Turn lastTurn = turns.get(turns.size() - 1);
+                 Turn secondLastTurn = turns.get(turns.size() - 2);
+                 if (!Objects.equals(lastTurn.getName(), currentPlayer.getName()) || !Objects.equals(secondLastTurn.getName(), currentPlayer.getName())) {
+                     return false;
+                 } else
+                     return dice1 == dice2 && lastTurn.isDouble() && secondLastTurn.isDouble();
+             } else {
                  return false;
-             } else
-                 return dice1 == dice2 && lastTurn.isDouble() && secondLastTurn.isDouble();
+             }
          }
     }
 
@@ -199,16 +203,33 @@ public class Game {
             Player player = getPlayer(playerName);
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
             int amount = getStreet(playerProperty.getName()).getHousePrice();
-            if (playerProperty.getHouseCount() < 4) {
-                player.spendMoney(amount);
-                playerProperty.increaseHouseCount();
-                availableHouses--;
+            if (playerHasFullStreet(player, propertyName)) {
+                if (playerProperty.getHouseCount() < 4) {
+                    player.spendMoney(amount);
+                    playerProperty.increaseHouseCount();
+                    availableHouses--;
+                } else {
+                    throw new IllegalMonopolyActionException("You already have 4 houses on this property.");
+                }
             } else {
-                throw new IllegalMonopolyActionException("You already have 4 houses on this property.");
+                throw new IllegalMonopolyActionException("You don't have all the properties of the street.");
             }
         } else {
             throw new IllegalMonopolyActionException("There are no more houses left.");
         }
+    }
+
+    public boolean playerHasFullStreet(Player player, String propertyName) {
+        Street streetToBuild = getStreet(propertyName);
+        int groupSize = getStreet(propertyName).getGroupSize();
+        int i = 0;
+        for (PlayerProperty playerProperty : player.getProperties()) {
+            Street street = getStreet(playerProperty.getName());
+            if (street.getStreetColor() == streetToBuild.getStreetColor()) {
+                i ++;
+            }
+        }
+        return i == groupSize;
     }
 
     public void sellHouse(String playerName, String propertyName) {
@@ -228,6 +249,7 @@ public class Game {
         if (availableHotels > 0) {
             Player player = getPlayer(playerName);
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+
             int amount = getStreet(playerProperty.getName()).getHousePrice();
             if (playerProperty.getHouseCount() == 4 && playerProperty.getHotelCount() == 0) {
                 player.spendMoney(amount);
@@ -314,7 +336,7 @@ public class Game {
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
         if (playerProperty.isMortgage()) {
             int amount = property.getMortgage();
-            player.spendMoney((int) Math.round(amount * 0.10));
+            player.spendMoney((int) Math.round(amount + (amount * 0.10)));
             playerProperty.setMortgage(false);
         } else {
             throw new MonopolyResourceNotFoundException("Not mortgaged.");

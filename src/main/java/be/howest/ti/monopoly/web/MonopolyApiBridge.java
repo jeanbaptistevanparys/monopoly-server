@@ -229,7 +229,7 @@ public class MonopolyApiBridge {
         if (!request.isAuthorized(gameId, playerName)) {
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
         }
-        Response.sendJsonResponse(ctx, 200, service.rollDice(gameId, playerName));
+        Response.sendJsonResponse(ctx, 200, new GameStateView((Game) service.rollDice(gameId, playerName)));
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
