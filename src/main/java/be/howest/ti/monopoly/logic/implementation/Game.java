@@ -79,7 +79,7 @@ public class Game {
     }
 
     public boolean checkIfGoToJail(Tile nextTile, int dice1, int dice2) {
-         if (Objects.equals(nextTile.getName(), "Go to Jail")) {
+         if (Objects.equals(nextTile.getType(), "Go to Jail")) {
              return true;
          } else {
              Turn lastTurn = turns.get(turns.size() - 1);
@@ -103,7 +103,7 @@ public class Game {
         } else {
             if (currentPlayer.getTriesToGetOutOfJail() < 3) {
                 currentPlayer.addTrieToGetOutOfJail();
-                nextTile = getTile("jail");
+                nextTile = getTile("Repair");
             } else {
                 currentPlayer.getOutOfJailFine();
             }
