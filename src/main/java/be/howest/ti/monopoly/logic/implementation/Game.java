@@ -176,6 +176,7 @@ public class Game {
         if (availableHotels > 0) {
             Player player = getPlayer(playerName);
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+
             int amount = getStreet(playerProperty.getName()).getHousePrice();
             if (playerProperty.getHouseCount() == 4 && playerProperty.getHotelCount() == 0) {
                 player.spendMoney(amount);
