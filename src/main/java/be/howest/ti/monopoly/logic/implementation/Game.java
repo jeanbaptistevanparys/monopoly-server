@@ -183,6 +183,13 @@ public class Game {
         return true;
     }
 
+    public void buyProperty(String playerName, String propertyName) {
+        Player player = getPlayer(playerName);
+        Tile tile = getTile(propertyName);
+        player.buyProperty((Property) tile);
+        setCanRoll(true);
+    }
+
     public void buyHouse(String playerName, String propertyName) {
         if (availableHouses > 0) {
             Player player = getPlayer(playerName);
@@ -243,20 +250,105 @@ public class Game {
         }
     }
 
+    public void collectDebt(String playerName, String propertyName, String debtorName) {
+        Player debtor = getPlayer(debtorName);
+        Player receiver = getPlayer(playerName);
+        int amountOfHouses = getPlayerProperty(receiver.getProperties(), propertyName).getHouseCount();
+        int amountOfHotels = getPlayerProperty(receiver.getProperties(), propertyName).getHotelCount();
+        int debtValue;
+        if (amountOfHotels > 0) {
+            debtValue = getStreet(propertyName).getRentWithHotel();
+        } else {
+             debtValue = getDebtValue(amountOfHouses, propertyName);
+        }
+        debtor.giveMoney(debtValue);
+        receiver.receiveMoney(debtValue);
+    }
+
+    public int getDebtValue(int amountOfHouses, String propertyName) {
+        int debtValue;
+        switch (amountOfHouses) {
+            case 1:
+                debtValue = getStreet(propertyName).getRentWithOneHouse();
+                break;
+            case 2:
+                debtValue = getStreet(propertyName).getRentWithTwoHouses();
+                break;
+            case 3:
+                debtValue = getStreet(propertyName).getRentWithThreeHouses();
+                break;
+            case 4:
+                debtValue = getStreet(propertyName).getRentWithFourHouses();
+                break;
+            default:
+                debtValue = getStreet(propertyName).getRent();
+                break;
+        }
+        return debtValue;
+    }
+
+    public void takeMortgage(String playerName, String propertyName) {
+        Player player = getPlayer(playerName);
+        Property property = getProperty(propertyName);
+        PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+        if (!playerProperty.isMortgage()) {
+            if (playerProperty.getHotelCount() == 0 && playerProperty.getHouseCount() == 0) {
+                int amount = property.getMortgage();
+                player.receiveMoney(amount);
+                playerProperty.setMortgage(true);
+            } else {
+                throw new MonopolyResourceNotFoundException("You first have to sell all the houses end hotels.");
+            }
+        } else {
+            throw new MonopolyResourceNotFoundException("Already mortgaged.");
+        }
+    }
+
+    public void settleMortgage(String playerName, String propertyName) {
+            Player player = getPlayer(playerName);
+            Property property = getProperty(propertyName);
+            PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+        if (playerProperty.isMortgage()) {
+            int amount = property.getMortgage();
+            player.spendMoney((int) Math.round(amount * 0.10));
+            playerProperty.setMortgage(false);
+        } else {
+            throw new MonopolyResourceNotFoundException("Not mortgaged.");
+        }
+    }
+
+    public Tile getTile(String name) {
+        for (Tile tile : tiles) {
+            if (Objects.equals(tile.getName(), name)) {
+                return tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not find the requested tile: " + name);
+    }
+
+    public Property getProperty(String name) {
+        for (Tile tile : tiles) {
+            if (Objects.equals(tile.getName(), name)) {
+                return (Property) tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not find the requested property: " + name);
+    }
+
     public Street getStreet(String name) {
         for (Tile tile : tiles) {
             if (Objects.equals(tile.getName(), name)) {
                 return (Street) tile;
             }
         }
-        throw new MonopolyResourceNotFoundException("Did not found the requested street: " + name);
+        throw new MonopolyResourceNotFoundException("Did not find the requested street: " + name);
     }
 
     private Player getNextPlayer() {
         boolean currentFlag = false;
         for (Player player : players) {
             if (currentFlag) return player;
-            if (player.getName() == currentPlayer.getName()) {
+            if (Objects.equals(player.getName(), currentPlayer.getName())) {
                 currentFlag = true;
             }
         }
@@ -290,15 +382,6 @@ public class Game {
             }
         }
         throw new MonopolyResourceNotFoundException("Did not found the requested playerProperty.");
-    }
-
-    public Tile getTile(String name) {
-        for (Tile tile : tiles) {
-            if (Objects.equals(tile.getName(), name)) {
-                return tile;
-            }
-        }
-        throw new MonopolyResourceNotFoundException("Did not found the requested tile: " + name);
     }
 
     public boolean isAlreadyOwned(Property property) {

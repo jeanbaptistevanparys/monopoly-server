@@ -153,7 +153,9 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyProperty(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
+<<<<<<< HEAD
         List<Player> players = game.getPlayers();
         for (Player player : players) {
             if (playerName.equals(player.getName())) {
@@ -169,6 +171,10 @@ public class MonopolyService extends ServiceAdapter {
             }
         }
         throw new MonopolyResourceNotFoundException("No such tile");
+=======
+        game.buyProperty(playerName, propertyName);
+        return null;
+>>>>>>> f2685336d5f7af9a28c227c1b94afd3d3f390e70
     }
 
     @Override
@@ -194,6 +200,31 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    public List<Auction> getPlayerAuctions(String gameId, String playerName) {
+        return List.of(
+                new Auction(new Player("Jarne"), 30),
+                new Auction(new Player("Jarne"), 40),
+                new Auction(new Player("Jarne"), 10),
+                new Auction(new Player("Jarne"), 500)
+        );
+    }
+
+    @Override
+    public Object startPlayerAuction(String gameId, String playerName, String propertyName, int startBid, int duration) {
+        // Don't make anymore
+        return null;
+    }
+
+    @Override
+    public Object placeBidOnPlayerAuction(String gameId, String playerName, String propertyName, String bidder, int amount) {
+        // Don't make anymore
+        return null;
+    }
+
+    @Override
+>>>>>>> f2685336d5f7af9a28c227c1b94afd3d3f390e70
     public Object getOutOfJailFine(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.getOutOfJailFine();
@@ -209,11 +240,15 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object takeMortgage(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
+        Game game = getGame(gameId);
+        game.takeMortgage(playerName, propertyName);
         return null;
     }
 
     @Override
     public Object buyHouse(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.buyHouse(playerName, propertyName);
         return null;
@@ -221,6 +256,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object sellHouse(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.sellHouse(playerName, propertyName);
         return null;
@@ -228,6 +264,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyHotel(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.buyHotel(playerName, propertyName);
         return null;
@@ -235,6 +272,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object sellHotel(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
         Game game = getGame(gameId);
         game.sellHotel(playerName, propertyName);
         return null;
@@ -242,11 +280,17 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object settleMortgage(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
+        Game game = getGame(gameId);
+        game.settleMortgage(playerName, propertyName);
         return null;
     }
 
     @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        propertyName = propertyName.replaceAll("_", " ");
+        Game game = getGame(gameId);
+        game.collectDebt(playerName, propertyName, debtorName);
         return null;
     }
 

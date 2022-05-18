@@ -17,7 +17,6 @@ public class Player {
     private boolean bankrupt;
     private int outOfJailFreeCards;
     private int triesToGetOutOfJail;
-    private boolean justGotOutOfJail;
     private String taxSystem;
     private final List<PlayerProperty> properties;
 
@@ -37,12 +36,8 @@ public class Player {
     }
 
     public void buyProperty(Property property) {
-        if (money >= property.getCost()) {
-            properties.add(new PlayerProperty(property.getName()));
-            money -= property.getCost();
-        } else {
-            throw new InsufficientFundsException("Not enough money to buy" + property.getName());
-        }
+        spendMoney(property.getCost());
+        properties.add(new PlayerProperty(property.getName()));
     }
 
     public void spendMoney(int amount) {
@@ -51,6 +46,18 @@ public class Player {
         } else {
             throw new MonopolyResourceNotFoundException("Not enough money");
         }
+    }
+
+    public void giveMoney(int amount) {
+        if (money >= amount) {
+            money -= amount;
+        } else {
+            goBankrupt();
+        }
+    }
+
+    public void goBankrupt() {
+        bankrupt = true;
     }
 
     public void receiveMoney(int amount) {
@@ -67,7 +74,11 @@ public class Player {
     }
 
     public void getOutOfJailFine() {
-        spendMoney(50);
+        if (triesToGetOutOfJail == 3) {
+            giveMoney(50);
+        } else {
+            spendMoney(50);
+        }
         jailed = false;
         triesToGetOutOfJail = 0;
     }
@@ -125,10 +136,6 @@ public class Player {
 
     public int getTriesToGetOutOfJail() {
         return triesToGetOutOfJail;
-    }
-
-    public boolean isJustGotOutOfJail() {
-        return justGotOutOfJail;
     }
 
     @Override
