@@ -218,6 +218,36 @@ public class Game {
         return debtValue;
     }
 
+    public void takeMortgage(String playerName, String propertyName) {
+        Player player = getPlayer(playerName);
+        Property property = getProperty(propertyName);
+        PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+        if (!playerProperty.isMortgage()) {
+            if (playerProperty.getHotelCount() == 0 && playerProperty.getHouseCount() == 0) {
+                int amount = property.getMortgage();
+                player.receiveMoney(amount);
+                playerProperty.setMortgage(true);
+            } else {
+                throw new MonopolyResourceNotFoundException("You first have to sell all the houses end hotels.");
+            }
+        } else {
+            throw new MonopolyResourceNotFoundException("Already mortgaged.");
+        }
+    }
+
+    public void settleMortgage(String playerName, String propertyName) {
+            Player player = getPlayer(playerName);
+            Property property = getProperty(propertyName);
+            PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
+        if (playerProperty.isMortgage()) {
+            int amount = property.getMortgage();
+            player.spendMoney((int) Math.round(amount * 0.10));
+            playerProperty.setMortgage(false);
+        } else {
+            throw new MonopolyResourceNotFoundException("Not mortgaged.");
+        }
+    }
+
     public Tile getTile(String name) {
         for (Tile tile : tiles) {
             if (Objects.equals(tile.getName(), name)) {
@@ -225,6 +255,15 @@ public class Game {
             }
         }
         throw new MonopolyResourceNotFoundException("Did not find the requested tile: " + name);
+    }
+
+    public Property getProperty(String name) {
+        for (Tile tile : tiles) {
+            if (Objects.equals(tile.getName(), name)) {
+                return (Property) tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not find the requested property: " + name);
     }
 
     public Street getStreet(String name) {

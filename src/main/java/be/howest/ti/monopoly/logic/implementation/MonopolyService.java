@@ -218,6 +218,9 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object takeMortgage(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
+        Game game = getGame(gameId);
+        game.takeMortgage(playerName, propertyName);
         return null;
     }
 
@@ -255,6 +258,9 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object settleMortgage(String gameId, String playerName, String propertyName) {
+        propertyName = propertyName.replaceAll("_", " ");
+        Game game = getGame(gameId);
+        game.settleMortgage(playerName, propertyName);
         return null;
     }
 
