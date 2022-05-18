@@ -89,7 +89,7 @@ public class Player {
             outOfJailFreeCards -= 1;
             triesToGetOutOfJail = 0;
         } else {
-            throw new MonopolyResourceNotFoundException("You don't have any out-of-jail-free cards");
+            throw new MonopolyResourceNotFoundException("You don't have any out-of-repair-free cards");
         }
     }
 

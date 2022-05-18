@@ -101,7 +101,7 @@ public class Game {
     private void turnGoToJail(int dice1, int dice2, Tile nextTile) {
         currentPlayer.goToJail();
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
-        turn.addMove(new Move(nextTile, "Go to jail"));
+        turn.addMove(new Move(nextTile, "Go to Repair"));
         turns.add(turn);
         currentPlayer = getNextPlayer();
     }
@@ -119,7 +119,7 @@ public class Game {
         }
         currentPlayer.moveTile(nextTile.getName());
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
-        turn.addMove(new Move(nextTile, "In jail"));
+        turn.addMove(new Move(nextTile, "In Repair"));
         currentPlayer = getNextPlayer();
         turns.add(turn);
         if (isProperty(nextTile)) canRoll = false;
