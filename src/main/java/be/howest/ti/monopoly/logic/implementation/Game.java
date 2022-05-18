@@ -82,7 +82,7 @@ public class Game {
     }
 
     public boolean checkIfGoToJail(Tile nextTile, int dice1, int dice2) {
-         if (Objects.equals(nextTile.getName(), "Go to Jail")) {
+         if (Objects.equals(nextTile.getType(), "Go to Jail")) {
              return true;
          } else {
              if (turns.size() >= 2) {
@@ -101,7 +101,7 @@ public class Game {
     private void turnGoToJail(int dice1, int dice2, Tile nextTile) {
         currentPlayer.goToJail();
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
-        turn.addMove(new Move(nextTile, "Go to jail"));
+        turn.addMove(new Move(nextTile, "Go to Repair"));
         turns.add(turn);
         currentPlayer = getNextPlayer();
     }
@@ -112,14 +112,14 @@ public class Game {
         } else {
             if (currentPlayer.getTriesToGetOutOfJail() < 3) {
                 currentPlayer.addTrieToGetOutOfJail();
-                nextTile = getTile("jail");
+                nextTile = getTile("Repair");
             } else {
                 currentPlayer.getOutOfJailFine();
             }
         }
         currentPlayer.moveTile(nextTile.getName());
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
-        turn.addMove(new Move(nextTile, "In jail"));
+        turn.addMove(new Move(nextTile, "In Repair"));
         currentPlayer = getNextPlayer();
         turns.add(turn);
         if (isProperty(nextTile)) canRoll = false;
@@ -129,7 +129,7 @@ public class Game {
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
         if (passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
             currentPlayer.receiveMoney(200);
-            turn.addMove(new Move(getTile("Go"), "Passed GO (receive $200)"));
+            turn.addMove(new Move(getTile("Boot"), "Passed Boot (receive $200)"));
         }
         currentPlayer.moveTile(nextTile.getName());
         if (isCard(nextTile)) {

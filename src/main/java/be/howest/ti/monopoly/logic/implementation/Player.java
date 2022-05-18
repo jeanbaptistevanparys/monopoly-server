@@ -22,7 +22,7 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
-        this.currentTile = "Go";
+        this.currentTile = "Boot";
         this.jailed = false;
         this.money = 1500;
         this.bankrupt = false;
@@ -70,7 +70,7 @@ public class Player {
 
     public void goToJail() {
         jailed = true;
-        moveTile("Jail");
+        moveTile("Repair");
     }
 
     public void getOutOfJailFine() {
@@ -89,7 +89,7 @@ public class Player {
             outOfJailFreeCards -= 1;
             triesToGetOutOfJail = 0;
         } else {
-            throw new MonopolyResourceNotFoundException("You don't have any out-of-jail-free cards");
+            throw new MonopolyResourceNotFoundException("You don't have any out-of-repair-free cards");
         }
     }
 

@@ -57,7 +57,7 @@ class GameTest {
 
     @Test
     void checkIfGoToJailTrue() {
-        Tile tile = new Tile("Go", 0, "Go");
+        Tile tile = new Tile("Boot", 0, "Boot");
         Game game = newGame();
         Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
         Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
@@ -72,7 +72,7 @@ class GameTest {
 
     @Test
     void checkIfGoToJailFalseByNumber() {
-        Tile tile = new Tile("Go", 0, "Go");
+        Tile tile = new Tile("Boot", 0, "Boot");
         Game game = newGame();
         Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 3, 2);
         Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
@@ -83,7 +83,7 @@ class GameTest {
 
     @Test
     void checkIfGoToJailFalseByName() {
-        Tile tile = new Tile("Go", 0, "Go");
+        Tile tile = new Tile("Boot", 0, "Boot");
         Game game = newGame();
         Turn turn1 = new Turn("JB", 2, 2);
         Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
@@ -95,84 +95,84 @@ class GameTest {
     @Test
     void buyProperty() {
         Game game = newGame();
-        game.buyProperty("Jarne", "Mediterranean");
+        game.buyProperty("Jarne", "Chrome Crib");
         List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
         assertEquals(1, properties.size());
-        assertEquals(1498, game.getPlayer("Jarne").getMoney());
+        assertEquals(1440, game.getPlayer("Jarne").getMoney());
     }
 
     @Test
     void buyHouse() {
         Game game = newGame();
-        game.buyProperty("Jarne", "Mediterranean");
-        game.buyProperty("Jarne", "Baltic");
-        game.buyHouse("Jarne", "Mediterranean");
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
         List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
         assertEquals(1, properties.get(0).getHouseCount());
-        assertEquals(1446, game.getPlayer("Jarne").getMoney());
+        assertEquals(1330, game.getPlayer("Jarne").getMoney());
     }
 
     @Test
     void buyHotel() {
         Game game = newGame();
-        game.buyProperty("Jarne", "Mediterranean");
-        game.buyProperty("Jarne", "Baltic");
-        game.buyHouse("Jarne", "Mediterranean");
-        game.buyHouse("Jarne", "Mediterranean");
-        game.buyHouse("Jarne", "Mediterranean");
-        game.buyHouse("Jarne", "Mediterranean");
-        game.buyHotel("Jarne", "Mediterranean");
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHotel("Jarne", "Chrome Crib");
         List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
         assertEquals(1, properties.get(0).getHotelCount());
-        assertEquals(1246, game.getPlayer("Jarne").getMoney());
+        assertEquals(1130, game.getPlayer("Jarne").getMoney());
     }
 
     @Test
     void playerHasFullStreet() {
         Game game = newGame();
-        game.buyProperty("Jarne", "Mediterranean");
-        game.buyProperty("Jarne", "Baltic");
-        assertTrue(game.playerHasFullStreet(game.getPlayer("Jarne"), "Mediterranean"));
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        assertTrue(game.playerHasFullStreet(game.getPlayer("Jarne"), "Chrome Crib"));
     }
 
     @Test
     void collectDebt() {
         Game game = newGame();
-        game.buyProperty("Jarne", "Mediterranean");
-        game.buyProperty("Jarne", "Baltic");
-        game.buyHouse("Jarne", "Mediterranean");
-        game.buyHouse("Jarne", "Mediterranean");
-        game.buyHouse("Jarne", "Mediterranean");
-        game.collectDebt("Jarne", "Mediterranean", "Jari");
-        assertEquals(1436, game.getPlayer("Jarne").getMoney());
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.collectDebt("Jarne", "Chrome Crib", "Jari");
+        assertEquals(1320, game.getPlayer("Jarne").getMoney());
         assertEquals(1410, game.getPlayer("Jari").getMoney());
     }
 
     @Test
     void collectDebtDefault() {
         Game game = newGame();
-        game.buyProperty("Jarne", "Mediterranean");
-        game.collectDebt("Jarne", "Mediterranean", "Jari");
-        assertEquals(1528, game.getPlayer("Jarne").getMoney());
-        assertEquals(1470, game.getPlayer("Jari").getMoney());
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.collectDebt("Jarne", "Chrome Crib", "Jari");
+        assertEquals(1442, game.getPlayer("Jarne").getMoney());
+        assertEquals(1498, game.getPlayer("Jari").getMoney());
     }
 
     @Test
     void takeMortgage() {
         Game game = newGame();
-        game.buyProperty("Jarne", "Mediterranean");
-        game.takeMortgage("Jarne", "Mediterranean");
-        assertEquals(1558, game.getPlayer("Jarne").getMoney());
-        assertTrue(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Mediterranean").isMortgage());
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.takeMortgage("Jarne", "Chrome Crib");
+        assertEquals(1470, game.getPlayer("Jarne").getMoney());
+        assertTrue(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Chrome Crib").isMortgage());
     }
 
     @Test
     void settleMortgage() {
         Game game = newGame();
-        game.buyProperty("Jarne", "Mediterranean");
-        game.takeMortgage("Jarne", "Mediterranean");
-        game.settleMortgage("Jarne","Mediterranean");
-        assertEquals(1492, game.getPlayer("Jarne").getMoney());
-        assertFalse(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Mediterranean").isMortgage());
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.takeMortgage("Jarne", "Chrome Crib");
+        game.settleMortgage("Jarne","Chrome Crib");
+        assertEquals(1437, game.getPlayer("Jarne").getMoney());
+        assertFalse(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Chrome Crib").isMortgage());
     }
 }
