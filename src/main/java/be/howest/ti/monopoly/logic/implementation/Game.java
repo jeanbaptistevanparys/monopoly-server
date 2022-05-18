@@ -22,6 +22,7 @@ public class Game {
     private final String prefix;
     private final List<Player> players;
     private final List<Turn> turns;
+    private final List<Integer> lastDiceRoll;
     private final String id;
     private boolean started;
     private boolean ended;
@@ -36,6 +37,7 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
         this.prefix = prefix;
         this.players = new ArrayList<>();
+        this.lastDiceRoll = new ArrayList<>();
         this.id = prefix + "_" + games;
         games += 1;
         this.started = false;
@@ -66,6 +68,8 @@ public class Game {
             int dice1 = random.nextInt(6) + 1;
             int dice2 = random.nextInt(6) + 1;
             int total = dice1 + dice2;
+            lastDiceRoll.add(dice1);
+            lastDiceRoll.add(dice2);
             Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
             if (checkIfGoToJail(nextTile, dice1, dice2)) {
                 turnGoToJail(dice1, dice2, nextTile);
@@ -461,5 +465,9 @@ public class Game {
 
     public void getOutOfJailFree() {
         currentPlayer.getOutOfJailFree();
+    }
+
+    public List<Integer> getLastDiceRoll() {
+        return lastDiceRoll;
     }
 }

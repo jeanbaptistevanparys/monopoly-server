@@ -18,6 +18,6 @@ public class MoveToNearestCard extends Card {
 
     @Override
     public void executeCard(Player currentPlayer, Game game, Turn turn) {
-
+        
     }
 }

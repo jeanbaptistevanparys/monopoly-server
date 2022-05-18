@@ -1,6 +1,5 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     private Game newGame() {
-        Game game = new Game(2, "test");
+        Game game = new Game(2, "test", lastDiceRoll);
         Player player1 = new Player("Jarne");
         Player player2 = new Player("Jari");
         game.addPlayer(player1);

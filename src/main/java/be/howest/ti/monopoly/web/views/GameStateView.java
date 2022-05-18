@@ -39,11 +39,7 @@ public class GameStateView {
     }
 
     public List<Integer> getLastDiceRoll() {
-        try {
-            return game.getTurns().get(game.getTurns().size()).getRoll();
-        } catch (Exception ex) {
-            return Collections.emptyList();
-        }
+        return game.getLastDiceRoll();
     }
 
     public boolean isCanRoll() {
