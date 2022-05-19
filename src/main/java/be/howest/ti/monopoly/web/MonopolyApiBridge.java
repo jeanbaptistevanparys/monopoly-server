@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.Auction;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -13,6 +14,7 @@ import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
+import be.howest.ti.monopoly.web.views.AuctionView;
 import be.howest.ti.monopoly.web.views.GameStateView;
 import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.core.http.HttpMethod;
@@ -378,7 +380,11 @@ public class MonopolyApiBridge {
         if (!request.isAuthorized(gameId)) {
             throw new ForbiddenAccessException(FORBIDDEN_ACCESS_TEXT);
         }
-        Response.sendJsonResponse(ctx, 200, service.getBankAuctions(gameId));
+        List<AuctionView> auctions = new ArrayList<>();
+        for (Auction auction: service.getBankAuctions(gameId)) {
+            auctions.add(new AuctionView(auction));
+        }
+        Response.sendJsonResponse(ctx, 200, auctions);
     }
 
     private void placeBidOnBankAuction(RoutingContext ctx) {

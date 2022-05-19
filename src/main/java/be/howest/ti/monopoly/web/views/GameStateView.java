@@ -52,10 +52,14 @@ public class GameStateView {
     }
 
     public boolean isDirectSale() {
-        Tile tile = game.getTile(game.getCurrentPlayer().getCurrentTile());
-        if (!game.isProperty(tile)) return false;
-        if (game.isAlreadyOwned((Property) tile)) return false;
-        return true;
+        try {
+            Tile tile = game.getTile(game.getCurrentPlayer().getCurrentTile());
+            if (!game.isProperty(tile)) return false;
+            if (game.isAlreadyOwned((Property) tile)) return false;
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public String getCurrentPlayer() {
