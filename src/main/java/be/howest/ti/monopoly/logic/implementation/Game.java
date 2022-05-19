@@ -39,7 +39,7 @@ public class Game {
         this.players = new ArrayList<>();
         this.lastDiceRoll = new ArrayList<>();
         this.id = prefix + "_" + games;
-        games += 1;
+        games ++;
         this.started = false;
         this.ended = false;
         this.canRoll = true;
@@ -185,7 +185,7 @@ public class Game {
         for (Tile tile : getTiles()) {
             if (tile.getName().equals(currentTile)) passed = true;
             if (passed) {
-                if (tile.getName().equals(nextTile)) return false;
+                return tile.getName().equals(nextTile);
             }
         }
         return true;

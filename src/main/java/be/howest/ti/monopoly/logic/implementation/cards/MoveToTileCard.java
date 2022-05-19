@@ -16,4 +16,8 @@ public class MoveToTileCard extends Card{
     @Override
     public void executeCard(Player currentPlayer, Game game, Turn turn) {
     }
+
+    public String getTileName() {
+        return tileName;
+    }
 }

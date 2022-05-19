@@ -1,6 +1,5 @@
 package be.howest.ti.monopoly.web;
 
-import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
