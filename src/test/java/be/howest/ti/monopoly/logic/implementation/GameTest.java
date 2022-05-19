@@ -31,6 +31,21 @@ class GameTest {
         assertEquals(2, game.getPlayers().size());
     }
 
+    @Test
+    void GetOutOfJailDouble() {
+        Game game = newGame();
+        game.getCurrentPlayer().goToJail();
+        String name = game.getCurrentPlayer().getName();
+        game.rollDice(name);
+        if (game.getLastDiceRoll().get(0).equals(game.getLastDiceRoll().get(1))) {
+            assertFalse(game.getPlayer(name).isJailed());
+        } else {
+            assertTrue(game.getPlayer(name).isJailed());
+        }
+        assertFalse(game.getCurrentPlayer().isJailed());
+        assertEquals(0, game.getCurrentPlayer().getOutOfJailFreeCards());
+    }
+
 
     @Test
     void goOutOfJailFree() {

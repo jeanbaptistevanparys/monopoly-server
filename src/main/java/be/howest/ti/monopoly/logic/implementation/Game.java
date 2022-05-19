@@ -63,7 +63,7 @@ public class Game {
     }
 
     public void rollDice(String playerName) {
-        if (canRoll && started && currentPlayer.equals(playerName)) {
+        if (canRoll && started && currentPlayer.getName().equals(playerName)) {
             SecureRandom random = new SecureRandom();
             int dice1 = random.nextInt(6) + 1;
             int dice2 = random.nextInt(6) + 1;
