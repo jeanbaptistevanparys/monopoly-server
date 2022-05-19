@@ -9,6 +9,7 @@ import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authorization.impl.AuthorizationContextImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,17 +172,21 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Auction> getBankAuctions(String gameId) {
-        return List.of(
-                new Auction(new Player("Jarne"), 30),
-                new Auction(new Player("Jari"), 40),
-                new Auction(new Player("Guust"), 10),
-                new Auction(new Player("JB"), 500)
-                );
+        Game game = getGame(gameId);
+        return game.getAuctions();
     }
 
     @Override
     public Object placeBidOnBankAuction(String gameId, String propertyName, String bidder, int amount) {
-        return null;
+        Game game = getGame(gameId);
+        List<Auction> auctions = game.getAuctions();
+        for (Auction auction : auctions) {
+            if (auction.getProperty().equals(propertyName)) {
+                auction.addBid(new Bid(bidder, amount));
+                return null;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("No such auction");
     }
 
     @Override

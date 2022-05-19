@@ -23,6 +23,7 @@ public class Game {
     private final List<Player> players;
     private final List<Turn> turns;
     private final List<Integer> lastDiceRoll;
+    private final List<Auction> auctions;
     private final String id;
     private boolean started;
     private boolean ended;
@@ -48,6 +49,7 @@ public class Game {
         this.availableHouses = 32;
         this.availableHotels = 12;
         this.turns = new ArrayList<>();
+        this.auctions = new ArrayList<>();
     }
 
     public void startGame() {
@@ -60,6 +62,10 @@ public class Game {
         players.add(player);
         if (currentPlayer == null) currentPlayer = player;
         if (players.size() == numberOfPlayers) { started = true; }
+    }
+
+    public void addAuction(Auction auction) {
+        auctions.add(auction);
     }
 
     public void rollDice(String playerName) {
@@ -491,5 +497,15 @@ public class Game {
 
     public List<Integer> getLastDiceRoll() {
         return lastDiceRoll;
+    }
+
+    public List<Auction> getAuctions() {
+        for (Auction auction: auctions) {
+            if(auction.checkEnd()) {
+                auction.end(players);
+                auctions.remove(auction);
+            }
+        }
+        return auctions;
     }
 }
