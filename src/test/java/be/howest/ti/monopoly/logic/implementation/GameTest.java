@@ -15,7 +15,6 @@ class GameTest {
         Player player2 = new Player("Jari");
         game.addPlayer(player1);
         game.addPlayer(player2);
-        game.startGame();
         return game;
     }
 
