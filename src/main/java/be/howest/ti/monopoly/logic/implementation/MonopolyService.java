@@ -173,6 +173,7 @@ public class MonopolyService extends ServiceAdapter {
     public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
         Game game = getGame(gameId);
         game.setCanRoll(true);
+        game.addAuction(new Auction(propertyName, 0));
         return null;
     }
 
