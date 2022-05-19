@@ -172,7 +172,7 @@ public class Game {
         return nextTile.getType().equals("chance") || nextTile.getType().equals("community chest");
     }
 
-    private boolean isProperty(Tile nextTile) {
+    public boolean isProperty(Tile nextTile) {
         return nextTile.getType().equals("street") || nextTile.getType().equals("utility") || nextTile.getType().equals("railroad");
     }
 
