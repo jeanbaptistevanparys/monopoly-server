@@ -53,7 +53,7 @@ class GameTest {
         game.getCurrentPlayer().goToJail();
         assertTrue(game.getCurrentPlayer().isJailed());
 
-        game.getCurrentPlayer().addOutOfJailFreeCards();
+        game.getCurrentPlayer().addOutOfJailFreeCard();
         game.getOutOfJailFree();
         assertFalse(game.getCurrentPlayer().isJailed());
         assertEquals(0, game.getCurrentPlayer().getOutOfJailFreeCards());
@@ -189,5 +189,45 @@ class GameTest {
         game.settleMortgage("Jarne","Chrome Crib");
         assertEquals(1437, game.getPlayer("Jarne").getMoney());
         assertFalse(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Chrome Crib").isMortgage());
+    }
+
+    @Test
+    void declareBankruptcy() {
+        Game game = new Game(3, "test");
+        Player player1 = new Player("Jarne");
+        Player player2 = new Player("Jari");
+        Player player3 = new Player("JB");
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.addPlayer(player3);
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.getPlayer("Jarne").addOutOfJailFreeCard();
+        game.declareBankruptcy("Jarne");
+        assertTrue(game.getPlayer("Jarne").isBankrupt());
+        assertEquals(1, game.getPlayer("Jari").getProperties().size());
+        assertEquals(1, game.getPlayer("JB").getProperties().size());
+        assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());
+    }
+
+    @Test
+    void declareBankruptcyDeleteHouses() {
+        Game game = new Game(3, "test");
+        Player player1 = new Player("Jarne");
+        Player player2 = new Player("Jari");
+        Player player3 = new Player("JB");
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.addPlayer(player3);
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.getPlayer("Jarne").addOutOfJailFreeCard();
+        game.declareBankruptcy("Jarne");
+        assertTrue(game.getPlayer("Jarne").isBankrupt());
+        assertEquals(1, game.getPlayer("Jari").getProperties().size());
+        assertEquals(1, game.getPlayer("JB").getProperties().size());
+        assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());
+        assertEquals(0, game.getPlayerProperty(game.getPlayer("Jari").getProperties(), "Chrome Crib").getHouseCount());
     }
 }

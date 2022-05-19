@@ -139,6 +139,8 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object declareBankruptcy(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        game.declareBankruptcy(playerName);
         return null;
     }
 

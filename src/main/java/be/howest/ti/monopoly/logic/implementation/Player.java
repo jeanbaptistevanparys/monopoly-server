@@ -64,6 +64,14 @@ public class Player {
         properties.add(new PlayerProperty(property));
     }
 
+    public void receiveProperty(PlayerProperty playerProperty) {
+        properties.add(playerProperty);
+    }
+
+    public void deleteProperties() {
+        properties.clear();
+    }
+
     public void goToJail() {
         jailed = true;
         moveTile("Repair");
@@ -89,7 +97,7 @@ public class Player {
         }
     }
 
-    public void addOutOfJailFreeCards() {
+    public void addOutOfJailFreeCard() {
         outOfJailFreeCards += 1;
     }
 
@@ -100,6 +108,10 @@ public class Player {
 
     public void addTrieToGetOutOfJail() {
         triesToGetOutOfJail += 1;
+    }
+
+    public void deleteOutOfJailFreeCards() {
+        outOfJailFreeCards = 0;
     }
 
     public String getName() {

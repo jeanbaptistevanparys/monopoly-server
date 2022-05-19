@@ -36,6 +36,13 @@ public class PlayerProperty {
         this.mortgage = mortgage;
     }
 
+    public void deleteHouses() {
+        houseCount = 0;
+    }
+
+    public void deleteHotels() {
+        hotelCount = 0;
+    }
     public String getName() {
         return name;
     }
