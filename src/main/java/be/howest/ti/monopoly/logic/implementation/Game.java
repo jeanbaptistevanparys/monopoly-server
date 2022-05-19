@@ -431,14 +431,15 @@ public class Game {
     }
 
     private Player getNextPlayer() {
+        List<Player> activePlayers = getActivePlayers();
         boolean currentFlag = false;
-        for (Player player : players) {
+        for (Player player : activePlayers) {
             if (currentFlag) return player;
             if (Objects.equals(player.getName(), currentPlayer.getName())) {
                 currentFlag = true;
             }
         }
-        return players.get(0);
+        return activePlayers.get(0);
     }
 
     private Tile getNextTile(String currentTile, int total) {
