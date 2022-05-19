@@ -146,11 +146,15 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object useEstimateTax(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        game.useEstimateTax(playerName);
         return null;
     }
 
     @Override
     public Object useComputeTax(String gameId, String playerName) {
+        Game game = getGame(gameId);
+        game.useComputeTax(playerName);
         return null;
     }
 

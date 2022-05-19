@@ -14,6 +14,7 @@ public class Player {
     private boolean bankrupt;
     private int outOfJailFreeCards;
     private int triesToGetOutOfJail;
+    private String taxSystem;
     private final List<PlayerProperty> properties;
 
     public Player(String name) {
@@ -25,6 +26,7 @@ public class Player {
         this.outOfJailFreeCards = 0;
         this.triesToGetOutOfJail = 0;
         this.properties = new ArrayList<>();
+        this.taxSystem = "ESTIMATE";
     }
 
     public void moveTile(String tile) {
@@ -114,6 +116,10 @@ public class Player {
         outOfJailFreeCards = 0;
     }
 
+    public void setTaxSystem(String taxSystem) {
+        this.taxSystem = taxSystem;
+    }
+
     public String getName() {
         return name;
     }
@@ -157,5 +163,9 @@ public class Player {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public String getTaxSystem() {
+        return taxSystem;
     }
 }

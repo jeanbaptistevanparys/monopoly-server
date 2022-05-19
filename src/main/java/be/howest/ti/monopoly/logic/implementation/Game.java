@@ -163,7 +163,18 @@ public class Game {
         canRoll = false;
     }
 
-    private void taxTurn(Turn turn) {
+    public void taxTurn(Turn turn) {
+        int amount = (int) Math.round(currentPlayer.getMoney() * 0.10);
+        if (currentPlayer.getCurrentTile().equals("Tax Income")) {
+            if (currentPlayer.getTaxSystem().equals("ESTIMATE")) {
+                amount = 100;
+            }
+        } else {
+            if (currentPlayer.getTaxSystem().equals("ESTIMATE")) {
+                amount = 200;
+            }
+        }
+        currentPlayer.giveMoney(amount);
         String description = "Pay taxes";
         turn.addMove(new Move(getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1)), description));
     }
@@ -478,6 +489,16 @@ public class Game {
             }
         }
         return false;
+    }
+
+    public void useComputeTax(String playerName) {
+        Player player = getPlayer(playerName);
+        player.setTaxSystem("COMPUTE");
+    }
+
+    public void useEstimateTax(String playerName) {
+        Player player = getPlayer(playerName);
+        player.setTaxSystem("ESTIMATE");
     }
 
     public void endGame() {

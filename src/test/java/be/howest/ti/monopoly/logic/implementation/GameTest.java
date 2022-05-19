@@ -229,4 +229,52 @@ class GameTest {
         assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());
         assertEquals(0, game.getPlayerProperty(game.getPlayer("Jari").getProperties(), "Chrome Crib").getHouseCount());
     }
+
+    @Test
+    void payTaxIncome() {
+        Game game = newGame();
+        int dice1 = 1;
+        int dice2 = 2;
+        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        game.getCurrentPlayer().moveTile("Tax Income");
+        game.taxTurn(turn);
+        assertEquals(1400, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void payTaxLuxury() {
+        Game game = newGame();
+        int dice1 = 1;
+        int dice2 = 2;
+        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        game.getCurrentPlayer().moveTile("Luxury Tax");
+        game.taxTurn(turn);
+        assertEquals(1300, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void payTaxCompute() {
+        Game game = newGame();
+        int dice1 = 1;
+        int dice2 = 2;
+        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        game.getPlayer("Jarne").setTaxSystem("COMPUTE");
+        game.getCurrentPlayer().moveTile("Luxury Tax");
+        game.taxTurn(turn);
+        assertEquals(1350, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void useComputeTax() {
+        Game game = newGame();
+        game.useComputeTax("Jarne");
+        assertEquals("COMPUTE", game.getPlayer("Jarne").getTaxSystem());
+    }
+
+    @Test
+    void useEstimateTax() {
+        Game game = newGame();
+        game.useEstimateTax("Jarne");
+        assertEquals("ESTIMATE", game.getPlayer("Jarne").getTaxSystem());
+    }
 }
