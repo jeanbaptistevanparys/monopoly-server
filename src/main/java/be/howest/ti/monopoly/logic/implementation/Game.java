@@ -39,7 +39,6 @@ public class Game {
         this.players = new ArrayList<>();
         this.lastDiceRoll = new ArrayList<>();
         this.id = prefix + "_" + games;
-        games ++;
         this.started = false;
         this.ended = false;
         this.canRoll = true;
@@ -48,10 +47,7 @@ public class Game {
         this.availableHouses = 32;
         this.availableHotels = 12;
         this.turns = new ArrayList<>();
-    }
-
-    public void startGame() {
-        this.started = true;
+        games ++;
     }
 
     public void addPlayer(Player player) {
