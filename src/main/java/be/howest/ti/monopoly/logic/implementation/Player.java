@@ -1,10 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.*;
 
@@ -17,7 +14,6 @@ public class Player {
     private boolean bankrupt;
     private int outOfJailFreeCards;
     private int triesToGetOutOfJail;
-    private String taxSystem;
     private final List<PlayerProperty> properties;
 
     public Player(String name) {

@@ -5,7 +5,6 @@ import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IService {
 
