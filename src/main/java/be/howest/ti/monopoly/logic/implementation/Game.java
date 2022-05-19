@@ -23,6 +23,7 @@ public class Game {
     private final List<Player> players;
     private final List<Turn> turns;
     private final List<Integer> lastDiceRoll;
+    private final List<Auction> auctions;
     private final String id;
     private boolean started;
     private boolean ended;
@@ -48,6 +49,7 @@ public class Game {
         this.availableHouses = 32;
         this.availableHotels = 12;
         this.turns = new ArrayList<>();
+        this.auctions = new ArrayList<>();
     }
 
     public void startGame() {
@@ -60,6 +62,10 @@ public class Game {
         players.add(player);
         if (currentPlayer == null) currentPlayer = player;
         if (players.size() == numberOfPlayers) { started = true; }
+    }
+
+    public void addAuction(Auction auction) {
+        auctions.add(auction);
     }
 
     public void rollDice(String playerName) {
@@ -79,6 +85,11 @@ public class Game {
                 turnDefault(dice1, dice2, nextTile);
             }
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
+    }
+
+    private void changeCurrentPlayer() {
+        currentPlayer = getNextPlayer();
+        if (currentPlayer.getMoney() < 0) declareBankruptcy(currentPlayer.getName());
     }
 
     public boolean checkIfGoToJail(Tile nextTile, int dice1, int dice2) {
@@ -103,7 +114,7 @@ public class Game {
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
         turn.addMove(new Move(nextTile, "Go to Repair"));
         turns.add(turn);
-        currentPlayer = getNextPlayer();
+        changeCurrentPlayer();
     }
 
     private void turnInJail(int dice1, int dice2, Tile nextTile) {
@@ -183,7 +194,7 @@ public class Game {
         return nextTile.getType().equals("chance") || nextTile.getType().equals("community chest");
     }
 
-    private boolean isProperty(Tile nextTile) {
+    public boolean isProperty(Tile nextTile) {
         return nextTile.getType().equals("street") || nextTile.getType().equals("utility") || nextTile.getType().equals("railroad");
     }
 
@@ -192,14 +203,7 @@ public class Game {
     }
 
     public boolean passedGo(String nextTile, String currentTile) {
-        boolean passed = false;
-        for (Tile tile : getTiles()) {
-            if (tile.getName().equals(currentTile)) passed = true;
-            if (passed) {
-                if (tile.getName().equals(nextTile)) return true;
-            }
-        }
-        return true;
+        return getTile(nextTile).getPosition() <= getTile(currentTile).getPosition();
     }
 
     public void buyProperty(String playerName, String propertyName) {
@@ -577,5 +581,15 @@ public class Game {
 
     public List<Integer> getLastDiceRoll() {
         return lastDiceRoll;
+    }
+
+    public List<Auction> getAuctions() {
+        for (Auction auction: auctions) {
+            if(auction.checkEnd()) {
+                auction.end(players);
+                auctions.remove(auction);
+            }
+        }
+        return auctions;
     }
 }
