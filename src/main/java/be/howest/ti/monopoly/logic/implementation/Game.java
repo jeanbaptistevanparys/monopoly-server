@@ -203,14 +203,7 @@ public class Game {
     }
 
     public boolean passedGo(String nextTile, String currentTile) {
-        boolean passed = false;
-        for (Tile tile : getTiles()) {
-            if (tile.getName().equals(currentTile)) passed = true;
-            if (passed) {
-                if (tile.getName().equals(nextTile)) return true;
-            }
-        }
-        return true;
+        return getTile(nextTile).getPosition() <= getTile(currentTile).getPosition();
     }
 
     public void buyProperty(String playerName, String propertyName) {
