@@ -52,7 +52,7 @@ class GameTest {
         game.getCurrentPlayer().goToJail();
         assertTrue(game.getCurrentPlayer().isJailed());
 
-        game.getCurrentPlayer().addOutOfJailFreeCards();
+        game.getCurrentPlayer().addOutOfJailFreeCard();
         game.getOutOfJailFree();
         assertFalse(game.getCurrentPlayer().isJailed());
         assertEquals(0, game.getCurrentPlayer().getOutOfJailFreeCards());
@@ -188,5 +188,93 @@ class GameTest {
         game.settleMortgage("Jarne","Chrome Crib");
         assertEquals(1437, game.getPlayer("Jarne").getMoney());
         assertFalse(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Chrome Crib").isMortgage());
+    }
+
+    @Test
+    void declareBankruptcy() {
+        Game game = new Game(3, "test");
+        Player player1 = new Player("Jarne");
+        Player player2 = new Player("Jari");
+        Player player3 = new Player("JB");
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.addPlayer(player3);
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.getPlayer("Jarne").addOutOfJailFreeCard();
+        game.declareBankruptcy("Jarne");
+        assertTrue(game.getPlayer("Jarne").isBankrupt());
+        assertEquals(1, game.getPlayer("Jari").getProperties().size());
+        assertEquals(1, game.getPlayer("JB").getProperties().size());
+        assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());
+    }
+
+    @Test
+    void declareBankruptcyDeleteHouses() {
+        Game game = new Game(3, "test");
+        Player player1 = new Player("Jarne");
+        Player player2 = new Player("Jari");
+        Player player3 = new Player("JB");
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.addPlayer(player3);
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.getPlayer("Jarne").addOutOfJailFreeCard();
+        game.declareBankruptcy("Jarne");
+        assertTrue(game.getPlayer("Jarne").isBankrupt());
+        assertEquals(1, game.getPlayer("Jari").getProperties().size());
+        assertEquals(1, game.getPlayer("JB").getProperties().size());
+        assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());
+        assertEquals(0, game.getPlayerProperty(game.getPlayer("Jari").getProperties(), "Chrome Crib").getHouseCount());
+    }
+
+    @Test
+    void payTaxIncome() {
+        Game game = newGame();
+        int dice1 = 1;
+        int dice2 = 2;
+        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        game.getCurrentPlayer().moveTile("Tax Income");
+        game.taxTurn(turn);
+        assertEquals(1400, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void payTaxLuxury() {
+        Game game = newGame();
+        int dice1 = 1;
+        int dice2 = 2;
+        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        game.getCurrentPlayer().moveTile("Luxury Tax");
+        game.taxTurn(turn);
+        assertEquals(1300, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void payTaxCompute() {
+        Game game = newGame();
+        int dice1 = 1;
+        int dice2 = 2;
+        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        game.getPlayer("Jarne").setTaxSystem("COMPUTE");
+        game.getCurrentPlayer().moveTile("Luxury Tax");
+        game.taxTurn(turn);
+        assertEquals(1350, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void useComputeTax() {
+        Game game = newGame();
+        game.useComputeTax("Jarne");
+        assertEquals("COMPUTE", game.getPlayer("Jarne").getTaxSystem());
+    }
+
+    @Test
+    void useEstimateTax() {
+        Game game = newGame();
+        game.useEstimateTax("Jarne");
+        assertEquals("ESTIMATE", game.getPlayer("Jarne").getTaxSystem());
     }
 }
