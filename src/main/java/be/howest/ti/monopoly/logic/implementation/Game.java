@@ -350,6 +350,10 @@ public class Game {
         Player deliverer = getPlayer(playerName);
         deliverer.goBankrupt();
         List<Player> activePlayers = getActivePlayers();
+        if (activePlayers.size() == 1) {
+            endGame();
+            winner = activePlayers.get(0);
+        }
         dividePossesions(deliverer, activePlayers);
     }
 
@@ -473,6 +477,10 @@ public class Game {
             }
         }
         return false;
+    }
+
+    public void endGame() {
+        ended = true;
     }
 
     public void setCanRoll(boolean canRoll) {
