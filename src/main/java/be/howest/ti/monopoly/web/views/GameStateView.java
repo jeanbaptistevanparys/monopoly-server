@@ -2,6 +2,8 @@ package be.howest.ti.monopoly.web.views;
 
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
+import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.List;
 
@@ -47,6 +49,17 @@ public class GameStateView {
 
     public boolean isEnded() {
         return game.isEnded();
+    }
+
+    public boolean isDirectSale() {
+        try {
+            Tile tile = game.getTile(game.getCurrentPlayer().getCurrentTile());
+            if (!game.isProperty(tile)) return false;
+            if (game.isAlreadyOwned((Property) tile)) return false;
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public String getCurrentPlayer() {
