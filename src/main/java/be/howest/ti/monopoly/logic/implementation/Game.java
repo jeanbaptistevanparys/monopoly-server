@@ -87,6 +87,11 @@ public class Game {
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
 
+    private void changeCurrentPlayer() {
+        currentPlayer = getNextPlayer();
+        if (currentPlayer.getMoney() < 0) declareBankruptcy(currentPlayer.getName());
+    }
+
     public boolean checkIfGoToJail(Tile nextTile, int dice1, int dice2) {
          if (Objects.equals(nextTile.getType(), "Go to Jail")) {
              return true;
@@ -109,7 +114,7 @@ public class Game {
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
         turn.addMove(new Move(nextTile, "Go to Repair"));
         turns.add(turn);
-        currentPlayer = getNextPlayer();
+        changeCurrentPlayer();
     }
 
     private void turnInJail(int dice1, int dice2, Tile nextTile) {
