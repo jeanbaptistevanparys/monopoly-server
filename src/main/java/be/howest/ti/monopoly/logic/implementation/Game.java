@@ -185,7 +185,7 @@ public class Game {
         for (Tile tile : getTiles()) {
             if (tile.getName().equals(currentTile)) passed = true;
             if (passed) {
-                return tile.getName().equals(nextTile);
+                if (tile.getName().equals(nextTile)) return true;
             }
         }
         return true;

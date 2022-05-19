@@ -9,10 +9,10 @@ public class CardFactory {
 
     public List<Card> createChances() {
         return new ArrayList<>(List.of(
-                new MoveToTileCard("Advance to Boardwalk", "Boardwalk"),
-                new MoveToTileCard("Advance to Boot (Collect $200)", "Go"),
-                new MoveToTileCard("Advance to Illinois Avenue. If you pass Boot, collect $200", "Illinois Avenue"),
-                new MoveToTileCard("Advance to St. Charles Place. If you pass Boot, collect $200", "St. Charles Place"),
+                new MoveToTileCard("Advance to Laravel Lab", "Laravel Lab"),
+                new MoveToTileCard("Advance to Boot (Collect $200)", "Boot"),
+                new MoveToTileCard("Advance to GPU Jail. If you pass Boot, collect $200", "GPU Jail"),
+                new MoveToTileCard("Advance to Linux Land. If you pass Boot, collect $200", "Linux Land"),
                 new MoveToNearestCard("Advance to the nearest Railroad.", "railroad"),
                 new MoveToNearestCard("Advance token to nearest Utility.", "utility"),
                 new ChangeMoneyCard("Bank pays you dividend of $50", 50),
