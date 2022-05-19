@@ -163,7 +163,18 @@ public class Game {
         canRoll = false;
     }
 
-    private void taxTurn(Turn turn) {
+    public void taxTurn(Turn turn) {
+        int amount = (int) Math.round(currentPlayer.getMoney() * 0.10);
+        if (currentPlayer.getCurrentTile().equals("Tax Income")) {
+            if (currentPlayer.getTaxSystem().equals("ESTIMATE")) {
+                amount = 100;
+            }
+        } else {
+            if (currentPlayer.getTaxSystem().equals("ESTIMATE")) {
+                amount = 200;
+            }
+        }
+        currentPlayer.giveMoney(amount);
         String description = "Pay taxes";
         turn.addMove(new Move(getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1)), description));
     }
@@ -219,19 +230,6 @@ public class Game {
         }
     }
 
-    public boolean playerHasFullStreet(Player player, String propertyName) {
-        Street streetToBuild = getStreet(propertyName);
-        int groupSize = getStreet(propertyName).getGroupSize();
-        int i = 0;
-        for (PlayerProperty playerProperty : player.getProperties()) {
-            Street street = getStreet(playerProperty.getName());
-            if (street.getStreetColor() == streetToBuild.getStreetColor()) {
-                i ++;
-            }
-        }
-        return i == groupSize;
-    }
-
     public void sellHouse(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
@@ -255,6 +253,7 @@ public class Game {
                 player.spendMoney(amount);
                 playerProperty.increaseHotelCount();
                 availableHotels--;
+                availableHouses += 4;
             } else {
                 throw new IllegalMonopolyActionException("You already have a hotel or you have not enough houses on this property.");
             }
@@ -271,9 +270,23 @@ public class Game {
             player.receiveMoney(amount);
             playerProperty.decreaseHotelCount();
             availableHotels ++;
+            availableHouses -= 4;
         } else {
             throw new IllegalMonopolyActionException("You don't have a hotel on this property.");
         }
+    }
+
+    public boolean playerHasFullStreet(Player player, String propertyName) {
+        Street streetToBuild = getStreet(propertyName);
+        int groupSize = getStreet(propertyName).getGroupSize();
+        int i = 0;
+        for (PlayerProperty playerProperty : player.getProperties()) {
+            Street street = getStreet(playerProperty.getName());
+            if (street.getStreetColor() == streetToBuild.getStreetColor()) {
+                i ++;
+            }
+        }
+        return i == groupSize;
     }
 
     public void collectDebt(String playerName, String propertyName, String debtorName) {
@@ -343,6 +356,64 @@ public class Game {
         }
     }
 
+
+    public void declareBankruptcy(String playerName) {
+        Player deliverer = getPlayer(playerName);
+        deliverer.goBankrupt();
+        List<Player> activePlayers = getActivePlayers();
+        if (activePlayers.size() == 1) {
+            endGame();
+            winner = activePlayers.get(0);
+        }
+        dividePossesions(deliverer, activePlayers);
+    }
+
+    private void dividePossesions(Player deliverer, List<Player> activePlayers) {
+        int amountOfActivePlayers = activePlayers.size();
+        int playerCount = 0;
+        for (PlayerProperty playerProperty : deliverer.getProperties()) {
+            availableHouses += playerProperty.getHouseCount();
+            playerProperty.deleteHouses();
+            availableHotels += playerProperty.getHotelCount();
+            playerProperty.deleteHotels();
+
+            Player receiver = activePlayers.get(playerCount);
+            receiver.receiveProperty(playerProperty);
+
+            playerCount ++;
+            if (playerCount == amountOfActivePlayers) {
+                playerCount = 0;
+            }
+        }
+        deliverer.deleteProperties();
+
+        divideOutOfJailFreeCards(deliverer, activePlayers , playerCount);
+    }
+
+    private void divideOutOfJailFreeCards(Player deliverer, List<Player> activePlayers, int playerCount) {
+        int amountOfActivePlayers = activePlayers.size();
+        for (int i = 0; i < deliverer.getOutOfJailFreeCards(); i++) {
+            Player receiver = activePlayers.get(playerCount);
+            receiver.addOutOfJailFreeCard();
+
+            playerCount ++;
+            if (playerCount == amountOfActivePlayers) {
+                playerCount = 0;
+            }
+        }
+        deliverer.deleteOutOfJailFreeCards();
+    }
+
+    private List<Player> getActivePlayers() {
+        List<Player> activePlayers = new ArrayList<>();
+        for (Player player : players) {
+            if (!player.isBankrupt()) {
+                activePlayers.add(player);
+            }
+        }
+        return activePlayers;
+    }
+
     public Tile getTile(String name) {
         for (Tile tile : tiles) {
             if (Objects.equals(tile.getName(), name)) {
@@ -371,14 +442,15 @@ public class Game {
     }
 
     private Player getNextPlayer() {
+        List<Player> activePlayers = getActivePlayers();
         boolean currentFlag = false;
-        for (Player player : players) {
+        for (Player player : activePlayers) {
             if (currentFlag) return player;
             if (Objects.equals(player.getName(), currentPlayer.getName())) {
                 currentFlag = true;
             }
         }
-        return players.get(0);
+        return activePlayers.get(0);
     }
 
     private Tile getNextTile(String currentTile, int total) {
@@ -417,6 +489,20 @@ public class Game {
             }
         }
         return false;
+    }
+
+    public void useComputeTax(String playerName) {
+        Player player = getPlayer(playerName);
+        player.setTaxSystem("COMPUTE");
+    }
+
+    public void useEstimateTax(String playerName) {
+        Player player = getPlayer(playerName);
+        player.setTaxSystem("ESTIMATE");
+    }
+
+    public void endGame() {
+        ended = true;
     }
 
     public void setCanRoll(boolean canRoll) {
