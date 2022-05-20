@@ -249,13 +249,17 @@ public class Game {
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
 
             int amount = getStreet(playerProperty.getName()).getHousePrice();
-            if (playerProperty.getHouseCount() == 4 && playerProperty.getHotelCount() == 0) {
-                player.spendMoney(amount);
-                playerProperty.increaseHotelCount();
-                availableHotels--;
-                availableHouses += 4;
+            if (playerProperty.getHouseCount() == 4) {
+                if (playerProperty.getHotelCount() == 0) {
+                    player.spendMoney(amount);
+                    playerProperty.increaseHotelCount();
+                    availableHotels--;
+                    availableHouses += 4;
+                } else {
+                    throw new IllegalMonopolyActionException("You already have a hotel or ");
+                }
             } else {
-                throw new IllegalMonopolyActionException("You already have a hotel or you have not enough houses on this property.");
+                throw new IllegalMonopolyActionException("You don't have enough houses on this property.");
             }
         } else {
             throw new IllegalMonopolyActionException("There are no more hotels left.");
@@ -292,16 +296,55 @@ public class Game {
     public void collectDebt(String playerName, String propertyName, String debtorName) {
         Player debtor = getPlayer(debtorName);
         Player receiver = getPlayer(playerName);
-        int amountOfHouses = getPlayerProperty(receiver.getProperties(), propertyName).getHouseCount();
-        int amountOfHotels = getPlayerProperty(receiver.getProperties(), propertyName).getHotelCount();
-        int debtValue;
-        if (amountOfHotels > 0) {
-            debtValue = getStreet(propertyName).getRentWithHotel();
+        if (checkIfYourProperty(receiver, propertyName)) {
+            if (debtor.getCurrentTile().equals(propertyName)) {
+                int debtValue;
+                if (getProperty(propertyName).getType().equals("railroad")) {
+                    debtValue = calculateRailRoadDebt(playerName);
+                } else if (getProperty(propertyName).getType().equals("utility")) {
+                    debtValue = getProperty(propertyName).getRent();
+                } else {
+                    int amountOfHouses = getPlayerProperty(receiver.getProperties(), propertyName).getHouseCount();
+                    int amountOfHotels = getPlayerProperty(receiver.getProperties(), propertyName).getHotelCount();
+                    if (amountOfHotels > 0) {
+                        debtValue = getStreet(propertyName).getRentWithHotel();
+                    } else {
+                        debtValue = getDebtValue(amountOfHouses, propertyName);
+                    }
+                }
+                debtor.giveMoney(debtValue);
+                receiver.receiveMoney(debtValue);
+            } else {
+                throw new IllegalMonopolyActionException("The player is not on your tile");
+            }
         } else {
-             debtValue = getDebtValue(amountOfHouses, propertyName);
+            throw new IllegalMonopolyActionException("Not Your property");
         }
-        debtor.giveMoney(debtValue);
-        receiver.receiveMoney(debtValue);
+    }
+
+    public boolean checkIfYourProperty(Player receiver, String propertyName) {
+        List<PlayerProperty> playerProperties = receiver.getProperties();
+        for (PlayerProperty playerProperty : playerProperties) {
+            if (playerProperty.getName().equals(propertyName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int calculateRailRoadDebt(String playerName) {
+        int amountOfRailroads = 0;
+        List<PlayerProperty> playerProperties = getPlayer(playerName).getProperties();
+        for (PlayerProperty playerProperty : playerProperties) {
+            if (getProperty(playerProperty.getName()).getType().equals("railroad")) {
+                amountOfRailroads ++;
+            }
+        }
+        int amount = 25;
+        for (int i = 0; i < amountOfRailroads - 1; i++) {
+            amount *= 2;
+        }
+        return amount;
     }
 
     public int getDebtValue(int amountOfHouses, String propertyName) {

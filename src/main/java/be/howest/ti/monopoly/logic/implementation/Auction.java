@@ -21,8 +21,15 @@ public class Auction {
 
     public void addBid(Bid bid) {
         if (bid.getAmount() <= min) throw new IllegalMonopolyActionException("Amount is below the minimum");
-        if (bid.getAmount() <= getHighestBid().getAmount()) throw new IllegalMonopolyActionException("You have to overbid " + getHighestBid().getAmount());
-        bids.add(bid);
+        if (bids.isEmpty()) {
+            bids.add(bid);
+        } else {
+            if (bid.getAmount() <= getHighestBid().getAmount()) {
+                throw new IllegalMonopolyActionException("You have to overbid " + getHighestBid().getAmount());
+            } else {
+                bids.add(bid);
+            }
+        }
     }
 
     public void end(List<Player> players) {
@@ -30,6 +37,7 @@ public class Auction {
         for (Player player : players) {
             if (bid.getPlayerName().equals(player.getName())) {
                 player.addProperty(property);
+                player.spendMoney(bid.getAmount());
             }
         }
     }
@@ -43,8 +51,7 @@ public class Auction {
     }
 
     public boolean checkEnd() {
-        if (System.currentTimeMillis() >= startMillis + 60*1000) return true;
-        return false;
+        return System.currentTimeMillis() >= startMillis + 60 * 1000;
     }
 
     public String getProperty() {
