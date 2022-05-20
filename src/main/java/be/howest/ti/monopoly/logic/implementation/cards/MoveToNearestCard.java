@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation.cards;
 
+import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Move;
 import be.howest.ti.monopoly.logic.implementation.Player;
@@ -17,18 +18,29 @@ public class MoveToNearestCard extends Card {
 
     @Override
     public void executeCard(Player currentPlayer, Game game, Turn turn) {
-        for (int i = game.getTile(currentPlayer.getCurrentTile()).getPosition(); i <= game.getTiles().size(); i++) {
-            Tile tile = game.getTiles().get(i);
-            if (game.getTile(currentPlayer.getCurrentTile()).getPosition() == game.getTiles().size()) i = 0;
-            if (tile.getType().equals(nearestType)) {
-                if (game.passedGo(tile.getName(), currentPlayer.getCurrentTile())) {
-                    currentPlayer.receiveMoney(200);
-                    turn.addMove(new Move(game.getTile("Boot"), "Passed Boot (receive $200)"));
-                }
-                currentPlayer.moveTile(tile.getName());
-                turn.addMove(new Move(tile, "Moved to nearest " + nearestType));
+        Tile nextTile = null;
+        boolean passedSelf = false;
+        for (Tile tile : game.getTiles()) {
+            if (tile.getName().equals(currentPlayer.getCurrentTile())) passedSelf = true;
+            if (passedSelf && tile.getType().equals(nearestType)) {
+                nextTile = tile;
                 break;
             }
         }
+        if (nextTile == null) {
+            for (Tile tile : game.getTiles()) {
+                if (tile.getType().equals(nearestType)) {
+                    nextTile = tile;
+                    break;
+                }
+            }
+        }
+        if (nextTile == null) throw new MonopolyResourceNotFoundException("No such type");
+        if (game.passedGo(nearestType, currentPlayer.getCurrentTile())) {
+            currentPlayer.receiveMoney(200);
+            turn.addMove(new Move(game.getTile("Boot"), "Passed Boot (receive $200)"));
+        }
+        currentPlayer.moveTile(nextTile.getName());
+        turn.addMove(new Move(nextTile, "Moved to nearest " + nearestType));
     }
 }

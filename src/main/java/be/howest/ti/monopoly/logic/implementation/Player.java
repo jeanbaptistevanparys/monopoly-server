@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 
@@ -14,7 +15,7 @@ public class Player {
     private boolean bankrupt;
     private int outOfJailFreeCards;
     private int triesToGetOutOfJail;
-    private String taxSystem;
+    private TaxSystems taxSystem;
     private final List<PlayerProperty> properties;
 
     public Player(String name) {
@@ -26,7 +27,7 @@ public class Player {
         this.outOfJailFreeCards = 0;
         this.triesToGetOutOfJail = 0;
         this.properties = new ArrayList<>();
-        this.taxSystem = "ESTIMATE";
+        this.taxSystem = TaxSystems.ESTIMATE;
     }
 
     public void moveTile(String tile) {
@@ -116,7 +117,7 @@ public class Player {
         outOfJailFreeCards = 0;
     }
 
-    public void setTaxSystem(String taxSystem) {
+    public void setTaxSystem(TaxSystems taxSystem) {
         this.taxSystem = taxSystem;
     }
 
@@ -165,7 +166,7 @@ public class Player {
         return Objects.hash(name);
     }
 
-    public String getTaxSystem() {
+    public TaxSystems getTaxSystem() {
         return taxSystem;
     }
 }

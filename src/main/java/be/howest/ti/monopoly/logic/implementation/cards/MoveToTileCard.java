@@ -17,18 +17,10 @@ public class MoveToTileCard extends Card {
 
     @Override
     public void executeCard(Player currentPlayer, Game game, Turn turn) {
-        for (int i = game.getTile(currentPlayer.getCurrentTile()).getPosition(); i <= game.getTiles().size(); i++) {
-            if (i == 40) i = 0;
-            Tile tile = game.getTiles().get(i);
-            if (tile.getName().equals(tileName)) {
-                if (game.passedGo(tile.getName(), currentPlayer.getCurrentTile())) {
-                    currentPlayer.receiveMoney(200);
-                    turn.addMove(new Move(game.getTile("Boot"), "Passed Boot (receive $200)"));
-                }
-                currentPlayer.moveTile(tile.getName());
-                turn.addMove(new Move(tile, "Moved to tile " + tileName));
-                break;
-            }
-        }
+        Tile nextTile = game.getTile(tileName);
+        currentPlayer.receiveMoney(200);
+        turn.addMove(new Move(game.getTile("Boot"), "Passed Boot (receive $200)"));
+        currentPlayer.moveTile(nextTile.getName());
+        turn.addMove(new Move(nextTile, "Moved to " + tileName));
     }
 }

@@ -9,7 +9,6 @@ import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.authorization.impl.AuthorizationContextImpl;
 
 import java.util.ArrayList;
 import java.util.List;

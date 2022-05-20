@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import org.junit.jupiter.api.Test;
 
@@ -320,7 +321,7 @@ class GameTest {
         int dice1 = 1;
         int dice2 = 2;
         Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
-        game.getPlayer("Jarne").setTaxSystem("COMPUTE");
+        game.getPlayer("Jarne").setTaxSystem(TaxSystems.COMPUTE);
         game.getCurrentPlayer().moveTile("Luxury Tax");
         game.taxTurn(turn);
         assertEquals(1350, game.getPlayer("Jarne").getMoney());
@@ -330,13 +331,13 @@ class GameTest {
     void useComputeTax() {
         Game game = newGame();
         game.useComputeTax("Jarne");
-        assertEquals("COMPUTE", game.getPlayer("Jarne").getTaxSystem());
+        assertEquals(TaxSystems.COMPUTE, game.getPlayer("Jarne").getTaxSystem());
     }
 
     @Test
     void useEstimateTax() {
         Game game = newGame();
         game.useEstimateTax("Jarne");
-        assertEquals("ESTIMATE", game.getPlayer("Jarne").getTaxSystem());
+        assertEquals(TaxSystems.ESTIMATE, game.getPlayer("Jarne").getTaxSystem());
     }
 }
