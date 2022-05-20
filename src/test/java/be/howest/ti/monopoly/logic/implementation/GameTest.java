@@ -157,6 +157,7 @@ class GameTest {
         game.buyHouse("Jarne", "Chrome Crib");
         game.buyHouse("Jarne", "Chrome Crib");
         game.buyHouse("Jarne", "Chrome Crib");
+        game.getPlayer("Jari").moveTile("Chrome Crib");
         game.collectDebt("Jarne", "Chrome Crib", "Jari");
         assertEquals(1320, game.getPlayer("Jarne").getMoney());
         assertEquals(1410, game.getPlayer("Jari").getMoney());
@@ -166,6 +167,7 @@ class GameTest {
     void collectDebtDefault() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
+        game.getPlayer("Jari").moveTile("Chrome Crib");
         game.collectDebt("Jarne", "Chrome Crib", "Jari");
         assertEquals(1442, game.getPlayer("Jarne").getMoney());
         assertEquals(1498, game.getPlayer("Jari").getMoney());

@@ -292,16 +292,20 @@ public class Game {
     public void collectDebt(String playerName, String propertyName, String debtorName) {
         Player debtor = getPlayer(debtorName);
         Player receiver = getPlayer(playerName);
-        int amountOfHouses = getPlayerProperty(receiver.getProperties(), propertyName).getHouseCount();
-        int amountOfHotels = getPlayerProperty(receiver.getProperties(), propertyName).getHotelCount();
-        int debtValue;
-        if (amountOfHotels > 0) {
-            debtValue = getStreet(propertyName).getRentWithHotel();
+        if (debtor.getCurrentTile().equals(propertyName)) {
+            int amountOfHouses = getPlayerProperty(receiver.getProperties(), propertyName).getHouseCount();
+            int amountOfHotels = getPlayerProperty(receiver.getProperties(), propertyName).getHotelCount();
+            int debtValue;
+            if (amountOfHotels > 0) {
+                debtValue = getStreet(propertyName).getRentWithHotel();
+            } else {
+                debtValue = getDebtValue(amountOfHouses, propertyName);
+            }
+            debtor.giveMoney(debtValue);
+            receiver.receiveMoney(debtValue);
         } else {
-             debtValue = getDebtValue(amountOfHouses, propertyName);
+            throw new IllegalMonopolyActionException("The player is not on your tile");
         }
-        debtor.giveMoney(debtValue);
-        receiver.receiveMoney(debtValue);
     }
 
     public int getDebtValue(int amountOfHouses, String propertyName) {
