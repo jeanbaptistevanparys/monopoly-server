@@ -97,7 +97,7 @@ public class Game {
              if (turns.size() >= 2) {
                  Turn lastTurn = turns.get(turns.size() - 1);
                  Turn secondLastTurn = turns.get(turns.size() - 2);
-                 if (!Objects.equals(lastTurn.getPlayerName(), currentPlayer.getName()) || !Objects.equals(secondLastTurn.getPlayerName(), currentPlayer.getName())) {
+                 if (!Objects.equals(lastTurn.getPlayer(), currentPlayer.getName()) || !Objects.equals(secondLastTurn.getPlayer(), currentPlayer.getName())) {
                      return false;
                  } else
                      return dice1 == dice2 && lastTurn.isDouble() && secondLastTurn.isDouble();

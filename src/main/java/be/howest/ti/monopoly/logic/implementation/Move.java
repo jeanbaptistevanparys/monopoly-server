@@ -11,8 +11,8 @@ public class Move {
         this.description = description;
     }
 
-    public Tile getTile() {
-        return tile;
+    public String getTile() {
+        return tile.getName();
     }
 
     public String getDescription() {
