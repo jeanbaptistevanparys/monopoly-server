@@ -74,19 +74,27 @@ public class Turn {
     }
 
     private void cardTurn(Tile nextTile) {
-        addMove(new Move(nextTile, ""));
+        Move move = new Move(nextTile, "");
+        move.executeMove(this);
+        addMove(move);
     }
 
     private void taxTurn(Tile nextTile) {
-        addMove(new Move(nextTile, ""));
+        Move move = new Move(nextTile, "");
+        move.executeMove(this);
+        addMove(move);
     }
 
     private void railRoadTurn(Tile nextTile) {
-        addMove(new Move(nextTile, ""));
+        Move move = new Move(nextTile, "");
+        move.executeMove(this);
+        addMove(move);
     }
 
     private void utilityTurn(Tile nextTile) {
-        addMove(new Move(nextTile, ""));
+        Move move = new Move(nextTile, "");
+        move.executeMove(this);
+        addMove(move);
     }
 
     private void goToJailTurn(Tile nextTile) {
