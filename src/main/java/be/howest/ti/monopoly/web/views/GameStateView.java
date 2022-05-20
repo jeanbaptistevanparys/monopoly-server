@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.web.views;
 
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.Helper;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.Turn;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
@@ -59,7 +60,7 @@ public class GameStateView {
 
     public String getDirectSale() {
         try {
-            Tile tile = game.getTile(game.getCurrentPlayer().getCurrentTile());
+            Tile tile = Helper.getTile(game.getCurrentPlayer().getCurrentTile());
             if (!game.isProperty(tile)) return null;
             if (game.isAlreadyOwned((Property) tile)) return null;
             return tile.getName();

@@ -82,7 +82,7 @@ class GameTest {
         game.addTurn(turn2);
         game.addTurn(turn3);
         game.addTurn(turn4);
-        assertTrue(game.checkIfGoToJail(tile, 2, 2));
+        assertTrue(Helper.checkIfGoToJail(tile, 2, 2));
     }
 
     @Test
