@@ -23,7 +23,7 @@ public class Turn {
         return roll;
     }
 
-    public String getName() {
+    public String getPlayerName() {
         return player;
     }
 
