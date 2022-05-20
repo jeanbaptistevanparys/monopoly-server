@@ -71,6 +71,7 @@ public class Game {
             int dice1 = random.nextInt(6) + 1;
             int dice2 = random.nextInt(6) + 1;
             int total = dice1 + dice2;
+            lastDiceRoll.clear();
             lastDiceRoll.add(dice1);
             lastDiceRoll.add(dice2);
             Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
@@ -197,7 +198,7 @@ public class Game {
     }
 
     private boolean isTax(Tile nextTile) {
-        return nextTile.getType().equals("Luxury Tax") || nextTile.getType().equals("Income Tax");
+        return nextTile.getType().equals("Luxury Tax") || nextTile.getType().equals("Tax Income");
     }
 
     public boolean passedGo(String nextTile, String currentTile) {
