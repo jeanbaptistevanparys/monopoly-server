@@ -34,6 +34,7 @@ public class Turn {
         } else if (Helper.isUtility(nextTile)) {
             utilityTurn(nextTile);
         } else {
+            player.moveTile(nextTile.getName());
             addMove(new Move(nextTile, ""));
         }
     }
@@ -46,6 +47,7 @@ public class Turn {
         } else {
             description = "Should pay rent";
         }
+        player.moveTile(nextTile.getName());
         addMove(new Move(nextTile, description));
     }
 
@@ -69,8 +71,8 @@ public class Turn {
         return roll;
     }
 
-    public String getPlayer() {
-        return player.getName();
+    public Player getPlayer() {
+        return player;
     }
 
     public boolean isDouble() {

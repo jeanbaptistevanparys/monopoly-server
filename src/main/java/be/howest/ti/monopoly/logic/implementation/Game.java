@@ -73,12 +73,47 @@ public class Game {
             turn.executeTurn(this);
             turns.add(turn);
             if (dice1 != dice2) changeCurrentPlayer();
+
+            Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), dice1 + dice2);
+            if (checkIfGoToJail(nextTile, dice1, dice2)) {
+                turnGoToJail(dice1, dice2, nextTile);
+            } else if (currentPlayer.isJailed()) {
+                turnInJail(dice1, dice2, nextTile);
+            } else {
+                turnDefault(dice1, dice2, nextTile);
+            }
+
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
 
     private void changeCurrentPlayer() {
         currentPlayer = getNextPlayer();
         if (currentPlayer.getMoney() < 0) declareBankruptcy(currentPlayer.getName());
+    }
+
+    private Player getNextPlayer() {
+        List<Player> activePlayers = getActivePlayers();
+        boolean passed = false;
+        for (Player player : activePlayers) {
+            if (passed) {
+                return player;
+            }
+            if (Objects.equals(player.getName(), currentPlayer.getName())) {
+                passed = true;
+            }
+        }
+        return activePlayers.get(0);
+    }
+
+
+    private List<Player> getActivePlayers() {
+        List<Player> activePlayers = new ArrayList<>();
+        for (Player player : players) {
+            if (!player.isBankrupt()) {
+                activePlayers.add(player);
+            }
+        }
+        return activePlayers;
     }
 
     public boolean checkIfGoToJail(Tile nextTile, int dice1, int dice2) {
@@ -441,16 +476,6 @@ public class Game {
         deliverer.deleteOutOfJailFreeCards();
     }
 
-    private List<Player> getActivePlayers() {
-        List<Player> activePlayers = new ArrayList<>();
-        for (Player player : players) {
-            if (!player.isBankrupt()) {
-                activePlayers.add(player);
-            }
-        }
-        return activePlayers;
-    }
-
     public Tile getTile(String name) {
         for (Tile tile : tiles) {
             if (Objects.equals(tile.getName(), name)) {
@@ -476,18 +501,6 @@ public class Game {
             }
         }
         throw new MonopolyResourceNotFoundException("Did not find the requested street: " + name);
-    }
-
-    private Player getNextPlayer() {
-        List<Player> activePlayers = getActivePlayers();
-        boolean currentFlag = false;
-        for (Player player : activePlayers) {
-            if (currentFlag) return player;
-            if (Objects.equals(player.getName(), currentPlayer.getName())) {
-                currentFlag = true;
-            }
-        }
-        return activePlayers.get(0);
     }
 
     public Player getPlayer(String playerName) {

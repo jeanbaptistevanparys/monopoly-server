@@ -2,9 +2,11 @@ package be.howest.ti.monopoly.web.views;
 
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
+import be.howest.ti.monopoly.logic.implementation.Turn;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameStateView {
@@ -36,7 +38,11 @@ public class GameStateView {
     }
 
     public Object getTurns() {
-        return game.getTurns();
+        List<TurnView> turns = new ArrayList<>();
+        for (Turn turn: game.getTurns()) {
+            turns.add(new TurnView(turn));
+        }
+        return turns;
     }
 
     public List<Integer> getLastDiceRoll() {
