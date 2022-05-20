@@ -72,7 +72,7 @@ class GameTest {
 
     @Test
     void checkIfGoToJailTrue() {
-        Tile tile = new Tile("Boot", 0, "Boot");
+        Tile tile = new Tile("Boot", 0);
         Game game = newGame();
         Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
         Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
@@ -87,7 +87,7 @@ class GameTest {
 
     @Test
     void checkIfGoToJailFalseByNumber() {
-        Tile tile = new Tile("Boot", 0, "Boot");
+        Tile tile = new Tile("Boot", 0);
         Game game = newGame();
         Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 3, 2);
         Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
@@ -98,7 +98,7 @@ class GameTest {
 
     @Test
     void checkIfGoToJailFalseByName() {
-        Tile tile = new Tile("Boot", 0, "Boot");
+        Tile tile = new Tile("Boot", 0);
         Game game = newGame();
         Turn turn1 = new Turn("JB", 2, 2);
         Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
