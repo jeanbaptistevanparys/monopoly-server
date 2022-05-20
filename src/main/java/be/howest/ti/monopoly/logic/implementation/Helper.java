@@ -8,6 +8,10 @@ import java.util.List;
 
 public class Helper {
 
+    private Helper() {
+        throw new IllegalStateException("Helper class");
+    }
+
     public static Tile getNextTile(String currentTile, int total) {
         List<Tile> tiles = TileFactory.createTiles();
         for (Tile tile : tiles) {
@@ -20,8 +24,13 @@ public class Helper {
         throw new MonopolyResourceNotFoundException("Can't find next tile.");
     }
 
-    public static boolean isDirectSale(Tile tile) {
-        return false;
+    public static boolean isDirectSale(Tile tile, List<Player> players) {
+        for (Player player : players) {
+            for (PlayerProperty playerProperty : player.getProperties()) {
+                if (playerProperty.getName().equals(tile.getName())) return false;
+            }
+        }
+        return true;
     }
 
     public static boolean isRailRoad(Tile tile) {

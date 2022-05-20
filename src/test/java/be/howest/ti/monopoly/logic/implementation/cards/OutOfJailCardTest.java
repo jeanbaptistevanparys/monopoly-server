@@ -22,7 +22,7 @@ class OutOfJailCardTest {
     @Test
     void executeCard() {
         Game game = newGame();
-        Turn turn = new Turn("Jarne", 4, 3);
+        Turn turn = new Turn(new Player("Jarne"), 4, 3);
         Card card = new CardFactory().createChances().get(6);
         card.executeCard(game.getCurrentPlayer(), game, turn);
         assertEquals(1550, game.getCurrentPlayer().getMoney());

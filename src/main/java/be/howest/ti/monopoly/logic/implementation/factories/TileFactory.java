@@ -10,6 +10,10 @@ import java.util.List;
 
 public class TileFactory {
 
+    private TileFactory() {
+        throw new IllegalStateException("TileFactory class");
+    }
+
     public static List<Tile> createTiles() {
         return  new ArrayList<>(List.of(
                 new Tile("Boot", 0),

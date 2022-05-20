@@ -22,7 +22,7 @@ class MoveToNearestCardTest {
     @Test
     void executeCard() {
         Game game = newGame();
-        Turn turn = new Turn("Jarne", 4, 3);
+        Turn turn = new Turn(new Player("Jarne"), 4, 3);
         game.getCurrentPlayer().moveTile("Chance I");
         Card card = new CardFactory().createChances().get(4);
         card.executeCard(game.getCurrentPlayer(), game, turn);

@@ -21,37 +21,48 @@ public class Turn {
         moves.add(move);
     }
 
-    public Tile executeTurn() {
+    public void executeTurn(Game game) {
         Tile nextTile = Helper.getNextTile(player.getCurrentTile(), roll.get(0) + roll.get(1));
         if (Helper.isStreet(nextTile)) {
-            streetTurn();
+            streetTurn(nextTile, game);
         } else if (Helper.isCard(nextTile)) {
-            cardTurn();
+            cardTurn(nextTile);
         } else if (Helper.isTax(nextTile)) {
-            taxTurn();
+            taxTurn(nextTile);
         } else if (Helper.isRailRoad(nextTile)) {
-            railRoadTurn();
+            railRoadTurn(nextTile);
         } else if (Helper.isUtility(nextTile)) {
-            utilityTurn();
+            utilityTurn(nextTile);
         } else {
-            addMove(new Move(nextTile, "Nothing to do"));
+            addMove(new Move(nextTile, ""));
         }
-        return nextTile;
     }
 
-    private void streetTurn() {
+    private void streetTurn(Tile nextTile, Game game) {
+        String description = "";
+        if (Helper.isDirectSale(nextTile, game.getPlayers())) {
+            description = "Direct sale";
+            game.setCanRoll(false);
+        } else {
+            description = "Should pay rent";
+        }
+        addMove(new Move(nextTile, description));
     }
 
-    private void cardTurn() {
+    private void cardTurn(Tile nextTile) {
+        addMove(new Move(nextTile, ""));
     }
 
-    private void taxTurn() {
+    private void taxTurn(Tile nextTile) {
+        addMove(new Move(nextTile, ""));
     }
 
-    private void railRoadTurn() {
+    private void railRoadTurn(Tile nextTile) {
+        addMove(new Move(nextTile, ""));
     }
 
-    private void utilityTurn() {
+    private void utilityTurn(Tile nextTile) {
+        addMove(new Move(nextTile, ""));
     }
 
     public List<Integer> getRoll() {

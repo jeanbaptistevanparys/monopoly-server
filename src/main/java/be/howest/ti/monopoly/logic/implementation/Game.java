@@ -70,9 +70,8 @@ public class Game {
             int dice1 = random.nextInt(6) + 1;
             int dice2 = random.nextInt(6) + 1;
             Turn turn = new Turn(currentPlayer, dice1, dice2);
-            Tile nextTile = turn.executeTurn();
+            turn.executeTurn(this);
             turns.add(turn);
-            if (Helper.isDirectSale(nextTile)) canRoll = false;
             if (dice1 != dice2) changeCurrentPlayer();
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
@@ -610,5 +609,13 @@ public class Game {
             }
         }
         return auctions;
+    }
+
+    public List<Integer> getLastDiceRoll() {
+        try {
+            return getTurns().get(getTurns().size()-1).getRoll();
+        } catch (Exception ex) {
+            return Collections.emptyList();
+        }
     }
 }

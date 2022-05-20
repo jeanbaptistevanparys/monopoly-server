@@ -74,10 +74,10 @@ class GameTest {
     void checkIfGoToJailTrue() {
         Tile tile = new Tile("Boot", 0);
         Game game = newGame();
-        Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
-        Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
-        Turn turn3 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
-        Turn turn4 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
+        Turn turn1 = new Turn(game.getCurrentPlayer(), 2, 2);
+        Turn turn2 = new Turn(game.getCurrentPlayer(), 2, 2);
+        Turn turn3 = new Turn(game.getCurrentPlayer(), 2, 2);
+        Turn turn4 = new Turn(game.getCurrentPlayer(), 2, 2);
         game.addTurn(turn1);
         game.addTurn(turn2);
         game.addTurn(turn3);
@@ -89,8 +89,8 @@ class GameTest {
     void checkIfGoToJailFalseByNumber() {
         Tile tile = new Tile("Boot", 0);
         Game game = newGame();
-        Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 3, 2);
-        Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
+        Turn turn1 = new Turn(game.getCurrentPlayer(), 3, 2);
+        Turn turn2 = new Turn(game.getCurrentPlayer(), 2, 2);
         game.addTurn(turn1);
         game.addTurn(turn2);
         assertFalse(game.checkIfGoToJail(tile, 2, 2));
@@ -100,8 +100,8 @@ class GameTest {
     void checkIfGoToJailFalseByName() {
         Tile tile = new Tile("Boot", 0);
         Game game = newGame();
-        Turn turn1 = new Turn("JB", 2, 2);
-        Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
+        Turn turn1 = new Turn(new Player("Jarne"), 2, 2);
+        Turn turn2 = new Turn(game.getCurrentPlayer(), 2, 2);
         game.addTurn(turn1);
         game.addTurn(turn2);
         assertFalse(game.checkIfGoToJail(tile, 2, 2));
@@ -298,7 +298,7 @@ class GameTest {
         Game game = newGame();
         int dice1 = 1;
         int dice2 = 2;
-        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        Turn turn = new Turn(game.getCurrentPlayer(), dice1, dice2);
         game.getCurrentPlayer().moveTile("Tax Income");
         game.taxTurn(turn);
         assertEquals(1400, game.getPlayer("Jarne").getMoney());
@@ -309,7 +309,7 @@ class GameTest {
         Game game = newGame();
         int dice1 = 1;
         int dice2 = 2;
-        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        Turn turn = new Turn(game.getCurrentPlayer(), dice1, dice2);
         game.getCurrentPlayer().moveTile("Luxury Tax");
         game.taxTurn(turn);
         assertEquals(1300, game.getPlayer("Jarne").getMoney());
@@ -320,7 +320,7 @@ class GameTest {
         Game game = newGame();
         int dice1 = 1;
         int dice2 = 2;
-        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        Turn turn = new Turn(game.getCurrentPlayer(), dice1, dice2);
         game.getPlayer("Jarne").setTaxSystem(TaxSystems.COMPUTE);
         game.getCurrentPlayer().moveTile("Luxury Tax");
         game.taxTurn(turn);

@@ -26,7 +26,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Tile> getTiles() {
-        return new TileFactory().createTiles();
+        return TileFactory.createTiles();
     }
 
     @Override
@@ -121,7 +121,7 @@ public class MonopolyService extends ServiceAdapter {
         Game dummy = new Game(3,"group-12");
         Player player1 = new Player("Jamie");
         Player player2 = new Player("Walter");
-        List<Tile> tiles = new TileFactory().createTiles();
+        List<Tile> tiles = TileFactory.createTiles();
         player1.buyProperty((Property) tiles.get(8));
         player2.buyProperty((Property) tiles.get(5));
         player2.buyProperty((Property) tiles.get(19));
