@@ -2,42 +2,37 @@ package be.howest.ti.monopoly.logic.implementation.tiles;
 
 import be.howest.ti.monopoly.logic.implementation.enums.Colors;
 
+import java.util.List;
+
 public class Street extends Property {
-    private final int rentWithOneHouse;
-    private final int rentWithTwoHouses;
-    private final int rentWithThreeHouses;
-    private final int rentWithFourHouses;
-    private final int rentWithHotel;
+
+    private final List<Integer> rent;
     private final int housePrice;
 
-    public Street(String name, int position, int cost, int mortgage, int rent, int groupSize, Colors color, int rentWithOneHouse, int rentWithTwoHouses, int rentWithThreeHouses, int rentWithFourHouses, int rentWithHotel, int housePrice) {
-        super(name, position, cost, mortgage, rent, groupSize, color);
-        this.rentWithOneHouse = rentWithOneHouse;
-        this.rentWithTwoHouses = rentWithTwoHouses;
-        this.rentWithThreeHouses = rentWithThreeHouses;
-        this.rentWithFourHouses = rentWithFourHouses;
-        this.rentWithHotel = rentWithHotel;
+    public Street(String name, int position, int cost, int mortgage, int groupSize, Colors color, List<Integer> rent, int housePrice) {
+        super(name, position, cost, mortgage, rent.get(0), groupSize, color);
+        this.rent = rent;
         this.housePrice = housePrice;
     }
 
     public int getRentWithOneHouse() {
-        return rentWithOneHouse;
+        return rent.get(1);
     }
 
     public int getRentWithTwoHouses() {
-        return rentWithTwoHouses;
+        return rent.get(2);
     }
 
     public int getRentWithThreeHouses() {
-        return rentWithThreeHouses;
+        return rent.get(3);
     }
 
     public int getRentWithFourHouses() {
-        return rentWithFourHouses;
+        return rent.get(4);
     }
 
     public int getRentWithHotel() {
-        return rentWithHotel;
+        return rent.get(5);
     }
 
     public int getHousePrice() {
