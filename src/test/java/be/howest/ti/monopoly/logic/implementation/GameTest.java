@@ -164,6 +164,28 @@ class GameTest {
     }
 
     @Test
+    void collectDebtRailRoad() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Circuit-Level Gateway FW");
+        game.buyProperty("Jarne", "Packet Filtering FW");
+        game.buyProperty("Jarne", "Stateful Inspection FW");
+        game.getPlayer("Jari").moveTile("Packet Filtering FW");
+        game.collectDebt("Jarne", "Packet Filtering FW", "Jari");
+        assertEquals(1000, game.getPlayer("Jarne").getMoney());
+        assertEquals(1400, game.getPlayer("Jari").getMoney());
+    }
+
+    @Test
+    void collectDebtUtility() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Electric Company");
+        game.getPlayer("Jari").moveTile("Electric Company");
+        game.collectDebt("Jarne", "Electric Company", "Jari");
+        assertEquals(1400, game.getPlayer("Jarne").getMoney());
+        assertEquals(1450, game.getPlayer("Jari").getMoney());
+    }
+
+    @Test
     void collectDebtDefault() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
@@ -171,6 +193,44 @@ class GameTest {
         game.collectDebt("Jarne", "Chrome Crib", "Jari");
         assertEquals(1442, game.getPlayer("Jarne").getMoney());
         assertEquals(1498, game.getPlayer("Jari").getMoney());
+    }
+
+    @Test
+    void calculateRailRoadDebtTwo() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Circuit-Level Gateway FW");
+        game.buyProperty("Jarne", "Packet Filtering FW");
+        assertEquals(50, game.calculateRailRoadDebt("Jarne"));
+    }
+
+    @Test
+    void calculateRailRoadDebtFour() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Circuit-Level Gateway FW");
+        game.buyProperty("Jarne", "Packet Filtering FW");
+        game.buyProperty("Jarne", "Stateful Inspection FW");
+        game.buyProperty("Jarne", "Application-Level Gateway FW");
+        assertEquals(200, game.calculateRailRoadDebt("Jarne"));
+    }
+
+    @Test
+    void checkIfYourPropertyTrue() {
+        Game game = newGame();
+        Player player = game.getPlayer("Jarne");
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Microsoft Mine");
+        game.buyProperty("Jarne", "Android Avenue");
+        assertTrue(game.checkIfYourProperty(player, "Microsoft Mine"));
+    }
+
+    @Test
+    void checkIfYourPropertyFalse() {
+        Game game = newGame();
+        Player player = game.getPlayer("Jarne");
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Microsoft Mine");
+        game.buyProperty("Jarne", "Android Avenue");
+        assertFalse(game.checkIfYourProperty(player, "Musk’s Mars"));
     }
 
     @Test
