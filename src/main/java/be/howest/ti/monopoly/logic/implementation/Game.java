@@ -34,7 +34,7 @@ public class Game {
     private int availableHotels;
 
     public Game(int numberOfPlayers, String prefix) {
-        this.tiles = new TileFactory().createTiles();
+        this.tiles = TileFactory.createTiles();
         this.numberOfPlayers = numberOfPlayers;
         this.prefix = prefix;
         this.id = prefix + "_" + games;
@@ -69,9 +69,10 @@ public class Game {
             SecureRandom random = new SecureRandom();
             int dice1 = random.nextInt(6) + 1;
             int dice2 = random.nextInt(6) + 1;
-            Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
-            turn.executeTurn();
+            Turn turn = new Turn(currentPlayer, dice1, dice2);
+            Tile nextTile = turn.executeTurn();
             turns.add(turn);
+            if (Helper.isDirectSale(nextTile)) canRoll = false;
             if (dice1 != dice2) changeCurrentPlayer();
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
@@ -100,7 +101,7 @@ public class Game {
 
     private void turnGoToJail(int dice1, int dice2, Tile nextTile) {
         currentPlayer.goToJail();
-        Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
+        Turn turn = new Turn(currentPlayer, dice1, dice2);
         turn.addMove(new Move(nextTile, "Go to Repair"));
         turns.add(turn);
         changeCurrentPlayer();
@@ -118,14 +119,14 @@ public class Game {
             }
         }
         currentPlayer.moveTile(nextTile.getName());
-        Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
+        Turn turn = new Turn(currentPlayer, dice1, dice2);
         turn.addMove(new Move(nextTile, "In Repair"));
         turns.add(turn);
         changeCurrentPlayer();
     }
 
     private void turnDefault(int dice1, int dice2, Tile nextTile) {
-        Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
+        Turn turn = new Turn(currentPlayer, dice1, dice2);
         if (passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
             currentPlayer.receiveMoney(200);
             turn.addMove(new Move(getTile("Boot"), "Passed Boot (receive $200)"));
@@ -145,7 +146,7 @@ public class Game {
     private void cardTurn(Turn turn) {
         SecureRandom random = new SecureRandom();
         int number = random.nextInt(14);
-        Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
+        Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
         Card card;
         if (nextTile.getType().equals("chance")) card = new CardFactory().createChances().get(number);
         else card = new CardFactory().createCommunityChests().get(number);
@@ -155,7 +156,7 @@ public class Game {
     }
 
     private void propertyTurn(Turn turn) {
-        Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
+        Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
         String description;
         if (isAlreadyOwned((Property) nextTile)) description = "Should pay rent";
         else description = "Direct sale";
@@ -177,7 +178,7 @@ public class Game {
         }
         currentPlayer.giveMoney(amount);
         String description = "Pay taxes";
-        turn.addMove(new Move(getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1)), description));
+        turn.addMove(new Move(Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1)), description));
     }
 
     private boolean isCard(Tile nextTile) {
@@ -488,17 +489,6 @@ public class Game {
             }
         }
         return activePlayers.get(0);
-    }
-
-    private Tile getNextTile(String currentTile, int total) {
-        for (Tile tile : tiles) {
-            if (tile.getName().equals(currentTile)) {
-                int nextPosition = tile.getPosition() + total;
-                if (nextPosition > tiles.size()) nextPosition = 0;
-                return tiles.get(nextPosition);
-            }
-        }
-        throw new MonopolyResourceNotFoundException("Can't find next tile.");
     }
 
     public Player getPlayer(String playerName) {

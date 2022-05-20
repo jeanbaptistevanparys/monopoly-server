@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TileFactory {
 
-    public List<Tile> createTiles() {
+    public static List<Tile> createTiles() {
         return  new ArrayList<>(List.of(
                 new Tile("Boot", 0),
                 new Street("Chrome Crib", 1, 60, 30, 2, Colors.PURPLE, List.of(2, 10, 30, 90, 160, 250), 50),
