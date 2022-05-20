@@ -51,14 +51,14 @@ public class GameStateView {
         return game.isEnded();
     }
 
-    public boolean isDirectSale() {
+    public String getDirectSale() {
         try {
             Tile tile = game.getTile(game.getCurrentPlayer().getCurrentTile());
-            if (!game.isProperty(tile)) return false;
-            if (game.isAlreadyOwned((Property) tile)) return false;
-            return true;
+            if (!game.isProperty(tile)) return null;
+            if (game.isAlreadyOwned((Property) tile)) return null;
+            return tile.getName();
         } catch (Exception ex) {
-            return false;
+            return null;
         }
     }
 
