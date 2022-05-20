@@ -5,11 +5,23 @@ import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Helper {
 
     private Helper() {
         throw new IllegalStateException("Helper class");
+    }
+
+
+    public static Tile getTile(String tileName) {
+        List<Tile> tiles = TileFactory.createTiles();
+        for (Tile tile : tiles) {
+            if (Objects.equals(tile.getName(), tileName)) {
+                return tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Did not find the requested tile: " + tileName);
     }
 
     public static Tile getNextTile(String currentTile, int total) {
@@ -51,5 +63,13 @@ public class Helper {
 
     public static boolean isTax(Tile nextTile) {
         return nextTile.getType().equals("Tax Income") || nextTile.getType().equals("Luxury Tax");
+    }
+
+    public static boolean isGoToJail(Tile nextTile) {
+        return nextTile.getType().equals("Go to Jail");
+    }
+
+    public static boolean isGo(Tile nextTile) {
+        return nextTile.getType().equals("Go");
     }
 }

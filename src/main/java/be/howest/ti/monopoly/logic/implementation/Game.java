@@ -73,16 +73,6 @@ public class Game {
             turn.executeTurn(this);
             turns.add(turn);
             if (dice1 != dice2) changeCurrentPlayer();
-
-            Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), dice1 + dice2);
-            if (checkIfGoToJail(nextTile, dice1, dice2)) {
-                turnGoToJail(dice1, dice2, nextTile);
-            } else if (currentPlayer.isJailed()) {
-                turnInJail(dice1, dice2, nextTile);
-            } else {
-                turnDefault(dice1, dice2, nextTile);
-            }
-
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
 
@@ -116,124 +106,73 @@ public class Game {
         return activePlayers;
     }
 
-    public boolean checkIfGoToJail(Tile nextTile, int dice1, int dice2) {
-         if (Objects.equals(nextTile.getType(), "Go to Jail")) {
-             return true;
-         } else {
-             if (turns.size() >= 2) {
-                 Turn lastTurn = turns.get(turns.size() - 1);
-                 Turn secondLastTurn = turns.get(turns.size() - 2);
-                 if (!Objects.equals(lastTurn.getPlayer(), currentPlayer.getName()) || !Objects.equals(secondLastTurn.getPlayer(), currentPlayer.getName())) {
-                     return false;
-                 } else
-                     return dice1 == dice2 && lastTurn.isDouble() && secondLastTurn.isDouble();
-             } else {
-                 return false;
-             }
-         }
-    }
+//    private void turnDefault(int dice1, int dice2, Tile nextTile) {
+//        Turn turn = new Turn(currentPlayer, dice1, dice2);
+//        if (passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
+//            currentPlayer.receiveMoney(200);
+//            turn.addMove(new Move(getTile("Boot"), "Passed Boot (receive $200)"));
+//        }
+//        currentPlayer.moveTile(nextTile.getName());
+//        if (isCard(nextTile)) {
+//            cardTurn(turn);
+//        } else if (isProperty(nextTile)) {
+//            propertyTurn(turn);
+//        } else if (isTax(nextTile)) {
+//            taxTurn(turn);
+//        }
+//        turns.add(turn);
+//        if (dice1 != dice2) changeCurrentPlayer();
+//    }
 
-    private void turnGoToJail(int dice1, int dice2, Tile nextTile) {
-        currentPlayer.goToJail();
-        Turn turn = new Turn(currentPlayer, dice1, dice2);
-        turn.addMove(new Move(nextTile, "Go to Repair"));
-        turns.add(turn);
-        changeCurrentPlayer();
-    }
+//    private void cardTurn(Turn turn) {
+//        SecureRandom random = new SecureRandom();
+//        int number = random.nextInt(14);
+//        Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
+//        Card card;
+//        if (nextTile.getType().equals("chance")) card = new CardFactory().createChances().get(number);
+//        else card = new CardFactory().createCommunityChests().get(number);
+//        card.executeCard(currentPlayer, this, turn);
+//        String description = card.getDescription();
+//        turn.addMove(new Move(nextTile, description));
+//    }
 
-    private void turnInJail(int dice1, int dice2, Tile nextTile) {
-        if (dice1 == dice2) {
-            currentPlayer.getOutOfJailDouble();
-        } else {
-            if (currentPlayer.getTriesToGetOutOfJail() < 3) {
-                currentPlayer.addTrieToGetOutOfJail();
-                nextTile = getTile("Repair");
-            } else {
-                currentPlayer.getOutOfJailFine();
-            }
-        }
-        currentPlayer.moveTile(nextTile.getName());
-        Turn turn = new Turn(currentPlayer, dice1, dice2);
-        turn.addMove(new Move(nextTile, "In Repair"));
-        turns.add(turn);
-        changeCurrentPlayer();
-    }
+//    private void propertyTurn(Turn turn) {
+//        Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
+//        String description;
+//        if (isAlreadyOwned((Property) nextTile)) description = "Should pay rent";
+//        else description = "Direct sale";
+//        turn.addMove(new Move(nextTile, description));
+//        canRoll = false;
+//    }
 
-    private void turnDefault(int dice1, int dice2, Tile nextTile) {
-        Turn turn = new Turn(currentPlayer, dice1, dice2);
-        if (passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
-            currentPlayer.receiveMoney(200);
-            turn.addMove(new Move(getTile("Boot"), "Passed Boot (receive $200)"));
-        }
-        currentPlayer.moveTile(nextTile.getName());
-        if (isCard(nextTile)) {
-            cardTurn(turn);
-        } else if (isProperty(nextTile)) {
-            propertyTurn(turn);
-        } else if (isTax(nextTile)) {
-            taxTurn(turn);
-        }
-        turns.add(turn);
-        if (dice1 != dice2) changeCurrentPlayer();
-    }
-
-    private void cardTurn(Turn turn) {
-        SecureRandom random = new SecureRandom();
-        int number = random.nextInt(14);
-        Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
-        Card card;
-        if (nextTile.getType().equals("chance")) card = new CardFactory().createChances().get(number);
-        else card = new CardFactory().createCommunityChests().get(number);
-        card.executeCard(currentPlayer, this, turn);
-        String description = card.getDescription();
-        turn.addMove(new Move(nextTile, description));
-    }
-
-    private void propertyTurn(Turn turn) {
-        Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
-        String description;
-        if (isAlreadyOwned((Property) nextTile)) description = "Should pay rent";
-        else description = "Direct sale";
-        turn.addMove(new Move(nextTile, description));
-        canRoll = false;
-    }
-
-    public void taxTurn(Turn turn) {
-        int amount;
-        if (currentPlayer.getTaxSystem().equals(TaxSystems.ESTIMATE)) {
-            if (currentPlayer.getCurrentTile().equals("Tax Income")) {
-                amount = 100;
-            }
-            else {
-                amount = 200;
-            }
-        } else {
-            amount = (int) Math.round(currentPlayer.getMoney() * 0.10);
-        }
-        currentPlayer.giveMoney(amount);
-        String description = "Pay taxes";
-        turn.addMove(new Move(Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1)), description));
-    }
-
-    private boolean isCard(Tile nextTile) {
-        return nextTile.getType().equals("chance") || nextTile.getType().equals("community chest");
-    }
+//    public void taxTurn(Turn turn) {
+//        int amount;
+//        if (currentPlayer.getTaxSystem().equals(TaxSystems.ESTIMATE)) {
+//            if (currentPlayer.getCurrentTile().equals("Tax Income")) {
+//                amount = 100;
+//            }
+//            else {
+//                amount = 200;
+//            }
+//        } else {
+//            amount = (int) Math.round(currentPlayer.getMoney() * 0.10);
+//        }
+//        currentPlayer.giveMoney(amount);
+//        String description = "Pay taxes";
+//        turn.addMove(new Move(Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1)), description));
+//    }
 
     public boolean isProperty(Tile nextTile) {
         return nextTile.getType().equals("street") || nextTile.getType().equals("utility") || Helper.isRailRoad(nextTile);
     }
 
-    private boolean isTax(Tile nextTile) {
-        return nextTile.getType().equals("Luxury Tax") || nextTile.getType().equals("Tax Income");
-    }
-
     public boolean passedGo(String nextTile, String currentTile) {
-        return getTile(nextTile).getPosition() <= getTile(currentTile).getPosition();
+        return Helper.getTile(nextTile).getPosition() <= Helper.getTile(currentTile).getPosition();
     }
 
     public void buyProperty(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
-        Tile tile = getTile(propertyName);
+        Tile tile = Helper.getTile(propertyName);
         player.buyProperty((Property) tile);
         setCanRoll(true);
     }
@@ -474,15 +413,6 @@ public class Game {
             }
         }
         deliverer.deleteOutOfJailFreeCards();
-    }
-
-    public Tile getTile(String name) {
-        for (Tile tile : tiles) {
-            if (Objects.equals(tile.getName(), name)) {
-                return tile;
-            }
-        }
-        throw new MonopolyResourceNotFoundException("Did not find the requested tile: " + name);
     }
 
     public Property getProperty(String name) {

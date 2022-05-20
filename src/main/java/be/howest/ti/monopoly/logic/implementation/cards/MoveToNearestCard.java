@@ -1,10 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.cards;
 
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.logic.implementation.Game;
-import be.howest.ti.monopoly.logic.implementation.Move;
-import be.howest.ti.monopoly.logic.implementation.Player;
-import be.howest.ti.monopoly.logic.implementation.Turn;
+import be.howest.ti.monopoly.logic.implementation.*;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 public class MoveToNearestCard extends Card {
@@ -38,7 +35,7 @@ public class MoveToNearestCard extends Card {
         if (nextTile == null) throw new MonopolyResourceNotFoundException("No such type");
         if (game.passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
             currentPlayer.receiveMoney(200);
-            turn.addMove(new Move(game.getTile("Boot"), "Passed Boot (receive $200)"));
+            turn.addMove(new Move(Helper.getTile("Boot"), "Passed Boot (receive $200)"));
         }
         currentPlayer.moveTile(nextTile.getName());
         turn.addMove(new Move(nextTile, "Moved to nearest " + nearestType));
