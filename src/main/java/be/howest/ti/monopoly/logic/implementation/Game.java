@@ -249,13 +249,17 @@ public class Game {
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
 
             int amount = getStreet(playerProperty.getName()).getHousePrice();
-            if (playerProperty.getHouseCount() == 4 && playerProperty.getHotelCount() == 0) {
-                player.spendMoney(amount);
-                playerProperty.increaseHotelCount();
-                availableHotels--;
-                availableHouses += 4;
+            if (playerProperty.getHouseCount() == 4) {
+                if (playerProperty.getHotelCount() == 0) {
+                    player.spendMoney(amount);
+                    playerProperty.increaseHotelCount();
+                    availableHotels--;
+                    availableHouses += 4;
+                } else {
+                    throw new IllegalMonopolyActionException("You already have a hotel or ");
+                }
             } else {
-                throw new IllegalMonopolyActionException("You already have a hotel or you have not enough houses on this property.");
+                throw new IllegalMonopolyActionException("You don't have enough houses on this property.");
             }
         } else {
             throw new IllegalMonopolyActionException("There are no more hotels left.");
