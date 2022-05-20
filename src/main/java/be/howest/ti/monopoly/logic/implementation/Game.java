@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.cards.Card;
+import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
 import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
@@ -48,8 +49,8 @@ public class Game {
         this.availableHouses = 32;
         this.availableHotels = 12;
         this.turns = new ArrayList<>();
-        games ++;
         this.auctions = new ArrayList<>();
+        games ++;
     }
 
     public void addPlayer(Player player) {
@@ -127,9 +128,8 @@ public class Game {
         currentPlayer.moveTile(nextTile.getName());
         Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
         turn.addMove(new Move(nextTile, "In Repair"));
-        currentPlayer = getNextPlayer();
         turns.add(turn);
-        if (isProperty(nextTile)) canRoll = false;
+        changeCurrentPlayer();
     }
 
     private void turnDefault(int dice1, int dice2, Tile nextTile) {
@@ -147,6 +147,7 @@ public class Game {
             taxTurn(turn);
         }
         turns.add(turn);
+        if (dice1 != dice2) changeCurrentPlayer();
     }
 
     private void cardTurn(Turn turn) {
@@ -171,15 +172,16 @@ public class Game {
     }
 
     public void taxTurn(Turn turn) {
-        int amount = (int) Math.round(currentPlayer.getMoney() * 0.10);
-        if (currentPlayer.getCurrentTile().equals("Tax Income")) {
-            if (currentPlayer.getTaxSystem().equals("ESTIMATE")) {
+        int amount;
+        if (currentPlayer.getTaxSystem().equals(TaxSystems.ESTIMATE)) {
+            if (currentPlayer.getCurrentTile().equals("Tax Income")) {
                 amount = 100;
             }
-        } else {
-            if (currentPlayer.getTaxSystem().equals("ESTIMATE")) {
+            else {
                 amount = 200;
             }
+        } else {
+            amount = (int) Math.round(currentPlayer.getMoney() * 0.10);
         }
         currentPlayer.giveMoney(amount);
         String description = "Pay taxes";
@@ -536,12 +538,12 @@ public class Game {
 
     public void useComputeTax(String playerName) {
         Player player = getPlayer(playerName);
-        player.setTaxSystem("COMPUTE");
+        player.setTaxSystem(TaxSystems.COMPUTE);
     }
 
     public void useEstimateTax(String playerName) {
         Player player = getPlayer(playerName);
-        player.setTaxSystem("ESTIMATE");
+        player.setTaxSystem(TaxSystems.ESTIMATE);
     }
 
     public void endGame() {
