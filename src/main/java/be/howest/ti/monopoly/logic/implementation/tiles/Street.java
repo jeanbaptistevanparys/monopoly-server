@@ -7,12 +7,10 @@ import java.util.List;
 public class Street extends Property {
 
     private final List<Integer> rent;
-    private final int housePrice;
 
-    public Street(String name, int position, int cost, int mortgage, int groupSize, Colors color, List<Integer> rent, int housePrice) {
+    public Street(String name, int position, int cost, int mortgage, int groupSize, Colors color, List<Integer> rent) {
         super(name, position, cost, mortgage, rent.get(0), groupSize, color);
         this.rent = rent;
-        this.housePrice = housePrice;
     }
 
     public int getRentWithOneHouse() {
@@ -36,7 +34,7 @@ public class Street extends Property {
     }
 
     public int getHousePrice() {
-        return housePrice;
+        return rent.get(6);
     }
 
     public Colors getStreetColor() {
