@@ -19,6 +19,10 @@ public class Turn {
         moves.add(move);
     }
 
+    public void executeTurn() {
+
+    }
+
     public List<Integer> getRoll() {
         return roll;
     }

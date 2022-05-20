@@ -5,6 +5,7 @@ import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
+import java.util.Collections;
 import java.util.List;
 
 public class GameStateView {
@@ -40,7 +41,11 @@ public class GameStateView {
     }
 
     public List<Integer> getLastDiceRoll() {
-        return game.getLastDiceRoll();
+        try {
+            return game.getTurns().get(game.getTurns().size()-1).getRoll();
+        } catch (Exception ex) {
+            return Collections.emptyList();
+        }
     }
 
     public boolean isCanRoll() {

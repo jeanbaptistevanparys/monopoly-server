@@ -8,7 +8,7 @@ public abstract class Card {
 
     private final String description;
 
-    public Card(String description) {
+    protected Card(String description) {
         this.description = description;
     }
 

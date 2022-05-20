@@ -21,11 +21,10 @@ public class Game {
 
     private final int numberOfPlayers;
     private final String prefix;
+    private final String id;
     private final List<Player> players;
     private final List<Turn> turns;
-    private final List<Integer> lastDiceRoll;
     private final List<Auction> auctions;
-    private final String id;
     private boolean started;
     private boolean ended;
     private boolean canRoll;
@@ -38,9 +37,12 @@ public class Game {
         this.tiles = new TileFactory().createTiles();
         this.numberOfPlayers = numberOfPlayers;
         this.prefix = prefix;
-        this.players = new ArrayList<>();
-        this.lastDiceRoll = new ArrayList<>();
         this.id = prefix + "_" + games;
+        games ++;
+
+        this.players = new ArrayList<>();
+        this.turns = new ArrayList<>();
+        this.auctions = new ArrayList<>();
         this.started = false;
         this.ended = false;
         this.canRoll = true;
@@ -48,9 +50,6 @@ public class Game {
         this.winner = null;
         this.availableHouses = 32;
         this.availableHotels = 12;
-        this.turns = new ArrayList<>();
-        this.auctions = new ArrayList<>();
-        games ++;
     }
 
     public void addPlayer(Player player) {
@@ -58,7 +57,7 @@ public class Game {
         if (started) throw new IllegalMonopolyActionException("Game already started");
         players.add(player);
         if (currentPlayer == null) currentPlayer = player;
-        if (players.size() == numberOfPlayers) { started = true; }
+        if (players.size() == numberOfPlayers) started = true;
     }
 
     public void addAuction(Auction auction) {
@@ -70,18 +69,10 @@ public class Game {
             SecureRandom random = new SecureRandom();
             int dice1 = random.nextInt(6) + 1;
             int dice2 = random.nextInt(6) + 1;
-            int total = dice1 + dice2;
-            lastDiceRoll.clear();
-            lastDiceRoll.add(dice1);
-            lastDiceRoll.add(dice2);
-            Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
-            if (checkIfGoToJail(nextTile, dice1, dice2)) {
-                turnGoToJail(dice1, dice2, nextTile);
-            } else if (currentPlayer.isJailed()) {
-                turnInJail(dice1, dice2, nextTile);
-            } else {
-                turnDefault(dice1, dice2, nextTile);
-            }
+            Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
+            turn.executeTurn();
+            turns.add(turn);
+            if (dice1 != dice2) changeCurrentPlayer();
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
 
@@ -194,7 +185,7 @@ public class Game {
     }
 
     public boolean isProperty(Tile nextTile) {
-        return nextTile.getType().equals("street") || nextTile.getType().equals("utility") || nextTile.getType().equals("railroad");
+        return nextTile.getType().equals("street") || nextTile.getType().equals("utility") || Helper.isRailRoad(nextTile);
     }
 
     private boolean isTax(Tile nextTile) {
@@ -302,7 +293,7 @@ public class Game {
         if (checkIfYourProperty(receiver, propertyName)) {
             if (debtor.getCurrentTile().equals(propertyName)) {
                 int debtValue;
-                if (getProperty(propertyName).getType().equals("railroad")) {
+                if (Helper.isRailRoad(getProperty(propertyName))) {
                     debtValue = calculateRailRoadDebt(playerName);
                 } else if (getProperty(propertyName).getType().equals("utility")) {
                     debtValue = getProperty(propertyName).getRent();
@@ -339,7 +330,7 @@ public class Game {
         int amountOfRailroads = 0;
         List<PlayerProperty> playerProperties = getPlayer(playerName).getProperties();
         for (PlayerProperty playerProperty : playerProperties) {
-            if (getProperty(playerProperty.getName()).getType().equals("railroad")) {
+            if (Helper.isRailRoad(getProperty(playerProperty.getName()))) {
                 amountOfRailroads ++;
             }
         }
@@ -411,10 +402,10 @@ public class Game {
             endGame();
             winner = activePlayers.get(0);
         }
-        dividePossesions(deliverer, activePlayers);
+        dividePossessions(deliverer, activePlayers);
     }
 
-    private void dividePossesions(Player deliverer, List<Player> activePlayers) {
+    private void dividePossessions(Player deliverer, List<Player> activePlayers) {
         int amountOfActivePlayers = activePlayers.size();
         int playerCount = 0;
         for (PlayerProperty playerProperty : deliverer.getProperties()) {
@@ -619,10 +610,6 @@ public class Game {
 
     public void getOutOfJailFree() {
         currentPlayer.getOutOfJailFree();
-    }
-
-    public List<Integer> getLastDiceRoll() {
-        return lastDiceRoll;
     }
 
     public List<Auction> getAuctions() {
