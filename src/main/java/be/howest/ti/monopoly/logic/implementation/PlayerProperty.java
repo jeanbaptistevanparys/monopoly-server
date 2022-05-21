@@ -43,7 +43,8 @@ public class PlayerProperty {
     public void deleteHotels() {
         hotelCount = 0;
     }
-    public String getName() {
+
+    public String getProperty() {
         return name;
     }
 

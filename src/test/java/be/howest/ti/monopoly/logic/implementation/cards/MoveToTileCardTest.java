@@ -24,7 +24,7 @@ class MoveToTileCardTest {
         Turn turn = new Turn(new Player("Jarne"), 4, 3);
         game.getCurrentPlayer().moveTile("Chance I");
         Card card = new CardFactory().createChances().get(1);
-        card.executeCard(game.getCurrentPlayer(), game, turn);
+        card.executeCard(game.getCurrentPlayer(), turn);
         assertEquals("Boot" ,game.getCurrentPlayer().getCurrentTile());
         assertEquals(1700, game.getCurrentPlayer().getMoney());
     }

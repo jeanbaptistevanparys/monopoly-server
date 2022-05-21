@@ -60,6 +60,8 @@ public class Game {
 
     public void addAuction(Auction auction) {
         auctions.add(auction);
+        setCanRoll(true);
+        if (!getLastDiceRoll().get(0).equals(getLastDiceRoll().get(1))) changeCurrentPlayer();
     }
 
     public void rollDice(String playerName) {
@@ -70,11 +72,10 @@ public class Game {
             Turn turn = new Turn(currentPlayer, dice1, dice2);
             turn.executeTurn(this);
             turns.add(turn);
-            if (dice1 != dice2) changeCurrentPlayer();
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
 
-    private void changeCurrentPlayer() {
+    public void changeCurrentPlayer() {
         currentPlayer = getNextPlayer();
         if (currentPlayer.getMoney() < 0) declareBankruptcy(currentPlayer.getName());
     }
@@ -110,13 +111,14 @@ public class Game {
         if (Helper.isAlreadyOwned(getProperty(propertyName), players)) throw new IllegalMonopolyActionException("Already owned");
         player.buyProperty((Property) tile);
         setCanRoll(true);
+        if (!getLastDiceRoll().get(0).equals(getLastDiceRoll().get(1))) changeCurrentPlayer();
     }
 
     public void buyHouse(String playerName, String propertyName) {
         if (availableHouses > 0) {
             Player player = getPlayer(playerName);
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
-            int amount = getStreet(playerProperty.getName()).getHousePrice();
+            int amount = getStreet(playerProperty.getProperty()).getHousePrice();
             if (playerHasFullStreet(player, propertyName)) {
                 if (playerProperty.getHouseCount() < 4) {
                     player.spendMoney(amount);
@@ -136,7 +138,7 @@ public class Game {
     public void sellHouse(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
-        int amount = getStreet(playerProperty.getName()).getHousePrice();
+        int amount = getStreet(playerProperty.getProperty()).getHousePrice();
         if (playerProperty.getHouseCount() > 0) {
             player.receiveMoney(amount);
             playerProperty.decreaseHouseCount();
@@ -151,7 +153,7 @@ public class Game {
             Player player = getPlayer(playerName);
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
 
-            int amount = getStreet(playerProperty.getName()).getHousePrice();
+            int amount = getStreet(playerProperty.getProperty()).getHousePrice();
             if (playerProperty.getHouseCount() == 4) {
                 if (playerProperty.getHotelCount() == 0) {
                     player.spendMoney(amount);
@@ -172,7 +174,7 @@ public class Game {
     public void sellHotel(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
-        int amount = getStreet(playerProperty.getName()).getHousePrice();
+        int amount = getStreet(playerProperty.getProperty()).getHousePrice();
         if (playerProperty.getHotelCount() == 1) {
             player.receiveMoney(amount);
             playerProperty.decreaseHotelCount();
@@ -188,7 +190,7 @@ public class Game {
         int groupSize = getStreet(propertyName).getGroupSize();
         int i = 0;
         for (PlayerProperty playerProperty : player.getProperties()) {
-            Street street = getStreet(playerProperty.getName());
+            Street street = getStreet(playerProperty.getProperty());
             if (street.getStreetColor() == streetToBuild.getStreetColor()) {
                 i ++;
             }
@@ -228,7 +230,7 @@ public class Game {
     public boolean checkIfYourProperty(Player receiver, String propertyName) {
         List<PlayerProperty> playerProperties = receiver.getProperties();
         for (PlayerProperty playerProperty : playerProperties) {
-            if (playerProperty.getName().equals(propertyName)) {
+            if (playerProperty.getProperty().equals(propertyName)) {
                 return true;
             }
         }
@@ -239,7 +241,7 @@ public class Game {
         int amountOfRailroads = 0;
         List<PlayerProperty> playerProperties = getPlayer(playerName).getProperties();
         for (PlayerProperty playerProperty : playerProperties) {
-            if (Helper.isRailRoad(getProperty(playerProperty.getName()))) {
+            if (Helper.isRailRoad(getProperty(playerProperty.getProperty()))) {
                 amountOfRailroads ++;
             }
         }
@@ -379,7 +381,7 @@ public class Game {
 
     public PlayerProperty getPlayerProperty(List<PlayerProperty> playerProperties, String propertyName) {
         for (PlayerProperty playerProperty : playerProperties) {
-            if (playerProperty.getName().equals(propertyName)) {
+            if (playerProperty.getProperty().equals(propertyName)) {
                 return playerProperty;
             }
         }

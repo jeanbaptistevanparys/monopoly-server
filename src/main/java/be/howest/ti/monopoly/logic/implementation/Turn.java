@@ -32,10 +32,7 @@ public class Turn {
     public void executeTurn(Game game) {
         this.game = game;
         if (Helper.passedGo(nextTile.getName(), player.getCurrentTile()) && !player.isJailed()) {
-            player.receiveMoney(200);
-            Move move = new Move(Helper.getTile("Boot"), "Passed Boot (Collect 200)");
-            if (nextTile.getType().equals("Go")) move.executeMove(this);
-            addMove(move);
+            passedGo();
         }
         if (player.isJailed()) {
             inJailTurn(nextTile);
@@ -53,12 +50,23 @@ public class Turn {
             else if (nextTile.getType().equals("Jail")) move.setDescription("Just visiting");
             move.executeMove(this);
             addMove(move);
+            if (!isDouble()) game.changeCurrentPlayer();
         }
     }
 
     public void executeTurn(Tile nextTile) {
         this.nextTile = nextTile;
         executeTurn(game);
+    }
+
+    private void passedGo() {
+        player.receiveMoney(200);
+        Move move = new Move(Helper.getTile("Boot"), "Passed Boot (Collect 200)");
+        if (nextTile.getType().equals("Go")) {
+            move.executeMove(this);
+            if (!isDouble()) game.changeCurrentPlayer();
+        }
+        addMove(move);
     }
 
     private void inJailTurn(Tile nextTile) {
@@ -75,6 +83,7 @@ public class Turn {
             move.executeMove(this);
             addMove(move);
         }
+        if (!isDouble()) game.changeCurrentPlayer();
     }
 
     private void propertyTurn(Tile nextTile) {
@@ -101,6 +110,7 @@ public class Turn {
         move.executeMove(this);
         addMove(move);
         card.executeCard(player, this);
+        if (!isDouble()) game.changeCurrentPlayer();
     }
 
     private void taxTurn(Tile nextTile) {
@@ -119,6 +129,7 @@ public class Turn {
         Move move = new Move(nextTile, "Pay taxes");
         move.executeMove(this);
         addMove(move);
+        if (!isDouble()) game.changeCurrentPlayer();
     }
 
     private void goToJailTurn() {
@@ -126,6 +137,7 @@ public class Turn {
         Move move = new Move(Helper.getTile("Repair"), "Go to Repair");
         move.executeMove(this);
         addMove(move);
+        if (!isDouble()) game.changeCurrentPlayer();
     }
 
     public List<Integer> getRoll() {

@@ -296,22 +296,20 @@ class GameTest {
     @Test
     void payTaxIncome() {
         Game game = newGame();
-        int dice1 = 1;
+        int dice1 = 2;
         int dice2 = 2;
         Turn turn = new Turn(game.getCurrentPlayer(), dice1, dice2);
-        game.getCurrentPlayer().moveTile("Tax Income");
-        game.taxTurn(turn);
+        turn.executeTurn(game);
         assertEquals(1400, game.getPlayer("Jarne").getMoney());
     }
 
     @Test
     void payTaxLuxury() {
         Game game = newGame();
-        int dice1 = 1;
-        int dice2 = 2;
+        int dice1 = 19;
+        int dice2 = 19;
         Turn turn = new Turn(game.getCurrentPlayer(), dice1, dice2);
-        game.getCurrentPlayer().moveTile("Luxury Tax");
-        game.taxTurn(turn);
+        turn.executeTurn(game);
         assertEquals(1300, game.getPlayer("Jarne").getMoney());
     }
 
@@ -322,8 +320,7 @@ class GameTest {
         int dice2 = 2;
         Turn turn = new Turn(game.getCurrentPlayer(), dice1, dice2);
         game.getPlayer("Jarne").setTaxSystem(TaxSystems.COMPUTE);
-        game.getCurrentPlayer().moveTile("Luxury Tax");
-        game.taxTurn(turn);
+        turn.executeTurn(game);
         assertEquals(1350, game.getPlayer("Jarne").getMoney());
     }
 

@@ -42,7 +42,7 @@ public class Helper {
     public static boolean isAlreadyOwned(Property property, List<Player> players) {
         for (Player player : players) {
             for (PlayerProperty playerProperty : player.getProperties()) {
-                if (playerProperty.getName().equals(property.getName())) return true;
+                if (playerProperty.getProperty().equals(property.getName())) return true;
             }
         }
         return false;
@@ -55,7 +55,7 @@ public class Helper {
     public static boolean isDirectSale(Tile tile, List<Player> players) {
         for (Player player : players) {
             for (PlayerProperty playerProperty : player.getProperties()) {
-                if (playerProperty.getName().equals(tile.getName())) return false;
+                if (playerProperty.getProperty().equals(tile.getName())) return false;
             }
         }
         return true;

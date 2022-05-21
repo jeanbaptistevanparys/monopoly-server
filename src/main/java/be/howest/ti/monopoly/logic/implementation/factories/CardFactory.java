@@ -20,8 +20,8 @@ public class CardFactory {
                 new MoveToTileCard("Go to Repair", "Repair"),
                 new ChangeMoneyCard("Make general repairs on all your property. Pay $200", -200),
                 new ChangeMoneyCard("Speeding fine $15", -15),
-                new MoveToTileCard("Take a trip to Reading Railroad. If you pass Boot, collect $200", "Reading Railroad"),
-                new ChangeMoneyCard("You have been elected Chairman of the Board. Pay $100", 100),
+                new MoveToTileCard("Take a trip to Packet Filtering FW. If you pass Boot, collect $200", "Packet Filtering FW"),
+                new ChangeMoneyCard("You have been elected Chairman of the Board. Pay $100", -100),
                 new ChangeMoneyCard("Your building loan matures. Collect $150", 150)
         ));
     }

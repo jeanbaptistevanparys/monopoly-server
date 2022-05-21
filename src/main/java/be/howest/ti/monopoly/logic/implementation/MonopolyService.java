@@ -42,7 +42,7 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Tile getTile(String name) {
         for (Tile tile : getTiles()) {
-            if (tile.getNameAsPathParameter().equals(name)) {
+            if (tile.getName().equals(name)) {
                 return tile;
             }
         }
@@ -160,7 +160,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyProperty(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.buyProperty(playerName, propertyName);
         return new JsonObject()
@@ -171,9 +171,10 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
         Game game = getGame(gameId);
-        game.setCanRoll(true);
         game.addAuction(new Auction(propertyName, 0));
-        return null;
+        return new JsonObject()
+                .put("property", propertyName)
+                .put("purchased", false);
     }
 
     @Override
@@ -211,7 +212,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object takeMortgage(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.takeMortgage(playerName, propertyName);
         return null;
@@ -219,7 +220,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyHouse(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.buyHouse(playerName, propertyName);
         return null;
@@ -227,7 +228,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object sellHouse(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.sellHouse(playerName, propertyName);
         return null;
@@ -235,7 +236,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyHotel(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.buyHotel(playerName, propertyName);
         return null;
@@ -243,7 +244,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object sellHotel(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.sellHotel(playerName, propertyName);
         return null;
@@ -251,7 +252,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object settleMortgage(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.settleMortgage(playerName, propertyName);
         return null;
@@ -259,7 +260,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.collectDebt(playerName, propertyName, debtorName);
         return null;
