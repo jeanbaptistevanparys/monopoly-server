@@ -1,7 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation.cards;
 
 import be.howest.ti.monopoly.logic.implementation.*;
-import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 public class MoveToTileCard extends Card {
 

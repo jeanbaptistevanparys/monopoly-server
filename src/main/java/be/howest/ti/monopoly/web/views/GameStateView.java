@@ -1,11 +1,8 @@
 package be.howest.ti.monopoly.web.views;
 
 import be.howest.ti.monopoly.logic.implementation.Game;
-import be.howest.ti.monopoly.logic.implementation.Helper;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.Turn;
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
-import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
