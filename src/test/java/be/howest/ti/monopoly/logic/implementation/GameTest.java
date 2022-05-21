@@ -82,7 +82,7 @@ class GameTest {
         game.addTurn(turn2);
         game.addTurn(turn3);
         game.addTurn(turn4);
-        assertTrue(Helper.checkIfGoToJail(tile, 2, 2));
+        assertTrue(Helper.isGoToJail(tile));
     }
 
     @Test
@@ -93,7 +93,7 @@ class GameTest {
         Turn turn2 = new Turn(game.getCurrentPlayer(), 2, 2);
         game.addTurn(turn1);
         game.addTurn(turn2);
-        assertFalse(game.checkIfGoToJail(tile, 2, 2));
+        assertFalse(Helper.isGoToJail(tile));
     }
 
     @Test
@@ -104,7 +104,7 @@ class GameTest {
         Turn turn2 = new Turn(game.getCurrentPlayer(), 2, 2);
         game.addTurn(turn1);
         game.addTurn(turn2);
-        assertFalse(game.checkIfGoToJail(tile, 2, 2));
+        assertFalse(Helper.isGoToJail(tile));
     }
 
     @Test

@@ -1,7 +1,10 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.implementation.cards.Card;
+import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +27,11 @@ public class Turn {
     }
 
     public void executeTurn(Game game) {
+        if (Helper.passedGo(nextTile.getName(), player.getCurrentTile())) {
+            player.receiveMoney(200);
+            Move move = new Move(Helper.getTile("Boot"), "Passed Go (Collect 200)");
+            addMove(move);
+        }
         if (player.isJailed()) {
             inJailTurn(nextTile);
         } else if (Helper.isStreet(nextTile)) {
@@ -70,11 +78,19 @@ public class Turn {
             description = "Should pay rent";
         }
         player.moveTile(nextTile.getName());
-        addMove(new Move(nextTile, description));
+        Move move = new Move(nextTile, description);
+        move.executeMove(this);
+        addMove(move);
     }
 
     private void cardTurn(Tile nextTile) {
-        Move move = new Move(nextTile, "");
+        SecureRandom random = new SecureRandom();
+        int number = random.nextInt(14);
+        Card card;
+        if (nextTile.getType().equals("chance")) card = new CardFactory().createChances().get(number);
+        else card = new CardFactory().createCommunityChests().get(number);
+        card.executeCard(player, this);
+        Move move = new Move(nextTile, card.getDescription());
         move.executeMove(this);
         addMove(move);
     }

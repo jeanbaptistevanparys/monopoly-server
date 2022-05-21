@@ -13,7 +13,7 @@ public class MoveToTileCard extends Card {
     }
 
     @Override
-    public void executeCard(Player currentPlayer, Game game, Turn turn) {
+    public void executeCard(Player currentPlayer, Turn turn) {
         Tile nextTile = Helper.getTile(tileName);
         currentPlayer.receiveMoney(200);
         turn.addMove(new Move(Helper.getTile("Boot"), "Passed Boot (receive $200)"));

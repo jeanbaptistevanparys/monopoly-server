@@ -13,10 +13,12 @@ public class Helper {
         throw new IllegalStateException("Helper class");
     }
 
+    public static List<Tile> getTiles() {
+        return TileFactory.createTiles();
+    }
 
     public static Tile getTile(String tileName) {
-        List<Tile> tiles = TileFactory.createTiles();
-        for (Tile tile : tiles) {
+        for (Tile tile : getTiles()) {
             if (Objects.equals(tile.getName(), tileName)) {
                 return tile;
             }
@@ -36,6 +38,11 @@ public class Helper {
         throw new MonopolyResourceNotFoundException("Can't find next tile.");
     }
 
+
+    public static boolean passedGo(String nextTile, String currentTile) {
+        return getTile(nextTile).getPosition() <= getTile(currentTile).getPosition();
+    }
+
     public static boolean isDirectSale(Tile tile, List<Player> players) {
         for (Player player : players) {
             for (PlayerProperty playerProperty : player.getProperties()) {
@@ -43,6 +50,10 @@ public class Helper {
             }
         }
         return true;
+    }
+
+    public static boolean isProperty(Tile tile) {
+        return isRailRoad(tile) || isUtility(tile) || isStreet(tile);
     }
 
     public static boolean isRailRoad(Tile tile) {

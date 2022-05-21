@@ -59,14 +59,7 @@ public class GameStateView {
     }
 
     public String getDirectSale() {
-        try {
-            Tile tile = Helper.getTile(game.getCurrentPlayer().getCurrentTile());
-            if (!game.isProperty(tile)) return null;
-            if (game.isAlreadyOwned((Property) tile)) return null;
-            return tile.getName();
-        } catch (Exception ex) {
-            return null;
-        }
+        return game.getDirectSale();
     }
 
     public String getCurrentPlayer() {

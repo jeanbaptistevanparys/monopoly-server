@@ -106,36 +106,6 @@ public class Game {
         return activePlayers;
     }
 
-//    private void turnDefault(int dice1, int dice2, Tile nextTile) {
-//        Turn turn = new Turn(currentPlayer, dice1, dice2);
-//        if (passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
-//            currentPlayer.receiveMoney(200);
-//            turn.addMove(new Move(getTile("Boot"), "Passed Boot (receive $200)"));
-//        }
-//        currentPlayer.moveTile(nextTile.getName());
-//        if (isCard(nextTile)) {
-//            cardTurn(turn);
-//        } else if (isProperty(nextTile)) {
-//            propertyTurn(turn);
-//        } else if (isTax(nextTile)) {
-//            taxTurn(turn);
-//        }
-//        turns.add(turn);
-//        if (dice1 != dice2) changeCurrentPlayer();
-//    }
-
-//    private void cardTurn(Turn turn) {
-//        SecureRandom random = new SecureRandom();
-//        int number = random.nextInt(14);
-//        Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
-//        Card card;
-//        if (nextTile.getType().equals("chance")) card = new CardFactory().createChances().get(number);
-//        else card = new CardFactory().createCommunityChests().get(number);
-//        card.executeCard(currentPlayer, this, turn);
-//        String description = card.getDescription();
-//        turn.addMove(new Move(nextTile, description));
-//    }
-
 //    private void propertyTurn(Turn turn) {
 //        Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
 //        String description;
@@ -560,5 +530,12 @@ public class Game {
         } catch (Exception ex) {
             return Collections.emptyList();
         }
+    }
+
+    public String getDirectSale() {
+        if (canRoll) return null;
+        Turn turn = getTurns().get(turns.size()-1);
+        Move move = turn.getMoves().get(turn.getMoves().size()-1);
+        return move.getTile();
     }
 }

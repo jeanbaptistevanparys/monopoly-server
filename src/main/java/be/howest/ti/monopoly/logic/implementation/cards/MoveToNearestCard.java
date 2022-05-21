@@ -14,10 +14,10 @@ public class MoveToNearestCard extends Card {
     }
 
     @Override
-    public void executeCard(Player currentPlayer, Game game, Turn turn) {
+    public void executeCard(Player currentPlayer, Turn turn) {
         Tile nextTile = null;
         boolean passedSelf = false;
-        for (Tile tile : game.getTiles()) {
+        for (Tile tile : Helper.getTiles()) {
             if (tile.getName().equals(currentPlayer.getCurrentTile())) passedSelf = true;
             if (passedSelf && tile.getType().equals(nearestType)) {
                 nextTile = tile;
@@ -25,7 +25,7 @@ public class MoveToNearestCard extends Card {
             }
         }
         if (nextTile == null) {
-            for (Tile tile : game.getTiles()) {
+            for (Tile tile : Helper.getTiles()) {
                 if (tile.getType().equals(nearestType)) {
                     nextTile = tile;
                     break;
@@ -33,7 +33,7 @@ public class MoveToNearestCard extends Card {
             }
         }
         if (nextTile == null) throw new MonopolyResourceNotFoundException("No such type");
-        if (game.passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
+        if (Helper.passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
             currentPlayer.receiveMoney(200);
             turn.addMove(new Move(Helper.getTile("Boot"), "Passed Boot (receive $200)"));
         }

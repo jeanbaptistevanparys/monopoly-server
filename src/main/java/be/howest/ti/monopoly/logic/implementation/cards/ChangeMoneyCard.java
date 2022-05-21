@@ -14,7 +14,7 @@ public class ChangeMoneyCard extends Card {
     }
 
     @Override
-    public void executeCard(Player currentPlayer, Game game, Turn turn) {
+    public void executeCard(Player currentPlayer, Turn turn) {
         if (changeBalance > 0) currentPlayer.receiveMoney(changeBalance);
         else currentPlayer.spendMoney(changeBalance * -1);
     }

@@ -11,7 +11,7 @@ public class OutOfJailCard extends Card {
     }
 
     @Override
-    public void executeCard(Player currentPlayer, Game game, Turn turn) {
+    public void executeCard(Player currentPlayer, Turn turn) {
         currentPlayer.addOutOfJailFreeCard();
     }
 }

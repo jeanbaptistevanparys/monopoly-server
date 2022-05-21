@@ -16,6 +16,6 @@ public abstract class Card {
         return description;
     }
 
-    public void executeCard(Player currentPlayer, Game game, Turn turn) {
+    public void executeCard(Player currentPlayer, Turn turn) {
     }
 }
