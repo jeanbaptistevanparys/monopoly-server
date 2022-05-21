@@ -85,8 +85,22 @@ public class Helper {
         return nextTile.getType().equals("Tax Income") || nextTile.getType().equals("Luxury Tax");
     }
 
-    public static boolean isGoToJail(Tile nextTile) {
-        return nextTile.getType().equals("Go to Jail");
+    public static boolean isGoToJail(Tile nextTile, Game game) {
+        List<Turn> turns = game.getTurns();
+        if (nextTile.getType().equals("Go to Jail")) {
+            return true;
+        } else {
+            if (turns.size() >= 2) {
+                Turn lastTurn = turns.get(turns.size() - 1);
+                Turn secondLastTurn = turns.get(turns.size() - 2);
+                if (!Objects.equals(lastTurn.getPlayer().getName(), game.getCurrentPlayer().getName()) || !Objects.equals(secondLastTurn.getPlayer().getName(), game.getCurrentPlayer().getName())) {
+                    return false;
+                } else
+                    return game.getLastDiceRoll().get(0) == game.getLastDiceRoll().get(1) && lastTurn.isDouble() && secondLastTurn.isDouble();
+            } else {
+                return false;
+            }
+        }
     }
 
     public static boolean isGo(Tile nextTile) {

@@ -42,7 +42,7 @@ public class Turn {
             cardTurn(nextTile);
         } else if (Helper.isTax(nextTile)) {
             taxTurn(nextTile);
-        } else if (Helper.isGoToJail(nextTile)) {
+        } else if (Helper.isGoToJail(nextTile, game)) {
             goToJailTurn();
         } else if (!Helper.isGo(nextTile)) {
             Move move = new Move(nextTile, "");

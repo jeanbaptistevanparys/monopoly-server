@@ -61,7 +61,9 @@ public class Game {
     public void addAuction(Auction auction) {
         auctions.add(auction);
         setCanRoll(true);
-        if (!getLastDiceRoll().get(0).equals(getLastDiceRoll().get(1))) changeCurrentPlayer();
+        if (!getLastDiceRoll().equals(Collections.emptyList()) && !getLastDiceRoll().get(0).equals(getLastDiceRoll().get(1))) {
+            changeCurrentPlayer();
+        }
     }
 
     public void rollDice(String playerName) {
@@ -95,7 +97,7 @@ public class Game {
     }
 
 
-    private List<Player> getActivePlayers() {
+    public List<Player> getActivePlayers() {
         List<Player> activePlayers = new ArrayList<>();
         for (Player player : players) {
             if (!player.isBankrupt()) {
@@ -111,7 +113,9 @@ public class Game {
         if (Helper.isAlreadyOwned(getProperty(propertyName), players)) throw new IllegalMonopolyActionException("Already owned");
         player.buyProperty((Property) tile);
         setCanRoll(true);
-        if (!getLastDiceRoll().get(0).equals(getLastDiceRoll().get(1))) changeCurrentPlayer();
+        if (!getLastDiceRoll().equals(Collections.emptyList()) && !getLastDiceRoll().get(0).equals(getLastDiceRoll().get(1))) {
+            changeCurrentPlayer();
+        }
     }
 
     public void buyHouse(String playerName, String propertyName) {

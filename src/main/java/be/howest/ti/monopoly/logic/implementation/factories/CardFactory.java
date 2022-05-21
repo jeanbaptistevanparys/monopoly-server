@@ -13,7 +13,7 @@ public class CardFactory {
                 new MoveToTileCard("Advance to Boot (Collect $200)", "Boot"),
                 new MoveToTileCard("Advance to GPU Jail. If you pass Boot, collect $200", "GPU Jail"),
                 new MoveToTileCard("Advance to Linux Land. If you pass Boot, collect $200", "Linux Land"),
-                new MoveToNearestCard("Advance to the nearest Railroad.", "railroad"),
+                new MoveToNearestCard("Advance to the nearest Firewall.", "railroad"),
                 new MoveToNearestCard("Advance token to nearest Utility.", "utility"),
                 new ChangeMoneyCard("Bank pays you dividend of $50", 50),
                 new OutOfJailCard("Get Out of Repair Free"),
