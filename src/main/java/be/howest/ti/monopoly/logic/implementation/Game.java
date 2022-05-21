@@ -449,7 +449,7 @@ public class Game {
         deliverer.deleteOutOfJailFreeCards();
     }
 
-    private List<Player> getActivePlayers() {
+    public List<Player> getActivePlayers() {
         List<Player> activePlayers = new ArrayList<>();
         for (Player player : players) {
             if (!player.isBankrupt()) {

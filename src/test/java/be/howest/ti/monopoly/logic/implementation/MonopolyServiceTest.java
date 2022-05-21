@@ -29,16 +29,4 @@ class MonopolyServiceTest {
         MonopolyService service = new MonopolyService();
         assertEquals(0, service.getTile("Boot").getPosition());
     }
-
-    @Test
-    void getGames() {
-        Player player1 = new Player("Jarne");
-        Player player2 = new Player("Jari");
-        MonopolyService service = new MonopolyService();
-        Game game = service.createGames("test", 2);
-        service.joinGame("Jarne", game.getId());
-        service.joinGame("Jari", game.getId());
-        game.rollDice("Jarne");
-        System.out.println(service.getGames());
-    }
 }
