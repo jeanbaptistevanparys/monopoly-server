@@ -98,6 +98,7 @@ public class Turn {
         Move move = new Move(nextTile, description);
         move.executeMove(this);
         addMove(move);
+        if (!isDouble() && !Helper.isDirectSale(nextTile, game.getPlayers())) game.changeCurrentPlayer();
     }
 
     private void cardTurn(Tile nextTile) {
