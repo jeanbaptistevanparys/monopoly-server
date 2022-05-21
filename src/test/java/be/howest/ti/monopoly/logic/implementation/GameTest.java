@@ -267,6 +267,7 @@ class GameTest {
         game.getPlayer("Jarne").addOutOfJailFreeCard();
         game.declareBankruptcy("Jarne");
         assertTrue(game.getPlayer("Jarne").isBankrupt());
+        assertEquals(2, game.getActivePlayers().size());
         assertEquals(1, game.getPlayer("Jari").getProperties().size());
         assertEquals(1, game.getPlayer("JB").getProperties().size());
         assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());

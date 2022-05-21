@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.web.views.AuctionView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -39,5 +40,14 @@ class AuctionTest {
         auction.end(players);
         assertEquals(1, players.get(0).getProperties().size());
         assertEquals(1400, players.get(0).getMoney());
+    }
+
+    @Test
+    void auctionView() {
+        Auction auction = new Auction("Chrome Crib", 0);
+        AuctionView auctionView = new AuctionView(auction);
+        assertEquals(0, auctionView.getMin());
+        assertEquals(0, auctionView.getBids().size());
+        assertEquals("Chrome Crib", auctionView.getProperty());
     }
 }
