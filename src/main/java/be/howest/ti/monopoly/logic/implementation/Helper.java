@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
+import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.List;
@@ -38,6 +39,14 @@ public class Helper {
         throw new MonopolyResourceNotFoundException("Can't find next tile.");
     }
 
+    public static boolean isAlreadyOwned(Property property, List<Player> players) {
+        for (Player player : players) {
+            for (PlayerProperty playerProperty : player.getProperties()) {
+                if (playerProperty.getName().equals(property.getName())) return true;
+            }
+        }
+        return false;
+    }
 
     public static boolean passedGo(String nextTile, String currentTile) {
         return getTile(nextTile).getPosition() <= getTile(currentTile).getPosition() && !getTile(currentTile).getType().equals("Go");

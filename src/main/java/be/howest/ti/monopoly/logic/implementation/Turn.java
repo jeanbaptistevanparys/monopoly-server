@@ -1,8 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.cards.Card;
-import be.howest.ti.monopoly.logic.implementation.cards.ChangeMoneyCard;
-import be.howest.ti.monopoly.logic.implementation.cards.OutOfJailCard;
+import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
 import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
@@ -40,16 +39,12 @@ public class Turn {
         }
         if (player.isJailed()) {
             inJailTurn(nextTile);
-        } else if (Helper.isStreet(nextTile)) {
-            streetTurn(nextTile);
+        } else if (Helper.isProperty(nextTile)) {
+            propertyTurn(nextTile);
         } else if (Helper.isCard(nextTile)) {
             cardTurn(nextTile);
         } else if (Helper.isTax(nextTile)) {
             taxTurn(nextTile);
-        } else if (Helper.isRailRoad(nextTile)) {
-            railRoadTurn(nextTile);
-        } else if (Helper.isUtility(nextTile)) {
-            utilityTurn(nextTile);
         } else if (Helper.isGoToJail(nextTile)) {
             goToJailTurn();
         } else if (!Helper.isGo(nextTile)) {
@@ -82,8 +77,8 @@ public class Turn {
         }
     }
 
-    private void streetTurn(Tile nextTile) {
-        String description = "";
+    private void propertyTurn(Tile nextTile) {
+        String description;
         if (Helper.isDirectSale(nextTile, game.getPlayers())) {
             description = "Direct sale";
             game.setCanRoll(false);
@@ -109,19 +104,19 @@ public class Turn {
     }
 
     private void taxTurn(Tile nextTile) {
-        Move move = new Move(nextTile, "");
-        move.executeMove(this);
-        addMove(move);
-    }
-
-    private void railRoadTurn(Tile nextTile) {
-        Move move = new Move(nextTile, "");
-        move.executeMove(this);
-        addMove(move);
-    }
-
-    private void utilityTurn(Tile nextTile) {
-        Move move = new Move(nextTile, "");
+        int amount;
+        if (player.getTaxSystem().equals(TaxSystems.ESTIMATE)) {
+            if (nextTile.getName().equals("Tax Income")) {
+                amount = 100;
+            }
+            else {
+                amount = 200;
+            }
+        } else {
+            amount = (int) Math.round(player.getMoney() * 0.10);
+        }
+        player.giveMoney(amount);
+        Move move = new Move(nextTile, "Pay taxes");
         move.executeMove(this);
         addMove(move);
     }

@@ -1,9 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.logic.implementation.cards.Card;
 import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
-import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Street;
@@ -106,44 +104,10 @@ public class Game {
         return activePlayers;
     }
 
-//    private void propertyTurn(Turn turn) {
-//        Tile nextTile = Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
-//        String description;
-//        if (isAlreadyOwned((Property) nextTile)) description = "Should pay rent";
-//        else description = "Direct sale";
-//        turn.addMove(new Move(nextTile, description));
-//        canRoll = false;
-//    }
-
-//    public void taxTurn(Turn turn) {
-//        int amount;
-//        if (currentPlayer.getTaxSystem().equals(TaxSystems.ESTIMATE)) {
-//            if (currentPlayer.getCurrentTile().equals("Tax Income")) {
-//                amount = 100;
-//            }
-//            else {
-//                amount = 200;
-//            }
-//        } else {
-//            amount = (int) Math.round(currentPlayer.getMoney() * 0.10);
-//        }
-//        currentPlayer.giveMoney(amount);
-//        String description = "Pay taxes";
-//        turn.addMove(new Move(Helper.getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1)), description));
-//    }
-
-    public boolean isProperty(Tile nextTile) {
-        return nextTile.getType().equals("street") || nextTile.getType().equals("utility") || Helper.isRailRoad(nextTile);
-    }
-
-    public boolean passedGo(String nextTile, String currentTile) {
-        return Helper.getTile(nextTile).getPosition() <= Helper.getTile(currentTile).getPosition();
-    }
-
     public void buyProperty(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
         Tile tile = Helper.getTile(propertyName);
-        if (isAlreadyOwned(getProperty(propertyName))) throw new IllegalMonopolyActionException("Already owned");
+        if (Helper.isAlreadyOwned(getProperty(propertyName), players)) throw new IllegalMonopolyActionException("Already owned");
         player.buyProperty((Property) tile);
         setCanRoll(true);
     }
@@ -420,15 +384,6 @@ public class Game {
             }
         }
         throw new MonopolyResourceNotFoundException("Did not found the requested playerProperty.");
-    }
-
-    public boolean isAlreadyOwned(Property property) {
-        for (Player player : players) {
-            for (PlayerProperty playerProperty : player.getProperties()) {
-                if (playerProperty.getName().equals(property.getName())) return true;
-            }
-        }
-        return false;
     }
 
     public void useComputeTax(String playerName) {
