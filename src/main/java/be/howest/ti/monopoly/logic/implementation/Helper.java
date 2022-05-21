@@ -31,7 +31,7 @@ public class Helper {
         for (Tile tile : tiles) {
             if (tile.getName().equals(currentTile)) {
                 int nextPosition = tile.getPosition() + total;
-                if (nextPosition > tiles.size()) nextPosition = 0;
+                if (nextPosition >= tiles.size()) nextPosition = nextPosition - tiles.size();
                 return tiles.get(nextPosition);
             }
         }
@@ -40,7 +40,7 @@ public class Helper {
 
 
     public static boolean passedGo(String nextTile, String currentTile) {
-        return getTile(nextTile).getPosition() <= getTile(currentTile).getPosition();
+        return getTile(nextTile).getPosition() <= getTile(currentTile).getPosition() && !getTile(currentTile).getType().equals("Go");
     }
 
     public static boolean isDirectSale(Tile tile, List<Player> players) {

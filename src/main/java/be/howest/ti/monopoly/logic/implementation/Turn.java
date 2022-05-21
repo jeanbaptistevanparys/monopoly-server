@@ -1,6 +1,8 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.cards.Card;
+import be.howest.ti.monopoly.logic.implementation.cards.ChangeMoneyCard;
+import be.howest.ti.monopoly.logic.implementation.cards.OutOfJailCard;
 import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
@@ -13,13 +15,15 @@ public class Turn {
     private final Player player;
     private final List<Integer> roll;
     private final List<Move> moves;
-    private final Tile nextTile;
+    private Tile nextTile;
+    private Game game;
 
     public Turn(Player player, int dice1, int dice2) {
         this.player = player;
         this.moves = new ArrayList<>();
         this.roll = new ArrayList<>(List.of(dice1, dice2));
         this.nextTile = Helper.getNextTile(player.getCurrentTile(), roll.get(0) + roll.get(1));
+        this.game = null;
     }
 
     public void addMove(Move move) {
@@ -27,15 +31,17 @@ public class Turn {
     }
 
     public void executeTurn(Game game) {
-        if (Helper.passedGo(nextTile.getName(), player.getCurrentTile())) {
+        this.game = game;
+        if (Helper.passedGo(nextTile.getName(), player.getCurrentTile()) && !player.isJailed()) {
             player.receiveMoney(200);
-            Move move = new Move(Helper.getTile("Boot"), "Passed Go (Collect 200)");
+            Move move = new Move(Helper.getTile("Boot"), "Passed Boot (Collect 200)");
+            if (nextTile.getType().equals("Go")) move.executeMove(this);
             addMove(move);
         }
         if (player.isJailed()) {
             inJailTurn(nextTile);
         } else if (Helper.isStreet(nextTile)) {
-            streetTurn(nextTile, game);
+            streetTurn(nextTile);
         } else if (Helper.isCard(nextTile)) {
             cardTurn(nextTile);
         } else if (Helper.isTax(nextTile)) {
@@ -45,31 +51,38 @@ public class Turn {
         } else if (Helper.isUtility(nextTile)) {
             utilityTurn(nextTile);
         } else if (Helper.isGoToJail(nextTile)) {
-            goToJailTurn(nextTile);
-        } else if (Helper.isGo(nextTile)) {
-            goTurn();
-        } else {
-            freeParkingTurn(nextTile);
+            goToJailTurn();
+        } else if (!Helper.isGo(nextTile)) {
+            Move move = new Move(nextTile, "");
+            if (nextTile.getType().equals("Free Parking")) move.setDescription(nextTile.getName());
+            else if (nextTile.getType().equals("Jail")) move.setDescription("Just visiting");
+            move.executeMove(this);
+            addMove(move);
         }
+    }
+
+    public void executeTurn(Tile nextTile) {
+        this.nextTile = nextTile;
+        executeTurn(game);
     }
 
     private void inJailTurn(Tile nextTile) {
-        String description = "Out of jail";
         if (isDouble()) {
             player.getOutOfJailDouble();
+            executeTurn(nextTile);
         } else if (player.getTriesToGetOutOfJail() == 3) {
             player.getOutOfJailFine();
+            executeTurn(nextTile);
         } else {
             player.addTrieToGetOutOfJail();
             nextTile = Helper.getTile("Repair");
-            description = "Stay in jail";
+            Move move = new Move(nextTile, "Stay in Repair");
+            move.executeMove(this);
+            addMove(move);
         }
-        Move move = new Move(nextTile, description);
-        move.executeMove(this);
-        addMove(move);
     }
 
-    private void streetTurn(Tile nextTile, Game game) {
+    private void streetTurn(Tile nextTile) {
         String description = "";
         if (Helper.isDirectSale(nextTile, game.getPlayers())) {
             description = "Direct sale";
@@ -89,10 +102,10 @@ public class Turn {
         Card card;
         if (nextTile.getType().equals("chance")) card = new CardFactory().createChances().get(number);
         else card = new CardFactory().createCommunityChests().get(number);
-        card.executeCard(player, this);
         Move move = new Move(nextTile, card.getDescription());
         move.executeMove(this);
         addMove(move);
+        card.executeCard(player, this);
     }
 
     private void taxTurn(Tile nextTile) {
@@ -113,22 +126,9 @@ public class Turn {
         addMove(move);
     }
 
-    private void goToJailTurn(Tile nextTile) {
+    private void goToJailTurn() {
         player.goToJail();
-        Move move = new Move(nextTile, "Go to jail");
-        move.executeMove(this);
-        addMove(move);
-    }
-
-    private void goTurn() {
-        player.receiveMoney(200);
-        Move move = new Move(nextTile, "Go (Collect 200)");
-        move.executeMove(this);
-        addMove(move);
-    }
-
-    private void freeParkingTurn(Tile nextTile) {
-        Move move = new Move(nextTile, "Free parking");
+        Move move = new Move(Helper.getTile("Repair"), "Go to Repair");
         move.executeMove(this);
         addMove(move);
     }

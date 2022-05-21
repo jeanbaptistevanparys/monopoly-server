@@ -33,11 +33,6 @@ public class MoveToNearestCard extends Card {
             }
         }
         if (nextTile == null) throw new MonopolyResourceNotFoundException("No such type");
-        if (Helper.passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
-            currentPlayer.receiveMoney(200);
-            turn.addMove(new Move(Helper.getTile("Boot"), "Passed Boot (receive $200)"));
-        }
-        currentPlayer.moveTile(nextTile.getName());
-        turn.addMove(new Move(nextTile, "Moved to nearest " + nearestType));
+        turn.executeTurn(Helper.getTile(nextTile.getName()));
     }
 }

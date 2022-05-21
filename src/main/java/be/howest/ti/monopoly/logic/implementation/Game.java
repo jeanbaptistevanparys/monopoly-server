@@ -143,6 +143,7 @@ public class Game {
     public void buyProperty(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
         Tile tile = Helper.getTile(propertyName);
+        if (isAlreadyOwned(getProperty(propertyName))) throw new IllegalMonopolyActionException("Already owned");
         player.buyProperty((Property) tile);
         setCanRoll(true);
     }

@@ -4,7 +4,7 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 public class Move {
     private final Tile tile;
-    private final String description;
+    private String description;
 
     public Move(Tile tile, String description) {
         this.tile = tile;
@@ -15,6 +15,10 @@ public class Move {
         Player player = turn.getPlayer();
         Tile nextTile = turn.getNextTile();
         player.moveTile(nextTile.getName());
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTile() {
