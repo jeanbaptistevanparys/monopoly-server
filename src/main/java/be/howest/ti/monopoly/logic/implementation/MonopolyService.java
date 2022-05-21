@@ -26,7 +26,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Tile> getTiles() {
-        return new TileFactory().createTiles();
+        return TileFactory.createTiles();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Tile getTile(String name) {
         for (Tile tile : getTiles()) {
-            if (tile.getNameAsPathParameter().equals(name)) {
+            if (tile.getName().equals(name)) {
                 return tile;
             }
         }
@@ -103,7 +103,7 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Object clearGameList() {
         games.clear();
-        return null;
+        return new JsonObject();
     }
 
     @Override
@@ -121,7 +121,7 @@ public class MonopolyService extends ServiceAdapter {
         Game dummy = new Game(3,"group-12");
         Player player1 = new Player("Jamie");
         Player player2 = new Player("Walter");
-        List<Tile> tiles = new TileFactory().createTiles();
+        List<Tile> tiles = TileFactory.createTiles();
         player1.buyProperty((Property) tiles.get(8));
         player2.buyProperty((Property) tiles.get(5));
         player2.buyProperty((Property) tiles.get(19));
@@ -141,26 +141,26 @@ public class MonopolyService extends ServiceAdapter {
     public Object declareBankruptcy(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.declareBankruptcy(playerName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object useEstimateTax(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.useEstimateTax(playerName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object useComputeTax(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.useComputeTax(playerName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object buyProperty(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.buyProperty(playerName, propertyName);
         return new JsonObject()
@@ -171,9 +171,10 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Object dontBuyProperty(String gameId, String playerName, String propertyName) {
         Game game = getGame(gameId);
-        game.setCanRoll(true);
         game.addAuction(new Auction(propertyName, 0));
-        return null;
+        return new JsonObject()
+                .put("property", propertyName)
+                .put("purchased", false);
     }
 
     @Override
@@ -189,7 +190,7 @@ public class MonopolyService extends ServiceAdapter {
         for (Auction auction : auctions) {
             if (auction.getProperty().equals(propertyName)) {
                 auction.addBid(new Bid(bidder, amount));
-                return null;
+                return new JsonObject();
             }
         }
         throw new MonopolyResourceNotFoundException("No such auction");
@@ -199,74 +200,74 @@ public class MonopolyService extends ServiceAdapter {
     public Object getOutOfJailFine(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.getOutOfJailFine();
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object getOutOfJailFree(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.getOutOfJailFree();
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object takeMortgage(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.takeMortgage(playerName, propertyName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object buyHouse(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.buyHouse(playerName, propertyName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object sellHouse(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.sellHouse(playerName, propertyName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object buyHotel(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.buyHotel(playerName, propertyName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object sellHotel(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.sellHotel(playerName, propertyName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object settleMortgage(String gameId, String playerName, String propertyName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.settleMortgage(playerName, propertyName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
-        propertyName = propertyName.replaceAll("_", " ");
+        propertyName = propertyName.replace("_", " ");
         Game game = getGame(gameId);
         game.collectDebt(playerName, propertyName, debtorName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object trade(String gameId, String playerName) {
-        return null;
+        return new JsonObject();
     }
 }

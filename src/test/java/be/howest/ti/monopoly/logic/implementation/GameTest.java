@@ -43,7 +43,6 @@ class GameTest {
             assertTrue(game.getPlayer(name).isJailed());
         }
         assertFalse(game.getCurrentPlayer().isJailed());
-        assertEquals(0, game.getCurrentPlayer().getOutOfJailFreeCards());
     }
 
 
@@ -72,39 +71,28 @@ class GameTest {
 
     @Test
     void checkIfGoToJailTrue() {
-        Tile tile = new Tile("Boot", 0, "Boot");
+        Tile tile = new Tile("Boot", 0);
         Game game = newGame();
-        Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
-        Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
-        Turn turn3 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
-        Turn turn4 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
+        Turn turn1 = new Turn(game.getCurrentPlayer(), 2, 2);
+        Turn turn2 = new Turn(game.getCurrentPlayer(), 2, 2);
+        Turn turn3 = new Turn(game.getCurrentPlayer(), 2, 2);
+        Turn turn4 = new Turn(game.getCurrentPlayer(), 2, 2);
         game.addTurn(turn1);
         game.addTurn(turn2);
         game.addTurn(turn3);
         game.addTurn(turn4);
-        assertTrue(game.checkIfGoToJail(tile, 2, 2));
+        assertTrue(Helper.isGoToJail(tile, game));
     }
 
     @Test
     void checkIfGoToJailFalseByNumber() {
-        Tile tile = new Tile("Boot", 0, "Boot");
+        Tile tile = new Tile("Boot", 0);
         Game game = newGame();
-        Turn turn1 = new Turn(game.getCurrentPlayer().getName(), 3, 2);
-        Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
+        Turn turn1 = new Turn(game.getCurrentPlayer(), 3, 2);
+        Turn turn2 = new Turn(game.getCurrentPlayer(), 2, 2);
         game.addTurn(turn1);
         game.addTurn(turn2);
-        assertFalse(game.checkIfGoToJail(tile, 2, 2));
-    }
-
-    @Test
-    void checkIfGoToJailFalseByName() {
-        Tile tile = new Tile("Boot", 0, "Boot");
-        Game game = newGame();
-        Turn turn1 = new Turn("JB", 2, 2);
-        Turn turn2 = new Turn(game.getCurrentPlayer().getName(), 2, 2);
-        game.addTurn(turn1);
-        game.addTurn(turn2);
-        assertFalse(game.checkIfGoToJail(tile, 2, 2));
+        assertFalse(Helper.isGoToJail(tile, game));
     }
 
     @Test
@@ -297,34 +285,31 @@ class GameTest {
     @Test
     void payTaxIncome() {
         Game game = newGame();
-        int dice1 = 1;
+        int dice1 = 2;
         int dice2 = 2;
-        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
-        game.getCurrentPlayer().moveTile("Tax Income");
-        game.taxTurn(turn);
+        Turn turn = new Turn(game.getCurrentPlayer(), dice1, dice2);
+        turn.executeTurn(game);
         assertEquals(1400, game.getPlayer("Jarne").getMoney());
     }
 
     @Test
     void payTaxLuxury() {
         Game game = newGame();
-        int dice1 = 1;
-        int dice2 = 2;
-        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
-        game.getCurrentPlayer().moveTile("Luxury Tax");
-        game.taxTurn(turn);
+        int dice1 = 19;
+        int dice2 = 19;
+        Turn turn = new Turn(game.getCurrentPlayer(), dice1, dice2);
+        turn.executeTurn(game);
         assertEquals(1300, game.getPlayer("Jarne").getMoney());
     }
 
     @Test
     void payTaxCompute() {
         Game game = newGame();
-        int dice1 = 1;
+        int dice1 = 2;
         int dice2 = 2;
-        Turn turn = new Turn(game.getCurrentPlayer().getName(), dice1, dice2);
+        Turn turn = new Turn(game.getCurrentPlayer(), dice1, dice2);
         game.getPlayer("Jarne").setTaxSystem(TaxSystems.COMPUTE);
-        game.getCurrentPlayer().moveTile("Luxury Tax");
-        game.taxTurn(turn);
+        turn.executeTurn(game);
         assertEquals(1350, game.getPlayer("Jarne").getMoney());
     }
 

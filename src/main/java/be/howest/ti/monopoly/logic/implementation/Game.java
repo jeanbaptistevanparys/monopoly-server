@@ -1,9 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.logic.implementation.cards.Card;
 import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
-import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Street;
@@ -21,11 +19,10 @@ public class Game {
 
     private final int numberOfPlayers;
     private final String prefix;
+    private final String id;
     private final List<Player> players;
     private final List<Turn> turns;
-    private final List<Integer> lastDiceRoll;
     private final List<Auction> auctions;
-    private final String id;
     private boolean started;
     private boolean ended;
     private boolean canRoll;
@@ -35,12 +32,15 @@ public class Game {
     private int availableHotels;
 
     public Game(int numberOfPlayers, String prefix) {
-        this.tiles = new TileFactory().createTiles();
+        this.tiles = TileFactory.createTiles();
         this.numberOfPlayers = numberOfPlayers;
         this.prefix = prefix;
-        this.players = new ArrayList<>();
-        this.lastDiceRoll = new ArrayList<>();
         this.id = prefix + "_" + games;
+        games ++;
+
+        this.players = new ArrayList<>();
+        this.turns = new ArrayList<>();
+        this.auctions = new ArrayList<>();
         this.started = false;
         this.ended = false;
         this.canRoll = true;
@@ -48,9 +48,6 @@ public class Game {
         this.winner = null;
         this.availableHouses = 32;
         this.availableHotels = 12;
-        this.turns = new ArrayList<>();
-        this.auctions = new ArrayList<>();
-        games ++;
     }
 
     public void addPlayer(Player player) {
@@ -58,11 +55,15 @@ public class Game {
         if (started) throw new IllegalMonopolyActionException("Game already started");
         players.add(player);
         if (currentPlayer == null) currentPlayer = player;
-        if (players.size() == numberOfPlayers) { started = true; }
+        if (players.size() == numberOfPlayers) started = true;
     }
 
     public void addAuction(Auction auction) {
         auctions.add(auction);
+        setCanRoll(true);
+        if (!getLastDiceRoll().equals(Collections.emptyList()) && !getLastDiceRoll().get(0).equals(getLastDiceRoll().get(1))) {
+            changeCurrentPlayer();
+        }
     }
 
     public void rollDice(String playerName) {
@@ -70,152 +71,58 @@ public class Game {
             SecureRandom random = new SecureRandom();
             int dice1 = random.nextInt(6) + 1;
             int dice2 = random.nextInt(6) + 1;
-            int total = dice1 + dice2;
-            lastDiceRoll.add(dice1);
-            lastDiceRoll.add(dice2);
-            Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), total);
-            if (checkIfGoToJail(nextTile, dice1, dice2)) {
-                turnGoToJail(dice1, dice2, nextTile);
-            } else if (currentPlayer.isJailed()) {
-                turnInJail(dice1, dice2, nextTile);
-            } else {
-                turnDefault(dice1, dice2, nextTile);
-            }
+            Turn turn = new Turn(currentPlayer, dice1, dice2);
+            turn.executeTurn(this);
+            turns.add(turn);
         } else throw new IllegalMonopolyActionException("You can't roll your dice");
     }
 
-    private void changeCurrentPlayer() {
+    public void changeCurrentPlayer() {
         currentPlayer = getNextPlayer();
         if (currentPlayer.getMoney() < 0) declareBankruptcy(currentPlayer.getName());
     }
 
-    public boolean checkIfGoToJail(Tile nextTile, int dice1, int dice2) {
-         if (Objects.equals(nextTile.getType(), "Go to Jail")) {
-             return true;
-         } else {
-             if (turns.size() >= 2) {
-                 Turn lastTurn = turns.get(turns.size() - 1);
-                 Turn secondLastTurn = turns.get(turns.size() - 2);
-                 if (!Objects.equals(lastTurn.getPlayerName(), currentPlayer.getName()) || !Objects.equals(secondLastTurn.getPlayerName(), currentPlayer.getName())) {
-                     return false;
-                 } else
-                     return dice1 == dice2 && lastTurn.isDouble() && secondLastTurn.isDouble();
-             } else {
-                 return false;
-             }
-         }
-    }
-
-    private void turnGoToJail(int dice1, int dice2, Tile nextTile) {
-        currentPlayer.goToJail();
-        Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
-        turn.addMove(new Move(nextTile, "Go to Repair"));
-        turns.add(turn);
-        changeCurrentPlayer();
-    }
-
-    private void turnInJail(int dice1, int dice2, Tile nextTile) {
-        if (dice1 == dice2) {
-            currentPlayer.getOutOfJailDouble();
-        } else {
-            if (currentPlayer.getTriesToGetOutOfJail() < 3) {
-                currentPlayer.addTrieToGetOutOfJail();
-                nextTile = getTile("Repair");
-            } else {
-                currentPlayer.getOutOfJailFine();
+    private Player getNextPlayer() {
+        List<Player> activePlayers = getActivePlayers();
+        boolean passed = false;
+        for (Player player : activePlayers) {
+            if (passed) {
+                return player;
+            }
+            if (Objects.equals(player.getName(), currentPlayer.getName())) {
+                passed = true;
             }
         }
-        currentPlayer.moveTile(nextTile.getName());
-        Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
-        turn.addMove(new Move(nextTile, "In Repair"));
-        turns.add(turn);
-        changeCurrentPlayer();
+        return activePlayers.get(0);
     }
 
-    private void turnDefault(int dice1, int dice2, Tile nextTile) {
-        Turn turn = new Turn(currentPlayer.getName(), dice1, dice2);
-        if (passedGo(nextTile.getName(), currentPlayer.getCurrentTile())) {
-            currentPlayer.receiveMoney(200);
-            turn.addMove(new Move(getTile("Boot"), "Passed Boot (receive $200)"));
-        }
-        currentPlayer.moveTile(nextTile.getName());
-        if (isCard(nextTile)) {
-            cardTurn(turn);
-        } else if (isProperty(nextTile)) {
-            propertyTurn(turn);
-        } else if (isTax(nextTile)) {
-            taxTurn(turn);
-        }
-        turns.add(turn);
-        if (dice1 != dice2) changeCurrentPlayer();
-    }
 
-    private void cardTurn(Turn turn) {
-        SecureRandom random = new SecureRandom();
-        int number = random.nextInt(14);
-        Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
-        Card card;
-        if (nextTile.getType().equals("chance")) card = new CardFactory().createChances().get(number);
-        else card = new CardFactory().createCommunityChests().get(number);
-        card.executeCard(currentPlayer, this, turn);
-        String description = card.getDescription();
-        turn.addMove(new Move(nextTile, description));
-    }
-
-    private void propertyTurn(Turn turn) {
-        Tile nextTile = getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1));
-        String description;
-        if (isAlreadyOwned((Property) nextTile)) description = "Should pay rent";
-        else description = "Direct sale";
-        turn.addMove(new Move(nextTile, description));
-        canRoll = false;
-    }
-
-    public void taxTurn(Turn turn) {
-        int amount;
-        if (currentPlayer.getTaxSystem().equals(TaxSystems.ESTIMATE)) {
-            if (currentPlayer.getCurrentTile().equals("Tax Income")) {
-                amount = 100;
+    public List<Player> getActivePlayers() {
+        List<Player> activePlayers = new ArrayList<>();
+        for (Player player : players) {
+            if (!player.isBankrupt()) {
+                activePlayers.add(player);
             }
-            else {
-                amount = 200;
-            }
-        } else {
-            amount = (int) Math.round(currentPlayer.getMoney() * 0.10);
         }
-        currentPlayer.giveMoney(amount);
-        String description = "Pay taxes";
-        turn.addMove(new Move(getNextTile(currentPlayer.getCurrentTile(), turn.getRoll().get(0) + turn.getRoll().get(1)), description));
-    }
-
-    private boolean isCard(Tile nextTile) {
-        return nextTile.getType().equals("chance") || nextTile.getType().equals("community chest");
-    }
-
-    public boolean isProperty(Tile nextTile) {
-        return nextTile.getType().equals("street") || nextTile.getType().equals("utility") || nextTile.getType().equals("railroad");
-    }
-
-    private boolean isTax(Tile nextTile) {
-        return nextTile.getType().equals("Luxury Tax") || nextTile.getType().equals("Income Tax");
-    }
-
-    public boolean passedGo(String nextTile, String currentTile) {
-        return getTile(nextTile).getPosition() <= getTile(currentTile).getPosition();
+        return activePlayers;
     }
 
     public void buyProperty(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
-        Tile tile = getTile(propertyName);
+        Tile tile = Helper.getTile(propertyName);
+        if (Helper.isAlreadyOwned(getProperty(propertyName), players)) throw new IllegalMonopolyActionException("Already owned");
         player.buyProperty((Property) tile);
         setCanRoll(true);
+        if (!getLastDiceRoll().equals(Collections.emptyList()) && !getLastDiceRoll().get(0).equals(getLastDiceRoll().get(1))) {
+            changeCurrentPlayer();
+        }
     }
 
     public void buyHouse(String playerName, String propertyName) {
         if (availableHouses > 0) {
             Player player = getPlayer(playerName);
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
-            int amount = getStreet(playerProperty.getName()).getHousePrice();
+            int amount = getStreet(playerProperty.getProperty()).getHousePrice();
             if (playerHasFullStreet(player, propertyName)) {
                 if (playerProperty.getHouseCount() < 4) {
                     player.spendMoney(amount);
@@ -235,7 +142,7 @@ public class Game {
     public void sellHouse(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
-        int amount = getStreet(playerProperty.getName()).getHousePrice();
+        int amount = getStreet(playerProperty.getProperty()).getHousePrice();
         if (playerProperty.getHouseCount() > 0) {
             player.receiveMoney(amount);
             playerProperty.decreaseHouseCount();
@@ -250,7 +157,7 @@ public class Game {
             Player player = getPlayer(playerName);
             PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
 
-            int amount = getStreet(playerProperty.getName()).getHousePrice();
+            int amount = getStreet(playerProperty.getProperty()).getHousePrice();
             if (playerProperty.getHouseCount() == 4) {
                 if (playerProperty.getHotelCount() == 0) {
                     player.spendMoney(amount);
@@ -271,7 +178,7 @@ public class Game {
     public void sellHotel(String playerName, String propertyName) {
         Player player = getPlayer(playerName);
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
-        int amount = getStreet(playerProperty.getName()).getHousePrice();
+        int amount = getStreet(playerProperty.getProperty()).getHousePrice();
         if (playerProperty.getHotelCount() == 1) {
             player.receiveMoney(amount);
             playerProperty.decreaseHotelCount();
@@ -287,9 +194,11 @@ public class Game {
         int groupSize = getStreet(propertyName).getGroupSize();
         int i = 0;
         for (PlayerProperty playerProperty : player.getProperties()) {
-            Street street = getStreet(playerProperty.getName());
-            if (street.getStreetColor() == streetToBuild.getStreetColor()) {
-                i ++;
+            if (Helper.isStreet(Helper.getTile(playerProperty.getProperty()))) {
+                Street street = getStreet(playerProperty.getProperty());
+                if (street.getStreetColor() == streetToBuild.getStreetColor()) {
+                    i ++;
+                }
             }
         }
         return i == groupSize;
@@ -301,7 +210,7 @@ public class Game {
         if (checkIfYourProperty(receiver, propertyName)) {
             if (debtor.getCurrentTile().equals(propertyName)) {
                 int debtValue;
-                if (getProperty(propertyName).getType().equals("railroad")) {
+                if (Helper.isRailRoad(getProperty(propertyName))) {
                     debtValue = calculateRailRoadDebt(playerName);
                 } else if (getProperty(propertyName).getType().equals("utility")) {
                     debtValue = getProperty(propertyName).getRent();
@@ -327,7 +236,7 @@ public class Game {
     public boolean checkIfYourProperty(Player receiver, String propertyName) {
         List<PlayerProperty> playerProperties = receiver.getProperties();
         for (PlayerProperty playerProperty : playerProperties) {
-            if (playerProperty.getName().equals(propertyName)) {
+            if (playerProperty.getProperty().equals(propertyName)) {
                 return true;
             }
         }
@@ -338,7 +247,7 @@ public class Game {
         int amountOfRailroads = 0;
         List<PlayerProperty> playerProperties = getPlayer(playerName).getProperties();
         for (PlayerProperty playerProperty : playerProperties) {
-            if (getProperty(playerProperty.getName()).getType().equals("railroad")) {
+            if (Helper.isRailRoad(getProperty(playerProperty.getProperty()))) {
                 amountOfRailroads ++;
             }
         }
@@ -410,10 +319,10 @@ public class Game {
             endGame();
             winner = activePlayers.get(0);
         }
-        dividePossesions(deliverer, activePlayers);
+        dividePossessions(deliverer, activePlayers);
     }
 
-    private void dividePossesions(Player deliverer, List<Player> activePlayers) {
+    private void dividePossessions(Player deliverer, List<Player> activePlayers) {
         int amountOfActivePlayers = activePlayers.size();
         int playerCount = 0;
         for (PlayerProperty playerProperty : deliverer.getProperties()) {
@@ -449,25 +358,6 @@ public class Game {
         deliverer.deleteOutOfJailFreeCards();
     }
 
-    public List<Player> getActivePlayers() {
-        List<Player> activePlayers = new ArrayList<>();
-        for (Player player : players) {
-            if (!player.isBankrupt()) {
-                activePlayers.add(player);
-            }
-        }
-        return activePlayers;
-    }
-
-    public Tile getTile(String name) {
-        for (Tile tile : tiles) {
-            if (Objects.equals(tile.getName(), name)) {
-                return tile;
-            }
-        }
-        throw new MonopolyResourceNotFoundException("Did not find the requested tile: " + name);
-    }
-
     public Property getProperty(String name) {
         for (Tile tile : tiles) {
             if (Objects.equals(tile.getName(), name)) {
@@ -486,29 +376,6 @@ public class Game {
         throw new MonopolyResourceNotFoundException("Did not find the requested street: " + name);
     }
 
-    private Player getNextPlayer() {
-        List<Player> activePlayers = getActivePlayers();
-        boolean currentFlag = false;
-        for (Player player : activePlayers) {
-            if (currentFlag) return player;
-            if (Objects.equals(player.getName(), currentPlayer.getName())) {
-                currentFlag = true;
-            }
-        }
-        return activePlayers.get(0);
-    }
-
-    private Tile getNextTile(String currentTile, int total) {
-        for (Tile tile : tiles) {
-            if (tile.getName().equals(currentTile)) {
-                int nextPosition = tile.getPosition() + total;
-                if (nextPosition > tiles.size()) nextPosition = 0;
-                return tiles.get(nextPosition);
-            }
-        }
-        throw new MonopolyResourceNotFoundException("Can't find next tile.");
-    }
-
     public Player getPlayer(String playerName) {
         for (Player player : players) {
             if (player.getName().equals(playerName)) {
@@ -520,20 +387,11 @@ public class Game {
 
     public PlayerProperty getPlayerProperty(List<PlayerProperty> playerProperties, String propertyName) {
         for (PlayerProperty playerProperty : playerProperties) {
-            if (playerProperty.getName().equals(propertyName)) {
+            if (playerProperty.getProperty().equals(propertyName)) {
                 return playerProperty;
             }
         }
         throw new MonopolyResourceNotFoundException("Did not found the requested playerProperty.");
-    }
-
-    public boolean isAlreadyOwned(Property property) {
-        for (Player player : players) {
-            for (PlayerProperty playerProperty : player.getProperties()) {
-                if (playerProperty.getName().equals(property.getName())) return true;
-            }
-        }
-        return false;
     }
 
     public void useComputeTax(String playerName) {
@@ -620,10 +478,6 @@ public class Game {
         currentPlayer.getOutOfJailFree();
     }
 
-    public List<Integer> getLastDiceRoll() {
-        return lastDiceRoll;
-    }
-
     public List<Auction> getAuctions() {
         for (Auction auction: auctions) {
             if(auction.checkEnd()) {
@@ -632,5 +486,20 @@ public class Game {
             }
         }
         return auctions;
+    }
+
+    public List<Integer> getLastDiceRoll() {
+        try {
+            return getTurns().get(getTurns().size()-1).getRoll();
+        } catch (Exception ex) {
+            return Collections.emptyList();
+        }
+    }
+
+    public String getDirectSale() {
+        if (canRoll) return null;
+        Turn turn = getTurns().get(turns.size()-1);
+        Move move = turn.getMoves().get(turn.getMoves().size()-1);
+        return move.getTile();
     }
 }

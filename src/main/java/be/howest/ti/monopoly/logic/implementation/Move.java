@@ -11,15 +11,21 @@ public class Move {
         this.description = description;
     }
 
-    public Tile getTile() {
-        return tile;
-    }
-
-    public String getDescription() {
-        return description;
+    public void executeMove(Turn turn) {
+        Player player = turn.getPlayer();
+        Tile nextTile = turn.getNextTile();
+        player.moveTile(nextTile.getName());
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTile() {
+        return tile.getName();
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

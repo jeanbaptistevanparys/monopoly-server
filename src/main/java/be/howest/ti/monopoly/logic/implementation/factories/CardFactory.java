@@ -13,15 +13,15 @@ public class CardFactory {
                 new MoveToTileCard("Advance to Boot (Collect $200)", "Boot"),
                 new MoveToTileCard("Advance to GPU Jail. If you pass Boot, collect $200", "GPU Jail"),
                 new MoveToTileCard("Advance to Linux Land. If you pass Boot, collect $200", "Linux Land"),
-                new MoveToNearestCard("Advance to the nearest Railroad.", "railroad"),
+                new MoveToNearestCard("Advance to the nearest Firewall.", "railroad"),
                 new MoveToNearestCard("Advance token to nearest Utility.", "utility"),
                 new ChangeMoneyCard("Bank pays you dividend of $50", 50),
                 new OutOfJailCard("Get Out of Repair Free"),
                 new MoveToTileCard("Go to Repair", "Repair"),
                 new ChangeMoneyCard("Make general repairs on all your property. Pay $200", -200),
                 new ChangeMoneyCard("Speeding fine $15", -15),
-                new MoveToTileCard("Take a trip to Reading Railroad. If you pass Boot, collect $200", "Reading Railroad"),
-                new ChangeMoneyCard("You have been elected Chairman of the Board. Pay $100", 100),
+                new MoveToTileCard("Take a trip to Packet Filtering FW. If you pass Boot, collect $200", "Packet Filtering FW"),
+                new ChangeMoneyCard("You have been elected Chairman of the Board. Pay $100", -100),
                 new ChangeMoneyCard("Your building loan matures. Collect $150", 150)
         ));
     }

@@ -64,8 +64,4 @@ public class Auction {
     public List<Bid> getBids() {
         return bids;
     }
-
-    public long getStartMillis() {
-        return startMillis;
-    }
 }

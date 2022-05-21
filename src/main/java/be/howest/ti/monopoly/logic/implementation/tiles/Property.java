@@ -9,8 +9,8 @@ public class Property extends Tile{
     private final int groupSize;
     private final Colors color;
 
-    public Property(String name, int position, String type, int cost, int mortgage, int rent, int groupSize, Colors color) {
-        super(name, position, type);
+    public Property(String name, int position, int cost, int mortgage, int rent, int groupSize, Colors color) {
+        super(name, position);
         this.cost = cost;
         this.mortgage = mortgage;
         this.rent = rent;
