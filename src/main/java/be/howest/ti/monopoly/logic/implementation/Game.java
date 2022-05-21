@@ -194,9 +194,11 @@ public class Game {
         int groupSize = getStreet(propertyName).getGroupSize();
         int i = 0;
         for (PlayerProperty playerProperty : player.getProperties()) {
-            Street street = getStreet(playerProperty.getProperty());
-            if (street.getStreetColor() == streetToBuild.getStreetColor()) {
-                i ++;
+            if (Helper.isStreet(Helper.getTile(playerProperty.getProperty()))) {
+                Street street = getStreet(playerProperty.getProperty());
+                if (street.getStreetColor() == streetToBuild.getStreetColor()) {
+                    i ++;
+                }
             }
         }
         return i == groupSize;

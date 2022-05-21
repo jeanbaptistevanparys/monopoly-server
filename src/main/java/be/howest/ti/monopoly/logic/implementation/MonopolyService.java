@@ -103,7 +103,7 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Object clearGameList() {
         games.clear();
-        return null;
+        return new JsonObject();
     }
 
     @Override
@@ -141,21 +141,21 @@ public class MonopolyService extends ServiceAdapter {
     public Object declareBankruptcy(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.declareBankruptcy(playerName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object useEstimateTax(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.useEstimateTax(playerName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
     public Object useComputeTax(String gameId, String playerName) {
         Game game = getGame(gameId);
         game.useComputeTax(playerName);
-        return null;
+        return new JsonObject();
     }
 
     @Override
