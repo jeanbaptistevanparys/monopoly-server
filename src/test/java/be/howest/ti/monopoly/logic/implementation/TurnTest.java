@@ -1,5 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.implementation.cards.Card;
+import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,9 +86,11 @@ class TurnTest {
         Player player2 = new Player("Jari");
         game.addPlayer(player1);
         game.addPlayer(player2);
-        Turn turn1 = new Turn(player1, 1, 1);
+        Turn turn1 = new Turn(player1, 0, 0);
+        game.addTurn(turn1);
         turn1.executeTurn(game);
-        assertEquals("Community Chest I", turn1.getNextTile().getName());
+        new CardFactory().createCommunityChests().get(5).executeCard(player1, turn1);
+        assertEquals("Repair", turn1.getNextTile().getName());
     }
 
     @Test
