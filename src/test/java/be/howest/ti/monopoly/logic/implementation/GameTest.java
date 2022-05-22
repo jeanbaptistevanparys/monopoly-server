@@ -1,5 +1,8 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.enums.Colors;
 import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import org.junit.jupiter.api.Test;
@@ -117,6 +120,89 @@ class GameTest {
     }
 
     @Test
+    void buyHouseAlready4() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.buyHouse("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
+    void buyHouseNotFullHouse() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.buyHouse("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
+    void buyHouseNoHousesLeft() {
+        Game game = newGame();
+        game.setAvailableHouses(0);
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.buyHouse("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
+    void buyHotelAlreadyHave() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHotel("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.buyHotel("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
+    void buyHotelNot4Houses() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.buyHotel("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
+    void buyHotelNoHotelsLeft() {
+        Game game = newGame();
+        game.setAvailableHotels(0);
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.buyHotel("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
     void buyHotel() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
@@ -140,7 +226,32 @@ class GameTest {
     }
 
     @Test
-    void collectDebt() {
+    void collectDebt1House() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.getPlayer("Jari").moveTile("Chrome Crib");
+        game.collectDebt("Jarne", "Chrome Crib", "Jari");
+        assertEquals(1340, game.getPlayer("Jarne").getMoney());
+        assertEquals(1490, game.getPlayer("Jari").getMoney());
+    }
+
+    @Test
+    void collectDebt2Houses() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.getPlayer("Jari").moveTile("Chrome Crib");
+        game.collectDebt("Jarne", "Chrome Crib", "Jari");
+        assertEquals(1310, game.getPlayer("Jarne").getMoney());
+        assertEquals(1470, game.getPlayer("Jari").getMoney());
+    }
+
+    @Test
+    void collectDebt3Houses() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
         game.buyProperty("Jarne", "Firefox Fountain");
@@ -151,6 +262,21 @@ class GameTest {
         game.collectDebt("Jarne", "Chrome Crib", "Jari");
         assertEquals(1320, game.getPlayer("Jarne").getMoney());
         assertEquals(1410, game.getPlayer("Jari").getMoney());
+    }
+
+    @Test
+    void collectDebt4Houses() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.getPlayer("Jari").moveTile("Chrome Crib");
+        game.collectDebt("Jarne", "Chrome Crib", "Jari");
+        assertEquals(1340, game.getPlayer("Jarne").getMoney());
+        assertEquals(1340, game.getPlayer("Jari").getMoney());
     }
 
     @Test
@@ -233,6 +359,18 @@ class GameTest {
     }
 
     @Test
+    void takeMortgageWithImprovements() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.takeMortgage("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
     void settleMortgage() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
@@ -240,6 +378,16 @@ class GameTest {
         game.settleMortgage("Jarne","Chrome Crib");
         assertEquals(1437, game.getPlayer("Jarne").getMoney());
         assertFalse(game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "Chrome Crib").isMortgage());
+    }
+
+    @Test
+    void settleMortgageNotMortgaged() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.settleMortgage("Jarne","Chrome Crib")
+        );
     }
 
     @Test
@@ -349,7 +497,33 @@ class GameTest {
     }
 
     @Test
+    void sellHouseNoHouses() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.sellHouse("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
     void sellHotel() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.sellHotel("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
+    void sellHotelNoHotel() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
         game.buyProperty("Jarne", "Firefox Fountain");
@@ -380,5 +554,31 @@ class GameTest {
         game.addTurn(turn);
         turn.executeTurn(game);
         assertNull(game.getDirectSale());
+    }
+
+    @Test
+    void getProperty() {
+        Game game = newGame();
+        assertEquals(2, game.getProperty("Chrome Crib").getGroupSize());
+        assertEquals(60, game.getProperty("Chrome Crib").getCost());
+        assertEquals(Colors.PURPLE, game.getProperty("Chrome Crib").getColor());
+        assertEquals(1, game.getProperty("Chrome Crib").getPosition());
+        assertEquals(30, game.getProperty("Chrome Crib").getMortgage());
+    }
+
+    @Test
+    void getPropertyNotFound() {
+        Game game = newGame();
+        assertThrows(
+                MonopolyResourceNotFoundException.class,
+                () -> game.getProperty("Nope")
+        );
+    }
+
+    @Test
+    void endGame() {
+        Game game = newGame();
+        game.endGame();
+        assertTrue(game.isEnded());
     }
 }

@@ -28,6 +28,7 @@ public class Game {
     private boolean canRoll;
     private Player currentPlayer;
     private Player winner;
+
     private int availableHouses;
     private int availableHotels;
 
@@ -165,7 +166,7 @@ public class Game {
                     availableHotels--;
                     availableHouses += 4;
                 } else {
-                    throw new IllegalMonopolyActionException("You already have a hotel or ");
+                    throw new IllegalMonopolyActionException("You already have a hotel");
                 }
             } else {
                 throw new IllegalMonopolyActionException("You don't have enough houses on this property.");
@@ -286,10 +287,10 @@ public class Game {
                 player.receiveMoney(amount);
                 playerProperty.setMortgage(true);
             } else {
-                throw new MonopolyResourceNotFoundException("You first have to sell all the houses end hotels.");
+                throw new IllegalMonopolyActionException("You first have to sell all the houses end hotels.");
             }
         } else {
-            throw new MonopolyResourceNotFoundException("Already mortgaged.");
+            throw new IllegalMonopolyActionException("Already mortgaged.");
         }
     }
 
@@ -302,7 +303,7 @@ public class Game {
             player.spendMoney((int) Math.round(amount + (amount * 0.10)));
             playerProperty.setMortgage(false);
         } else {
-            throw new MonopolyResourceNotFoundException("Not mortgaged.");
+            throw new IllegalMonopolyActionException("Not mortgaged.");
         }
     }
 
@@ -497,6 +498,14 @@ public class Game {
         Turn turn = getTurns().get(turns.size()-1);
         Move move = turn.getMoves().get(turn.getMoves().size()-1);
         return move.getTile();
+    }
+
+    public void setAvailableHouses(int availableHouses) {
+        this.availableHouses = availableHouses;
+    }
+
+    public void setAvailableHotels(int availableHotels) {
+        this.availableHotels = availableHotels;
     }
 }
 
