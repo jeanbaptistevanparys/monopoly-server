@@ -1,6 +1,8 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.cards.Card;
+import be.howest.ti.monopoly.logic.implementation.cards.ChangeMoneyCard;
+import be.howest.ti.monopoly.logic.implementation.cards.OutOfJailCard;
 import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
 import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -111,7 +113,7 @@ public class Turn {
         move.executeMove(this);
         addMove(move);
         card.executeCard(player, this);
-        if (!isDouble()) game.changeCurrentPlayer();
+        if (!isDouble() && (card instanceof ChangeMoneyCard || card instanceof OutOfJailCard)) game.changeCurrentPlayer();
     }
 
     private void taxTurn(Tile nextTile) {
