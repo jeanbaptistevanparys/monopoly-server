@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -123,5 +124,21 @@ class HelperTest {
         assertTrue(Helper.isCard(TileFactory.createTiles().get(2)));
         assertTrue(Helper.isCard(TileFactory.createTiles().get(17)));
         assertFalse(Helper.isCard(TileFactory.createTiles().get(1)));
+    }
+
+    @Test
+    void NotFoundTile() {
+        assertThrows(
+                MonopolyResourceNotFoundException.class,
+                () -> Helper.getTile("hello")
+        );
+    }
+
+    @Test
+    void NotFoundNextTile() {
+        assertThrows(
+                MonopolyResourceNotFoundException.class,
+                () -> Helper.getNextTile("hello", 2)
+        );
     }
 }

@@ -29,4 +29,17 @@ class MoveToNearestCardTest {
         game.addTurn(turn);
         assertEquals("Packet Filtering FW", game.getCurrentPlayer().getCurrentTile());
     }
+
+    @Test
+    void executeCardNextTileNull() {
+        Game game = newGame();
+        Turn turn = new Turn(game.getCurrentPlayer(), 0, 0);
+        turn.executeTurn(game);
+        Move move = new Move(Helper.getTile("Chance I"), "");
+        turn.addMove(move);
+        Card card = new CardFactory().createChances().get(4);
+        card.executeCard(game.getCurrentPlayer(), turn);
+        game.addTurn(turn);
+        assertEquals("Packet Filtering FW", game.getCurrentPlayer().getCurrentTile());
+    }
 }
