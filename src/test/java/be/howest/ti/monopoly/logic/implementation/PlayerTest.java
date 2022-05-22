@@ -79,7 +79,7 @@ class PlayerTest {
         player1.addTrieToGetOutOfJail();
         player1.addTrieToGetOutOfJail();
         player1.getOutOfJailFine();
-        assertTrue(player1.isJailed());
+        assertFalse(player1.isJailed());
         assertEquals(1450, player1.getMoney());
     }
 

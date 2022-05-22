@@ -675,13 +675,4 @@ class GameTest {
 
         assertEquals(TileFactory.createTiles().size(), game.getTiles().size());
     }
-
-    @Test
-    void getAuction() {
-        Game game = newGame();
-        Auction auction = new Auction("Chrome Crib", 0);
-        game.addAuction(auction);
-        auction.end(game.getPlayers());
-        assertEquals(0, game.getAuctions().size());
-    }
 }
