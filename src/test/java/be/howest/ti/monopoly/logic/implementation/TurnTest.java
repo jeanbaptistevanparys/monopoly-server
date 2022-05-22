@@ -9,18 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class TurnTest {
 
     @Test
-    void executeTurnGoToJail() {
-        Game game = new Game(2, "test");
-        Player player1 = new Player("Jarne");
-        Player player2 = new Player("Jari");
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        Turn turn = new Turn(player1, 5, 5);
-        turn.executeTurn(game);
-        assertEquals("Repair", player1.getCurrentTile());
-    }
-
-    @Test
     void executeTurnVisitingParking() {
         Game game = new Game(2, "test");
         Player player1 = new Player("Jarne");
@@ -31,7 +19,7 @@ class TurnTest {
         Turn turn2 = new Turn(player1, 5, 5);
         turn1.executeTurn(game);
         turn2.executeTurn(game);
-        assertEquals("Repair", player1.getCurrentTile());
+        assertEquals("Repair", turn2.getNextTile().getName());
         assertEquals("Just visiting", turn1.getMoves().get(0).getDescription());
     }
 
@@ -90,6 +78,7 @@ class TurnTest {
         game.addTurn(turn1);
         turn1.executeTurn(game);
         new CardFactory().createCommunityChests().get(5).executeCard(player1, turn1);
+        assertEquals("Just visiting", turn1.getMoves().get(0).getDescription());
         assertEquals("Repair", turn1.getNextTile().getName());
     }
 
@@ -121,4 +110,19 @@ class TurnTest {
         assertEquals("Firefox Fountain", turn2.getNextTile().getName());
         assertEquals("Should pay rent", turn2.getMoves().get(0).getDescription());
     }
+
+    @Test
+    void executeTurnTax() {
+        Game game = new Game(2, "test");
+        Player player1 = new Player("Jarne");
+        Player player2 = new Player("Jari");
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        Turn turn1 = new Turn(player1, 3, 1);
+        turn1.executeTurn(game);
+        assertEquals("Tax Income", turn1.getNextTile().getName());
+        assertEquals("Pay taxes", turn1.getMoves().get(0).getDescription());
+    }
+
+
 }
