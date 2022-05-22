@@ -2,7 +2,6 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.cards.Card;
 import be.howest.ti.monopoly.logic.implementation.cards.ChangeMoneyCard;
-import be.howest.ti.monopoly.logic.implementation.cards.MoveToTileCard;
 import be.howest.ti.monopoly.logic.implementation.cards.OutOfJailCard;
 import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
 import be.howest.ti.monopoly.logic.implementation.factories.CardFactory;
