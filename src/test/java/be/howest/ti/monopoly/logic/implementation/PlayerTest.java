@@ -27,7 +27,7 @@ class PlayerTest {
     void addOutOfJailFreeCard() {
         Player player1 = new Player("Jarne");
         player1.addOutOfJailFreeCard();
-        assertEquals(1, player1.getOutOfJailFreeCards());
+        assertEquals(1, player1.getGetOutOfJailFreeCards());
     }
 
     @Test

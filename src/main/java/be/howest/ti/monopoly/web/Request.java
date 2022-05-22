@@ -60,16 +60,18 @@ public class Request {
         return Objects.equals(expectedGameId, user.getGameId());
     }
 
+    private static final String TILE_ID = "tileId";
+
     public int getTilePosition() {
-        return params.pathParameter("tileId").getInteger();
+        return params.pathParameter(TILE_ID).getInteger();
     }
 
     public boolean hasTilePosition() {
-        return params.pathParameter("tileId").isNumber();
+        return params.pathParameter(TILE_ID).isNumber();
     }
 
     public String getTileName() {
-        return params.pathParameter("tileId").getString();
+        return params.pathParameter(TILE_ID).getString();
     }
 
     public boolean isStarted() {

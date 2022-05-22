@@ -144,7 +144,7 @@ public class Game {
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
         int amount = getStreet(playerProperty.getProperty()).getHousePrice();
         if (playerProperty.getHouseCount() > 0) {
-            player.receiveMoney(amount);
+            player.receiveMoney(amount/2);
             playerProperty.decreaseHouseCount();
             availableHouses ++;
         } else {
@@ -180,7 +180,7 @@ public class Game {
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
         int amount = getStreet(playerProperty.getProperty()).getHousePrice();
         if (playerProperty.getHotelCount() == 1) {
-            player.receiveMoney(amount);
+            player.receiveMoney(amount/2);
             playerProperty.decreaseHotelCount();
             availableHotels ++;
             availableHouses -= 4;
@@ -207,30 +207,26 @@ public class Game {
     public void collectDebt(String playerName, String propertyName, String debtorName) {
         Player debtor = getPlayer(debtorName);
         Player receiver = getPlayer(playerName);
-        if (checkIfYourProperty(receiver, propertyName)) {
-            if (debtor.getCurrentTile().equals(propertyName)) {
-                int debtValue;
-                if (Helper.isRailRoad(getProperty(propertyName))) {
-                    debtValue = calculateRailRoadDebt(playerName);
-                } else if (getProperty(propertyName).getType().equals("utility")) {
-                    debtValue = getProperty(propertyName).getRent();
-                } else {
-                    int amountOfHouses = getPlayerProperty(receiver.getProperties(), propertyName).getHouseCount();
-                    int amountOfHotels = getPlayerProperty(receiver.getProperties(), propertyName).getHotelCount();
-                    if (amountOfHotels > 0) {
-                        debtValue = getStreet(propertyName).getRentWithHotel();
-                    } else {
-                        debtValue = getDebtValue(amountOfHouses, propertyName);
-                    }
-                }
-                debtor.giveMoney(debtValue);
-                receiver.receiveMoney(debtValue);
-            } else {
-                throw new IllegalMonopolyActionException("The player is not on your tile");
-            }
+        PlayerProperty playerProperty = getPlayerProperty(receiver.getProperties(), propertyName);
+        if (!checkIfYourProperty(receiver, propertyName)) throw new IllegalMonopolyActionException("Not Your property");
+        if (!debtor.getCurrentTile().equals(propertyName)) throw new IllegalMonopolyActionException("The player is not on your tile");
+        if (playerProperty.isMortgage()) throw new IllegalMonopolyActionException("This property is mortgaged");
+        int debtValue;
+        if (Helper.isRailRoad(getProperty(propertyName))) {
+            debtValue = calculateRailRoadDebt(playerName);
+        } else if (getProperty(propertyName).getType().equals("utility")) {
+            debtValue = getProperty(propertyName).getRent();
         } else {
-            throw new IllegalMonopolyActionException("Not Your property");
+            int amountOfHouses = playerProperty.getHouseCount();
+            int amountOfHotels = playerProperty.getHotelCount();
+            if (amountOfHotels > 0) {
+                debtValue = getStreet(propertyName).getRentWithHotel();
+            } else {
+                debtValue = getDebtValue(amountOfHouses, propertyName);
+            }
         }
+        debtor.giveMoney(debtValue);
+        receiver.receiveMoney(debtValue);
     }
 
     public boolean checkIfYourProperty(Player receiver, String propertyName) {
@@ -346,7 +342,7 @@ public class Game {
 
     private void divideOutOfJailFreeCards(Player deliverer, List<Player> activePlayers, int playerCount) {
         int amountOfActivePlayers = activePlayers.size();
-        for (int i = 0; i < deliverer.getOutOfJailFreeCards(); i++) {
+        for (int i = 0; i < deliverer.getGetOutOfJailFreeCards(); i++) {
             Player receiver = activePlayers.get(playerCount);
             receiver.addOutOfJailFreeCard();
 
@@ -503,3 +499,4 @@ public class Game {
         return move.getTile();
     }
 }
+

@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -55,7 +56,7 @@ class GameTest {
         game.getCurrentPlayer().addOutOfJailFreeCard();
         game.getOutOfJailFree();
         assertFalse(game.getCurrentPlayer().isJailed());
-        assertEquals(0, game.getCurrentPlayer().getOutOfJailFreeCards());
+        assertEquals(0, game.getCurrentPlayer().getGetOutOfJailFreeCards());
     }
 
     @Test
@@ -258,7 +259,7 @@ class GameTest {
         assertEquals(2, game.getActivePlayers().size());
         assertEquals(1, game.getPlayer("Jari").getProperties().size());
         assertEquals(1, game.getPlayer("JB").getProperties().size());
-        assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());
+        assertEquals(1, game.getPlayer("Jari").getGetOutOfJailFreeCards());
     }
 
     @Test
@@ -278,7 +279,7 @@ class GameTest {
         assertTrue(game.getPlayer("Jarne").isBankrupt());
         assertEquals(1, game.getPlayer("Jari").getProperties().size());
         assertEquals(1, game.getPlayer("JB").getProperties().size());
-        assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());
+        assertEquals(1, game.getPlayer("Jari").getGetOutOfJailFreeCards());
         assertEquals(0, game.getPlayerProperty(game.getPlayer("Jari").getProperties(), "Chrome Crib").getHouseCount());
     }
 
@@ -325,5 +326,59 @@ class GameTest {
         Game game = newGame();
         game.useEstimateTax("Jarne");
         assertEquals(TaxSystems.ESTIMATE, game.getPlayer("Jarne").getTaxSystem());
+    }
+
+    @Test
+    void addAuction() {
+        Game game = newGame();
+        game.addAuction(new Auction("Linux Land", 0));
+        assertEquals(Collections.emptyList(), game.getAuctions().get(0).getBids());
+        assertEquals("Linux Land", game.getAuctions().get(0).getProperty());
+    }
+
+    @Test
+    void sellHouse() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.sellHouse("Jarne", "Chrome Crib");
+        List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
+        assertEquals(0, properties.get(0).getHouseCount());
+        assertEquals(1355, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void sellHotel() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.buyProperty("Jarne", "Firefox Fountain");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHouse("Jarne", "Chrome Crib");
+        game.buyHotel("Jarne", "Chrome Crib");
+        game.sellHotel("Jarne", "Chrome Crib");
+        List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
+        assertEquals(0, properties.get(0).getHotelCount());
+        assertEquals(1155, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void getDirectSaleProperty() {
+        Game game = newGame();
+        Turn turn = new Turn(game.getCurrentPlayer(), 1, 2);
+        game.addTurn(turn);
+        turn.executeTurn(game);
+        assertEquals("Firefox Fountain", game.getDirectSale());
+    }
+
+    @Test
+    void getDirectSaleNull() {
+        Game game = newGame();
+        Turn turn = new Turn(game.getCurrentPlayer(), 5, 5);
+        game.addTurn(turn);
+        turn.executeTurn(game);
+        assertNull(game.getDirectSale());
     }
 }
