@@ -98,7 +98,7 @@ class TurnTest {
         game.addPlayer(player2);
         Turn turn1 = new Turn(player1, 2, 1);
         turn1.executeTurn(game);
-        assertEquals("Community Chest I", turn1.getNextTile().getName());
+        assertEquals("Firefox Fountain", turn1.getNextTile().getName());
         assertEquals("Direct sale", turn1.getMoves().get(0).getDescription());
     }
 
