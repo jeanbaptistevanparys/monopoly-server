@@ -342,7 +342,7 @@ public class Game {
 
     private void divideOutOfJailFreeCards(Player deliverer, List<Player> activePlayers, int playerCount) {
         int amountOfActivePlayers = activePlayers.size();
-        for (int i = 0; i < deliverer.getOutOfJailFreeCards(); i++) {
+        for (int i = 0; i < deliverer.getGetOutOfJailFreeCards(); i++) {
             Player receiver = activePlayers.get(playerCount);
             receiver.addOutOfJailFreeCard();
 

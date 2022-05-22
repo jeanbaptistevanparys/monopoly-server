@@ -55,7 +55,7 @@ class GameTest {
         game.getCurrentPlayer().addOutOfJailFreeCard();
         game.getOutOfJailFree();
         assertFalse(game.getCurrentPlayer().isJailed());
-        assertEquals(0, game.getCurrentPlayer().getOutOfJailFreeCards());
+        assertEquals(0, game.getCurrentPlayer().getGetOutOfJailFreeCards());
     }
 
     @Test
@@ -258,7 +258,7 @@ class GameTest {
         assertEquals(2, game.getActivePlayers().size());
         assertEquals(1, game.getPlayer("Jari").getProperties().size());
         assertEquals(1, game.getPlayer("JB").getProperties().size());
-        assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());
+        assertEquals(1, game.getPlayer("Jari").getGetOutOfJailFreeCards());
     }
 
     @Test
@@ -278,7 +278,7 @@ class GameTest {
         assertTrue(game.getPlayer("Jarne").isBankrupt());
         assertEquals(1, game.getPlayer("Jari").getProperties().size());
         assertEquals(1, game.getPlayer("JB").getProperties().size());
-        assertEquals(1, game.getPlayer("Jari").getOutOfJailFreeCards());
+        assertEquals(1, game.getPlayer("Jari").getGetOutOfJailFreeCards());
         assertEquals(0, game.getPlayerProperty(game.getPlayer("Jari").getProperties(), "Chrome Crib").getHouseCount());
     }
 

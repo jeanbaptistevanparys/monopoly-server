@@ -141,7 +141,7 @@ public class Player {
         return bankrupt;
     }
 
-    public int getOutOfJailFreeCards() {
+    public int getGetOutOfJailFreeCards() {
         return outOfJailFreeCards;
     }
 
