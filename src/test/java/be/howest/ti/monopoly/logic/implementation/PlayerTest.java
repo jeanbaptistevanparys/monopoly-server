@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,7 +43,17 @@ class PlayerTest {
     void spendMoney() {
         Player player1 = new Player("Jarne");
         player1.spendMoney(50);
+        assertTrue(player1.getMoney() >= 50);
         assertEquals(1450, player1.getMoney());
+    }
+
+    @Test
+    void spendMoneyError() {
+        Player player1 = new Player("Jarne");
+        assertThrows(
+                MonopolyResourceNotFoundException.class,
+                () -> player1.spendMoney(1600)
+        );
     }
 
     @Test
@@ -51,4 +62,34 @@ class PlayerTest {
         player1.giveMoney(50);
         assertEquals(1450, player1.getMoney());
     }
+
+    @Test
+    void goBankrupt() {
+        Player player1 = new Player("Jarne");
+        player1.giveMoney(50);
+        player1.giveMoney(1600);
+        assertTrue(player1.isBankrupt());
+    }
+
+    @Test
+    void getOutOfJailMust() {
+        Player player1 = new Player("Jarne");
+        player1.giveMoney(50);
+        player1.addTrieToGetOutOfJail();
+        player1.addTrieToGetOutOfJail();
+        player1.addTrieToGetOutOfJail();
+        player1.getOutOfJailFine();
+        assertTrue(player1.isJailed());
+        assertEquals(1450, player1.getMoney());
+    }
+
+    @Test
+    void getOutOfJailFreeError() {
+        Player player1 = new Player("Jarne");
+        assertThrows(
+                MonopolyResourceNotFoundException.class,
+                player1::getOutOfJailFree
+        );
+    }
+
 }

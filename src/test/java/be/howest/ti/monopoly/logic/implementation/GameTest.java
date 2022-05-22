@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.enums.Colors;
 import be.howest.ti.monopoly.logic.implementation.enums.TaxSystems;
+import be.howest.ti.monopoly.logic.implementation.factories.TileFactory;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,24 @@ class GameTest {
     void addPlayer() {
         Game game = newGame();
         assertEquals(2, game.getPlayers().size());
+    }
+
+    @Test
+    void addPlayerToMuch() {
+        Game game = newGame();
+        Player player3 = new Player("JB");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.addPlayer(player3)
+        );
+    }
+
+    @Test
+    void changeCurrentPlayerBankrupt() {
+        Game game = newGame();
+        game.getPlayer("Jarne").giveMoney(1600);
+        game.changeCurrentPlayer();
+        assertTrue(game.getPlayer("Jarne").isBankrupt());
     }
 
     @Test
@@ -106,6 +125,16 @@ class GameTest {
         List<PlayerProperty> properties = game.getPlayer("Jarne").getProperties();
         assertEquals(1, properties.size());
         assertEquals(1440, game.getPlayer("Jarne").getMoney());
+    }
+
+    @Test
+    void buyPropertyAlreadyOwned() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.buyProperty("Jari", "Chrome Crib")
+        );
     }
 
     @Test
@@ -371,6 +400,17 @@ class GameTest {
     }
 
     @Test
+    void takeMortgageAlreadyMortgaged() {
+        Game game = newGame();
+        game.buyProperty("Jarne", "Chrome Crib");
+        game.takeMortgage("Jarne", "Chrome Crib");
+        assertThrows(
+                IllegalMonopolyActionException.class,
+                () -> game.takeMortgage("Jarne", "Chrome Crib")
+        );
+    }
+
+    @Test
     void settleMortgage() {
         Game game = newGame();
         game.buyProperty("Jarne", "Chrome Crib");
@@ -402,12 +442,26 @@ class GameTest {
         game.buyProperty("Jarne", "Chrome Crib");
         game.buyProperty("Jarne", "Firefox Fountain");
         game.getPlayer("Jarne").addOutOfJailFreeCard();
+        game.getPlayer("Jarne").addOutOfJailFreeCard();
+        game.getPlayer("Jarne").addOutOfJailFreeCard();
         game.declareBankruptcy("Jarne");
         assertTrue(game.getPlayer("Jarne").isBankrupt());
         assertEquals(2, game.getActivePlayers().size());
         assertEquals(1, game.getPlayer("Jari").getProperties().size());
         assertEquals(1, game.getPlayer("JB").getProperties().size());
-        assertEquals(1, game.getPlayer("Jari").getGetOutOfJailFreeCards());
+        assertEquals(2, game.getPlayer("Jari").getGetOutOfJailFreeCards());
+    }
+
+    @Test
+    void declareBankruptcyWithWinner() {
+        Game game = new Game(3, "test");
+        Player player1 = new Player("Jarne");
+        Player player2 = new Player("Jari");
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.declareBankruptcy("Jari");
+        assertEquals(game.getPlayer("Jarne"), game.getWinner());
+        assertTrue(game.isEnded());
     }
 
     @Test
@@ -580,5 +634,54 @@ class GameTest {
         Game game = newGame();
         game.endGame();
         assertTrue(game.isEnded());
+    }
+
+    @Test
+    void getStreetError() {
+        Game game = newGame();
+        assertThrows(
+                MonopolyResourceNotFoundException.class,
+                () -> game.getStreet("hello")
+        );
+    }
+
+    @Test
+    void getPlayerError() {
+        Game game = newGame();
+        assertThrows(
+                MonopolyResourceNotFoundException.class,
+                () -> game.getPlayer("hello")
+        );
+    }
+
+    @Test
+    void getPlayerPropertyError() {
+        Game game = newGame();
+        assertThrows(
+                MonopolyResourceNotFoundException.class,
+                () -> game.getPlayerProperty(game.getPlayer("Jarne").getProperties(), "hello")
+        );
+    }
+
+    @Test
+    void getPrefix() {
+        Game game = newGame();
+        assertEquals("test", game.getPrefix());
+    }
+
+    @Test
+    void getTiles() {
+        Game game = newGame();
+
+        assertEquals(TileFactory.createTiles().size(), game.getTiles().size());
+    }
+
+    @Test
+    void getAuction() {
+        Game game = newGame();
+        Auction auction = new Auction("Chrome Crib", 0);
+        game.addAuction(auction);
+        auction.end(game.getPlayers());
+        assertEquals(0, game.getAuctions().size());
     }
 }
