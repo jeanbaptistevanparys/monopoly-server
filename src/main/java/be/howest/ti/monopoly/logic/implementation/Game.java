@@ -144,7 +144,7 @@ public class Game {
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
         int amount = getStreet(playerProperty.getProperty()).getHousePrice();
         if (playerProperty.getHouseCount() > 0) {
-            player.receiveMoney(amount);
+            player.receiveMoney(amount/2);
             playerProperty.decreaseHouseCount();
             availableHouses ++;
         } else {
@@ -180,7 +180,7 @@ public class Game {
         PlayerProperty playerProperty = getPlayerProperty(player.getProperties(), propertyName);
         int amount = getStreet(playerProperty.getProperty()).getHousePrice();
         if (playerProperty.getHotelCount() == 1) {
-            player.receiveMoney(amount);
+            player.receiveMoney(amount/2);
             playerProperty.decreaseHotelCount();
             availableHotels ++;
             availableHouses -= 4;
@@ -499,3 +499,4 @@ public class Game {
         return move.getTile();
     }
 }
+
